@@ -1,0 +1,33 @@
+{
+  "schema": "openmotion-import-audit-v1",
+  "passed": true,
+  "template_id": "385712",
+  "source_variants": 2,
+  "upstream_commit": "9dfbe7d7c6a6d4aa03f6f8e2f2285e631099faae",
+  "source_code_executed": false,
+  "dependencies_installed": false,
+  "largest_file_bytes": 17772300,
+  "file_over_github_100mb_limit": false,
+  "counted_source_templates": 1,
+  "inventory_templates": 72,
+  "actual_template_files_per_variant": {
+    "zh": 331,
+    "en": 331
+  },
+  "imports": [
+    {
+      "language": "zh",
+      "package_sha256": "472a95af35f8e0c09c0f7dc2ca0992b7c9a3405c5aa8063730c347fc4e015c21",
+      "source_path": "templates/385712/zh",
+      "package_path": "templates/385712/archives/kinetic-tech-zh.motion",
+      "provenance_path": "templates/385712/zh/_openmotion-provenance.json"
+    },
+    {
+      "language": "en",
+      "package_sha256": "533320d081c578cb824dfbc6ce9d4ae3eb1ca190d67ae7185b4a32b02e236255",
+      "source_path": "templates/385712/en",
+      "package_path": "templates/385712/archives/kinetic-tech-en.motion",
+      "provenance_path": "templates/385712/en/_openmotion-provenance.json"
+    }
+  ]
+}

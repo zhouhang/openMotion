@@ -1,0 +1,9 @@
+{
+  "schema": "upstream-catalog-pin-validation-v1",
+  "passed": true,
+  "source_url": "https://raw.githubusercontent.com/motiontemplates/all/beb80cdacafb0b4d9d736caf3e2a8997e97a6961/catalog.json",
+  "commit": "beb80cdacafb0b4d9d736caf3e2a8997e97a6961",
+  "sha256": "8b9dddb5932cf6fa86a4c9dc7082b21b948aa50d27473cd5eec333b8488b52f8",
+  "matches_original_main_snapshot": true,
+  "checked_at": "2026-10-28T09:52:55.640684+00:00"
+}

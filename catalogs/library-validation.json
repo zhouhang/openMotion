@@ -1,0 +1,11 @@
+{
+  "schema": "openmotion-library-check-v1",
+  "passed": true,
+  "catalogue_templates": 72,
+  "mirrored_templates": 1,
+  "source_variants": 2,
+  "verified_source_files": 662,
+  "runtime_render_verified": false,
+  "template_code_executed": false,
+  "errors": []
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://motiongit.com/schema/motion/0.1.json",
+  "format": "motiongit-template",
+  "specVersion": "0.1.0-draft.1",
+  "template": {
+    "id": "kinetic-tech",
+    "version": "0.2.7-open-beta",
+    "name": "酷炫科技风",
+    "status": "open-beta"
+  },
+  "runtime": {
+    "profile": "kinetic-user-core/1",
+    "entry": "adapter.py",
+    "dependencyLock": "motion.lock.json"
+  },
+  "parameters": {
+    "schema": "params.schema.json"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 60,
+      "den": 1
+    },
+    "durationPolicy": "fit-content",
+    "layouts": {
+      "landscape": [
+        1920,
+        1080
+      ]
+    }
+  },
+  "license": {
+    "file": "licenses/TEMPLATE-LICENSE.txt"
+  },
+  "assets": {
+    "manifest": "asset-manifest.json"
+  },
+  "permissions": {
+    "network": false,
+    "read": [
+      "package",
+      "instance-inputs"
+    ],
+    "write": [
+      "instance-output"
+    ]
+  },
+  "ai": {
+    "summary": "未发布的金属科技口播作者候选；先读 guide.json，按用户素材走正常制作入口。",
+    "entry": "guide.json",
+    "guide": "guide.json",
+    "authoring": {
+      "tool": "codex",
+      "client": "codex-desktop",
+      "model": "GPT-6",
+      "date": "2026-10-14"
+    }
+  },
+  "extensions": {
+    "motiongit.com:packaging": {
+      "tool": "codex",
+      "client": "codex-desktop",
+      "model": "GPT-6"
+    },
+    "motiongit.com:extraction": {
+      "coverageComplete": false,
+      "sourceUnits": 23,
+      "sourceAuthor": "unknown",
+      "originalDemoIncluded": false
+    },
+    "motiongit.com:open-source": {
+      "repository": "https://github.com/motiontemplates/385712",
+      "apiEnabled": false,
+      "personalIdentityIncluded": false
+    }
+  },
+  "integrity": "integrity.json"
+}

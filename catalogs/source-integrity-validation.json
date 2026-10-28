@@ -1,0 +1,15 @@
+{
+  "schema": "openmotion-source-catalog-integrity-v1",
+  "passed": true,
+  "template_count": 72,
+  "mirrored_template_count": 1,
+  "source_variants": 2,
+  "verified_original_archive_entries": 662,
+  "files_including_archives_and_added_provenance": 666,
+  "template_code_executed": false,
+  "dependency_install_executed": false,
+  "max_file_bytes": 17772300,
+  "catalog_sha256": "1da60ba7005f0d77dadd0e5c82d6c847daba0e881b75288e5df9ac659ab78c70",
+  "all_source_entry_and_license_paths_exist": true,
+  "all_copied_archive_entry_hashes_match": true
+}

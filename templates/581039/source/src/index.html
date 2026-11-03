@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>DEEP STAGE · 收尾锁版 动效</title>
+<link rel="stylesheet" href="../assets/stage.css" />
+<style>
+  /* ---------- 退场屏幕（复用 stage.css 的 .slot / .frame） ---------- */
+  .screens { position: absolute; inset: 0; }
+  .screens .frame { filter: blur(4px); }
+  .screen-move { position: absolute; inset: 0; transform-origin: 50% 50%; }
+
+  .scr { position: absolute; inset: 0; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .scr--flush { padding: 0; gap: 0; }
+  .scr-head { display: flex; align-items: center; gap: 8px; }
+  .scr-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: color-mix(in srgb, var(--accent) 80%, transparent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+  .scr-tag { height: 6px; width: 78px; border-radius: 3px; background: rgba(150, 190, 235, .26); }
+  .scr-tag--s { width: 44px; background: rgba(150, 190, 235, .15); }
+  .scr-bars { flex: 1; display: flex; align-items: flex-end; gap: 10px; padding-bottom: 4px; }
+  .scr-bars i {
+    flex: 1; height: var(--h); border-radius: 4px 4px 2px 2px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 52%, transparent), color-mix(in srgb, var(--accent) 10%, transparent));
+  }
+  .scr-rows { display: flex; flex-direction: column; gap: 8px; }
+  .scr-rows i { display: block; height: 6px; width: var(--w); border-radius: 3px; background: rgba(150, 190, 235, .18); }
+  .scr-media {
+    flex: 1; border-radius: 8px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(80% 90% at 20% 8%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 60%),
+      linear-gradient(150deg, rgba(24, 38, 62, .9), rgba(8, 13, 22, .92));
+    border: 1px solid rgba(126, 168, 255, .18);
+  }
+  .scr-media::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%;
+    background: linear-gradient(180deg, transparent, rgba(4, 6, 11, .7));
+  }
+  .scr-grid { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .scr-grid i { border-radius: 5px; border: 1px solid rgba(126, 168, 255, .16); background: rgba(120, 190, 255, .05); }
+
+  /* ---------- 收尾锁版主场景 ---------- */
+  .lockup {
+    position: absolute; left: 50%; top: 47%; z-index: 3;
+    transform: translate(-50%, -50%);
+    display: flex; align-items: center; gap: 58px;
+    pointer-events: none;
+  }
+  .mark-wrap { position: relative; width: 196px; height: 196px; flex: 0 0 196px; }
+  .mark-glow {
+    position: absolute; left: -58px; top: -58px; width: 312px; height: 312px; border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 34%, transparent), transparent 72%);
+    filter: blur(22px);
+  }
+  .mark { position: relative; display: block; width: 100%; height: 100%; overflow: visible; }
+  .mark-outline { stroke-dasharray: 600; }
+  .mark-inner { stroke-dasharray: 376; }
+  .mark-horizon { stroke-dasharray: 190; }
+
+  .lock-text { position: relative; min-width: 0; }
+  .lock-brand {
+    font-family: var(--font-num); font-weight: 700; font-size: 96px; line-height: .92;
+    letter-spacing: .012em; white-space: nowrap;
+    background: linear-gradient(180deg, #F7FAFF 6%, #DCE5F2 58%, #B9C8DC 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lock-tagline {
+    margin-top: 16px; font-family: var(--font-cjk); font-size: 30px; line-height: 1.35;
+    font-weight: 400; letter-spacing: .06em; color: var(--ink-1); white-space: nowrap;
+  }
+  .lock-rule {
+    position: relative; height: 1px; width: 520px; max-width: 100%; margin: 22px 0 18px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 88%, transparent) 0 72px, rgba(126, 168, 255, .24) 72px 100%);
+  }
+  .lock-meta {
+    font: 400 16px/1.5 var(--font-mono); letter-spacing: .16em;
+    color: #A8B6CA; white-space: nowrap;
+  }
+
+  /* 光扫 */
+  .sweep { position: absolute; inset: 0; z-index: 6; pointer-events: none; opacity: 0; }
+  .sweep-bar {
+    position: absolute; left: 0; top: -12%; width: 300px; height: 124%;
+    transform: skewX(-18deg);
+    background: linear-gradient(100deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, .05) 36%,
+      color-mix(in srgb, var(--accent) 22%, transparent) 51%,
+      rgba(255, 255, 255, .045) 66%,
+      rgba(255, 255, 255, 0) 100%);
+    filter: blur(11px);
+  }
+  .sweep-bar::after {
+    content: ""; position: absolute; left: 50%; top: 0; width: 1px; height: 100%;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 68%, transparent) 42%, transparent);
+    opacity: .55;
+  }
+
+  /* 描边版本胶囊 */
+  .pill {
+    position: absolute; right: 56px; bottom: 40px; z-index: 7;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 18px 11px;
+    border: 1px solid rgba(126, 168, 255, .32); border-radius: 999px;
+    background: rgba(6, 10, 18, .34);
+    font: 400 13px/1 var(--font-mono); letter-spacing: .2em; color: #A8B6CA;
+    white-space: nowrap;
+  }
+  .pill i {
+    display: block; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent); opacity: .9;
+    box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+
+  /* HUD */
+  .corner-brand {
+    position: absolute; left: 64px; top: 46px; z-index: 5;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .corner-brand .logo-type b { font-size: 19px; }
+  .hud-topright { position: absolute; right: 64px; top: 44px; z-index: 5; text-align: right; }
+  .hud-steps { display: flex; justify-content: flex-end; gap: 6px; margin-bottom: 13px; }
+  .hud-steps i { display: block; width: 34px; height: 2px; background: rgba(126, 168, 255, .3); }
+  .hud-steps i.on {
+    transform-origin: 0 50%;
+    background: color-mix(in srgb, var(--accent) 85%, transparent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  .hud-label { font: 400 13px/1 var(--font-mono); letter-spacing: .24em; color: #93A1B7; white-space: nowrap; }
+  .hud-mark { position: absolute; left: 64px; bottom: 40px; z-index: 5; display: flex; align-items: center; gap: 6px; }
+  .hud-mark i { display: block; height: 1px; background: rgba(126, 168, 255, .34); }
+  .hud-mark i:nth-child(1) { width: 42px; }
+  .hud-mark i:nth-child(2) { width: 16px; background: color-mix(in srgb, var(--accent) 60%, transparent); }
+  .hud-mark i:nth-child(3) { width: 6px; background: rgba(126, 168, 255, .2); }
+
+  .veil { position: absolute; inset: 0; z-index: 20; background: #04060B; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="root">
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="bg-base"></div>
+    <div class="bg-haze bg-haze--cold"></div>
+    <div class="bg-haze bg-haze--warm"></div>
+    <div class="bg-haze bg-haze--violet"></div>
+    <div class="bg-vignette"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <!-- 3D 舞台 -->
+  <div class="stage">
+    <div class="world" id="world">
+      <div class="floor"></div>
+      <div class="horizon" id="main-horizon"></div>
+      <div class="horizon-glow"></div>
+      <div class="beams">
+        <i class="beam" style="--x:5%;--w:22%;--h:960px;--o:.055;--r:-8deg"></i>
+        <i class="beam" style="--x:31%;--w:16%;--h:840px;--o:.04;--r:-3deg"></i>
+        <i class="beam" style="--x:63%;--w:18%;--h:900px;--o:.045;--r:4deg"></i>
+        <i class="beam" style="--x:83%;--w:20%;--h:980px;--o:.05;--r:9deg"></i>
+      </div>
+
+      <!-- 三块虚化屏：从近处退向纵深 -->
+      <div class="screens">
+        <div class="slot" style="--x:176px;--y:216px;--w:492px;--h:280px;--ry:17deg;--z:-30px">
+          <div class="slot-anim screen-move" id="screen-a">
+            <div class="frame">
+              <div class="frame-view">
+                <div class="scr">
+                  <div class="scr-head"><i class="scr-dot"></i><i class="scr-tag"></i><i class="scr-tag scr-tag--s"></i></div>
+                  <div class="scr-bars">
+                    <i style="--h:46%"></i><i style="--h:72%"></i><i style="--h:38%"></i>
+                    <i style="--h:88%"></i><i style="--h:58%"></i><i style="--h:66%"></i><i style="--h:30%"></i>
+                  </div>
+                  <div class="scr-rows"><i style="--w:82%"></i><i style="--w:64%"></i></div>
+                </div>
+              </div>
+              <div class="frame-glow"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot" style="--x:1252px;--y:250px;--w:468px;--h:266px;--ry:-16deg;--z:-20px">
+          <div class="slot-anim screen-move" id="screen-b">
+            <div class="frame">
+              <div class="frame-view">
+                <div class="scr scr--flush">
+                  <div class="scr-media"></div>
+                  <div class="scr" style="inset:auto 0 0 0;padding:16px 20px">
+                    <div class="scr-rows"><i style="--w:70%"></i><i style="--w:44%"></i></div>
+                  </div>
+                </div>
+              </div>
+              <div class="frame-glow"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot" style="--x:700px;--y:118px;--w:330px;--h:188px;--ry:4deg;--z:-80px;opacity:.9">
+          <div class="slot-anim screen-move" id="screen-c">
+            <div class="frame">
+              <div class="frame-view">
+                <div class="scr">
+                  <div class="scr-grid"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HUD 角标 -->
+  <div class="hud">
+    <div class="hud-tick hud-tick--tl hud-corner"></div>
+    <div class="hud-tick hud-tick--tr hud-corner"></div>
+    <div class="hud-tick hud-tick--bl hud-corner"></div>
+    <div class="hud-tick hud-tick--br hud-corner"></div>
+  </div>
+
+  <!-- 左上品牌角标 -->
+  <div class="corner-brand">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+      <rect x="1.5" y="1.5" width="31" height="31" rx="7" fill="none" stroke="var(--accent)" stroke-opacity=".55" />
+      <rect x="9" y="9" width="16" height="16" rx="3" fill="none" stroke="#9FD8EE" stroke-opacity=".34" />
+      <path d="M0 21.5h34" stroke="var(--accent)" stroke-opacity=".72" stroke-width="1" />
+      <circle cx="17" cy="21.5" r="1.9" fill="var(--accent)" />
+    </svg>
+    <div class="logo-type"><b id="t-brand-mini">DEEP STAGE</b></div>
+  </div>
+
+  <!-- 右上 HUD -->
+  <div class="hud-topright">
+    <div class="hud-steps"><i></i><i></i><i class="on"></i></div>
+    <div class="hud-label">OUTRO / 收尾</div>
+  </div>
+
+  <!-- 主场景：logo 锁定 + 文字层级 -->
+  <div class="lockup">
+    <div class="mark-wrap">
+      <div class="mark-glow" id="mark-glow"></div>
+      <svg class="mark" viewBox="0 0 180 180" fill="none" aria-hidden="true"
+           style="filter: drop-shadow(0 0 22px color-mix(in srgb, var(--accent) 22%, transparent))">
+        <defs>
+          <linearGradient id="t6-mark" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color: var(--accent); stop-opacity: .92" />
+            <stop offset=".55" style="stop-color: var(--accent); stop-opacity: .48" />
+            <stop offset="1" style="stop-color: #1F8FB8; stop-opacity: .52" />
+          </linearGradient>
+          <linearGradient id="t6-horizon" x1="-6" y1="90" x2="186" y2="90" gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color: var(--accent); stop-opacity: 0" />
+            <stop offset=".14" style="stop-color: var(--accent); stop-opacity: .42" />
+            <stop offset=".5" style="stop-color: var(--accent); stop-opacity: .95" />
+            <stop offset=".86" style="stop-color: var(--accent); stop-opacity: .42" />
+            <stop offset="1" style="stop-color: var(--accent); stop-opacity: 0" />
+          </linearGradient>
+        </defs>
+        <rect class="mark-outline" x="15" y="15" width="150" height="150" rx="36"
+              stroke="url(#t6-mark)" stroke-width="1.8" />
+        <rect class="mark-inner" x="43" y="43" width="94" height="94" rx="22"
+              stroke="var(--accent)" stroke-opacity=".32" stroke-width="1.1" />
+        <path class="mark-horizon" d="M-4 90H184" stroke="url(#t6-horizon)" stroke-width="1.8" />
+        <path class="mark-tick" d="M15 78V102" stroke="var(--accent)" stroke-opacity=".36" stroke-width="1.1" />
+        <path class="mark-tick" d="M165 78V102" stroke="var(--accent)" stroke-opacity=".36" stroke-width="1.1" />
+        <circle class="mark-dot" cx="90" cy="90" r="3" fill="var(--accent)" fill-opacity=".92" />
+      </svg>
+    </div>
+
+    <div class="lock-text">
+      <div class="lock-brand" id="t-brand">DEEP STAGE</div>
+      <div class="lock-tagline" id="t-tagline">深境舞台 · 口播视频包装模板</div>
+      <div class="lock-rule" id="t-rule"></div>
+      <div class="lock-meta" id="t-meta">MOTIONGIT TEMPLATE · 1920×1080 · 30FPS</div>
+    </div>
+  </div>
+
+  <!-- 光扫 -->
+  <div class="sweep" id="sweep"><div class="sweep-bar"></div></div>
+
+  <!-- 描边版本胶囊 -->
+  <div class="pill" id="pill"><i></i><span id="t-version">TEMPLATE v1.0</span></div>
+
+  <!-- 纯图形 HUD -->
+  <div class="hud-mark"><i></i><i></i><i></i></div>
+
+  <div class="veil" id="veil"></div>
+</div>
+
+<script src="../assets/motion.js"></script>
+<script>
+(function () {
+  "use strict";
+  var FPS = 30;
+  var DEFAULT_PARAMS = {
+    brand: "DEEP STAGE",
+    tagline: "深境舞台 · 口播视频包装模板",
+    meta: "MOTIONGIT TEMPLATE · 1920×1080 · 30FPS",
+    version: "TEMPLATE v1.0",
+    accent: "#4DE3FF"
+  };
+  var tl = null;
+  var lastKey = null;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function applyParams(p) {
+    document.documentElement.style.setProperty("--accent", p.accent || "#4DE3FF");
+    if ($("t-brand")) $("t-brand").textContent = p.brand || "";
+    if ($("t-brand-mini")) $("t-brand-mini").textContent = p.brand || "";
+    if ($("t-tagline")) $("t-tagline").textContent = p.tagline || "";
+    if ($("t-meta")) $("t-meta").textContent = p.meta || "";
+    if ($("t-version")) $("t-version").textContent = p.version || "";
+  }
+
+  function build(p) {
+    applyParams(p);
+    var t = Motion.timeline();
+
+    /* 0.00–0.26 黑场淡入 */
+    t.fromTo("#veil", { opacity: 1 }, { opacity: 0 }, { duration: 0.26, ease: "power2.out", at: 0 });
+
+    /* 0.10–1.60 舞台底子先立起来（地平线 / 地面网格 / 体积光束） */
+    t.fromTo(".floor", { opacity: 0 }, { opacity: 1 }, { duration: 1.4, ease: "power2.out", at: 0.1 });
+    t.fromTo("#main-horizon", { opacity: 0, scaleX: 0.35 }, { opacity: 1, scaleX: 1 }, { duration: 1.5, ease: "power3.out", at: 0.12, transformOrigin: "50% 50%" });
+    t.fromTo(".horizon-glow", { opacity: 0 }, { opacity: 1 }, { duration: 1.6, ease: "power2.out", at: 0.18 });
+    t.fromTo(".beam", { opacity: 0 }, { opacity: 1 }, { duration: 1.2, stagger: 0.08, ease: "power2.out", at: 0.3 });
+
+    /* 0.00–0.92 屏幕从近处退向纵深，收成远景虚化屏 */
+    t.fromTo("#screen-a", { opacity: 0.8, scale: 1.26, x: -84, y: -30 }, { opacity: 0.28, scale: 0.54, x: 48, y: 34 }, { duration: 0.82, ease: "sine.inOut", at: 0, transformOrigin: "50% 50%" });
+    t.fromTo("#screen-b", { opacity: 0.8, scale: 1.26, x: 84, y: -24 }, { opacity: 0.28, scale: 0.54, x: -48, y: 38 }, { duration: 0.82, ease: "sine.inOut", at: 0.05, transformOrigin: "50% 50%" });
+    t.fromTo("#screen-c", { opacity: 0.62, scale: 1.22, x: -30, y: -26 }, { opacity: 0.22, scale: 0.56, x: 14, y: 22 }, { duration: 0.78, ease: "sine.inOut", at: 0.1, transformOrigin: "50% 50%" });
+
+    /* 0.45–1.35 HUD 与品牌角标 */
+    t.fromTo(".hud-corner", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, stagger: 0.07, ease: "power2.out", at: 0.45 });
+    t.fromTo(".corner-brand", { opacity: 0, x: -16 }, { opacity: 1, x: 0 }, { duration: 0.9, ease: "power3.out", at: 0.9 });
+    t.fromTo(".hud-topright", { opacity: 0, y: -12 }, { opacity: 1, y: 0 }, { duration: 0.85, ease: "power2.out", at: 1.05 });
+    t.fromTo(".hud-steps i.on", { scaleX: 0 }, { scaleX: 1 }, { duration: 1.5, ease: "power3.inOut", at: 1.3, transformOrigin: "0% 50%" });
+    t.fromTo(".hud-mark", { opacity: 0 }, { opacity: 0.9 }, { duration: 0.8, ease: "power2.out", at: 1.15 });
+
+    /* 0.60–2.20 logo 锁定：描边生长 + 整体 scale/opacity 落定 */
+    t.fromTo(".mark-wrap", { opacity: 0, scale: 1.16 }, { opacity: 1, scale: 1 }, { duration: 1.25, ease: "power3.out", at: 0.6, transformOrigin: "50% 50%" });
+    t.fromTo("#mark-glow", { scale: 0.7 }, { scale: 1 }, { duration: 1.5, ease: "power2.out", at: 0.62, transformOrigin: "50% 50%" });
+    /* 光晕亮度：锁定段亮起，再缓慢呼吸到结尾（单条 tween 的包络曲线，避免 .to 提前写 0） */
+    t.fromTo("#mark-glow", { opacity: 0 }, { opacity: function (k) {
+      var lock = 0.1355; /* 0.62–1.62s 锁定量 */
+      if (k < lock) return 0.72 * (1 - Math.pow(1 - k / lock, 2));
+      var p = (k - lock) / (1 - lock);
+      return 0.72 + 0.23 * (-(Math.cos(Math.PI * p) - 1) / 2);
+    } }, { duration: 7.38, ease: "none", at: 0.62 });
+    t.fromTo(".mark-outline", { strokeDashoffset: 600 }, { strokeDashoffset: 0 }, { duration: 1.15, ease: "power3.inOut", at: 0.72 });
+    t.fromTo(".mark-horizon", { strokeDashoffset: 190 }, { strokeDashoffset: 0 }, { duration: 1.05, ease: "power3.inOut", at: 0.85 });
+    t.fromTo(".mark-inner", { strokeDashoffset: 376 }, { strokeDashoffset: 0 }, { duration: 1.0, ease: "power3.inOut", at: 0.95 });
+    t.fromTo(".mark-tick", { opacity: 0 }, { opacity: 1 }, { duration: 0.6, stagger: 0.08, ease: "power2.out", at: 1.5 });
+    t.fromTo(".mark-dot", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1 }, { duration: 0.55, ease: "back.out", at: 1.35, transformOrigin: "50% 50%" });
+
+    /* 1.20–2.88 文字层级依次锁定 */
+    t.fromTo(".lock-brand", { opacity: 0, y: 26 }, { opacity: 1, y: 0 }, { duration: 0.9, ease: "power3.out", at: 1.2 });
+    t.fromTo(".lock-tagline", { opacity: 0, y: 20 }, { opacity: 1, y: 0 }, { duration: 0.8, ease: "power2.out", at: 1.66 });
+    t.fromTo("#t-rule", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1 }, { duration: 0.85, ease: "power3.inOut", at: 1.92, transformOrigin: "0% 50%" });
+    t.fromTo(".lock-meta", { opacity: 0, y: 14 }, { opacity: 1, y: 0 }, { duration: 0.7, ease: "power2.out", at: 2.18 });
+
+    /* 2.40–4.00 描边版本胶囊 */
+    t.fromTo("#pill", { opacity: 0, y: 18 }, { opacity: 1, y: 0 }, { duration: 0.85, ease: "power3.out", at: 2.4 });
+    t.fromTo("#pill i", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1 }, { duration: 0.5, ease: "back.out", at: 2.95, transformOrigin: "50% 50%" });
+
+    /* 3.00–5.10 一道横扫光掠过画心（一条 tween 同时走位置与亮度包络） */
+    t.fromTo("#sweep", { x: -820 }, { x: 2060 }, { duration: 2.1, ease: "sine.inOut", at: 3.0 });
+    t.fromTo("#sweep", { opacity: 0 }, { opacity: function (k) {
+      var inK = 0.14, outK = 0.74, peak = 0.8; /* 0.3s 淡入 / 0.55s 淡出 */
+      if (k < inK) return peak * (k / inK);
+      if (k < outK) return peak;
+      return Math.max(0, peak * (1 - (k - outK) / (1 - outK)));
+    } }, { duration: 2.15, ease: "none", at: 2.95 });
+
+    /* 5.00–8.00 缓慢呼吸保持（镜头推近 + 光束与雾缓慢游移） */
+    t.fromTo("#world", { scale: 1 }, { scale: 1.02 }, { duration: 8.0, ease: "sine.inOut", at: 0 });
+    t.fromTo(".bg-haze--cold", { x: 0 }, { x: -22 }, { duration: 8.0, ease: "sine.inOut", at: 0 });
+    t.fromTo(".bg-haze--warm", { x: 0 }, { x: 18 }, { duration: 8.0, ease: "sine.inOut", at: 0 });
+    t.fromTo(".horizon-glow", { scale: 1 }, { scale: 1.05 }, { duration: 8.0, ease: "sine.inOut", at: 0, transformOrigin: "50% 100%" });
+
+    return t;
+  }
+
+  /* MotionGit html-canvas/1 标准入口：frame 为整数帧 */
+  window.renderFrame = function (frame, inputs) {
+    var p = Object.assign({}, DEFAULT_PARAMS, inputs || {});
+    var key = JSON.stringify(p);
+    if (!tl || key !== lastKey) { tl = build(p); lastKey = key; }
+    tl.seek(Math.max(0, Number(frame) || 0) / FPS);
+    return true;
+  };
+  /* 兼容旧入口：t 为秒 */
+  window.seek = function (t, inputs) {
+    return window.renderFrame(Math.round((Number(t) || 0) * FPS), inputs);
+  };
+
+  window.renderFrame(0, window.__MOTION_INPUTS__ || null);
+  window.__MOTION_READY__ = true;
+})();
+</script>
+</body>
+</html>

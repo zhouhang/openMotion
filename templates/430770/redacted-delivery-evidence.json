@@ -1,0 +1,17 @@
+{
+  "schema": "openmotion-redacted-delivery-evidence-v1",
+  "template_id": "430770",
+  "publisher_template_id": 883,
+  "publisher_release_id": 495,
+  "version": "1.0.0",
+  "template_slug": "deep-stage-media-wall",
+  "content_protection": "open",
+  "release_archive_sha256": "6b6d7884aeddc4ed7d0109393fdf091fac8e9cc1123c9177f5016b9b9782f0d9",
+  "release_archive_bytes": 5216932,
+  "envelope_manifest_sha256": "fa7d71219143953ecec451580d95af1f8da57c371fffd6b927a61e43e0bdff28",
+  "delivery_receipt_sha256": "592becb8bbbdc7a9c1742847b07a89a30f1b6fc1f24b1e7368d1fa00d6857799",
+  "personal_envelope_included": false,
+  "source_url": "https://motiongit.com/@thepandaq/deep-stage-media-wall",
+  "official_helper_signature_verified": true,
+  "official_helper_sha256": "7004609ddbc0ccf6451beeb477aff0d3c85bda74f902e5922465c85cd347f6f3"
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://motiongit.com/templates/deep-stage-outro-lockup/params.schema.json",
+  "title": "DEEP STAGE 收尾锁版 · 参数",
+  "description": "深色立体舞台上的收尾落版动效：改品牌名、中文副标、规格 mono 行、版本号与主色。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["brand", "tagline", "meta", "version", "accent"],
+  "properties": {
+    "brand": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16,
+      "default": "DEEP STAGE",
+      "description": "品牌字标（画面最大的一行，拉丁字母全大写最好看）。"
+    },
+    "tagline": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "default": "深境舞台 · 口播视频包装模板",
+      "description": "品牌字标下方的中文副标，一行显示。"
+    },
+    "meta": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "default": "MOTIONGIT TEMPLATE · 1920×1080 · 30FPS",
+      "description": "分隔线下方的规格 mono 行，建议用「项目 · 画幅 · 帧率」。"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "default": "TEMPLATE v1.0",
+      "description": "右下角描边版本胶囊里的文字，建议「TEMPLATE v1.0」这种格式。"
+    },
+    "accent": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "default": "#4DE3FF",
+      "description": "主色（六位十六进制）。默认冷青，可改暖金 #FFB168 或紫罗兰 #A78BFF。"
+    }
+  }
+}

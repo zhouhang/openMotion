@@ -1,0 +1,26 @@
+{
+  "explainer": {
+    "file": "moonwhite-robot-explainer-0.1.0-rc.1-local.motion",
+    "sha256": "508fdcb4997a746d4c5a032507608077f3108144bd3aba7bdf2813b9cecd6fad"
+  },
+  "media": {
+    "file": "moonwhite-robot-media-scenes-0.3.0-rc.4.motion",
+    "sha256": "df8126f9de8cb74957ba1396b05baeaa826225ce3cbe02adac87d1974841a4d5"
+  },
+  "shortGraphics": {
+    "baseArchive": "moonwhite-robot-unified-0.6.0-rc.2.motion",
+    "baseSHA256": "921db1f26ce948282d8bf0aefbded8ffcad09e8eb26d9f36c2b1f5a94e729c7c",
+    "newCode": "original Canvas graphics and stdlib timing/quality code",
+    "references": [
+      "https://github.com/alchaincyf/huashu-motion/blob/main/skills/huashu-motion/references/craft.md",
+      "https://github.com/alchaincyf/huashu-motion/blob/main/skills/huashu-motion/references/director.md",
+      "https://github.com/alchaincyf/huashu-motion/blob/main/cli/lib/qa.js"
+    ],
+    "notIncluded": [
+      "GSAP runtime",
+      "composer or TTS models",
+      "author cartoon likeness",
+      "third-party example media"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "openmotion-redacted-delivery-evidence-v1",
+  "template_id": "587362",
+  "publisher_template_id": 882,
+  "publisher_release_id": 494,
+  "version": "1.0.0",
+  "template_slug": "deep-stage-case-data",
+  "content_protection": "open",
+  "release_archive_sha256": "5a22647ba36531c3960f9c2ac65df6dbca33030733308e795379e22db5045c60",
+  "release_archive_bytes": 6577753,
+  "envelope_manifest_sha256": "db55e565a37d786d8726e133ac3a675625a5df29f292adaa56348827e3978002",
+  "delivery_receipt_sha256": "6b8b034426ffcf1a7dd331d51645d22d5509d4017bc2f97a4177ad6c2cae58a2",
+  "personal_envelope_included": false,
+  "source_url": "https://motiongit.com/@thepandaq/deep-stage-case-data",
+  "official_helper_signature_verified": true,
+  "official_helper_sha256": "7004609ddbc0ccf6451beeb477aff0d3c85bda74f902e5922465c85cd347f6f3"
+}

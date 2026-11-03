@@ -1,9 +1,9 @@
 {
   "schema": "upstream-catalog-pin-validation-v1",
   "passed": true,
-  "source_url": "https://raw.githubusercontent.com/motiontemplates/all/beb80cdacafb0b4d9d736caf3e2a8997e97a6961/catalog.json",
-  "commit": "beb80cdacafb0b4d9d736caf3e2a8997e97a6961",
-  "sha256": "8b9dddb5932cf6fa86a4c9dc7082b21b948aa50d27473cd5eec333b8488b52f8",
-  "matches_original_main_snapshot": true,
-  "checked_at": "2026-10-28T09:52:55.640684+00:00"
+  "source_url": "https://raw.githubusercontent.com/motiontemplates/all/3d405860a76b35b614cbc34321f5c154609100de/catalog.json",
+  "commit": "3d405860a76b35b614cbc34321f5c154609100de",
+  "sha256": "5df9450eeae4e373333340cc8bd9b80fb10ce441a6029b2c408715153405adcd",
+  "checked_at": "2026-11-03T16:11:21.397897+00:00",
+  "snapshot": "catalogs/history/2026-11-04/upstream-catalog.json"
 }

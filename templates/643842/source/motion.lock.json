@@ -1,0 +1,21 @@
+{
+  "status": "experimental",
+  "testedPlatform": "Windows; macOS/Linux not tested in this candidate",
+  "dependencies": {
+    "python": "3.11+; editorial presenter: numpy, Pillow, OpenCV FaceDetectorYN",
+    "node": "22+",
+    "browser": "Chrome/Chromium headless",
+    "playwright": "existing module supplied to render",
+    "ffmpeg": "existing binary on PATH",
+    "ffprobe": "existing binary on PATH"
+  },
+  "network": false,
+  "video": "24fps local integer source clock; presenter JPEG frames cached with a 32-frame bound",
+  "supportedLayout": "landscape; editorial-card 1920x1080 or 1280x720; other routes 1280x720",
+  "presenterDependencies": {
+    "opencv-python": "tested 5.0.0; FaceDetectorYN API required",
+    "numpy": "existing project environment",
+    "model": "bundled assets/face_detection_yunet_2026may.onnx / MIT"
+  },
+  "shortGraphics": "stdlib-only Python; existing Node/Playwright/Chrome; pure frame-based Canvas; no added GSAP"
+}

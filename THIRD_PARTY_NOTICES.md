@@ -14,3 +14,19 @@ The root MIT license covers only openMotion-authored tooling and documentation. 
 ## Catalogue references
 
 Names, versions, origin URLs, observed access conditions and license classifications are factual references independently assembled from the upstream catalogue and official template pages. The unlicensed upstream catalogue site/README and its preview media are not relicensed or mirrored by this repository. External previews remain hosted at their original URLs. Source availability and redistribution permission must be evaluated separately for each version.
+
+## Open author releases acquired on 2026-10-29
+
+The original author ZIPs and their licenses/notices are preserved for #509099,
+#643842 and the seven DEEP STAGE modules #228996, #838778, #587362, #648878,
+#921052, #430770 and #581039. See each `templates/<id>/source` directory,
+`_openmotion-provenance.json` and the authenticated acquisition catalogue.
+These are the unmodified author releases identified by the official open-release
+format, not re-signed or stripped personal packages. Personal keys, receipts and
+signed personal wrappers are not redistributed in this repository.
+
+Third-party materials keep their own terms, including the OpenMoji, YuNet and
+font notices in the illustrated template and the separate GSAP Standard License
+in the DEEP STAGE releases. The root MIT license does not override them.
+The lyric MV sample content and the conflicting-license multiscreen package
+were not added as publicly redistributable source mirrors.

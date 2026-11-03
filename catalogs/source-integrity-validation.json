@@ -1,15 +1,19 @@
 {
   "schema": "openmotion-source-catalog-integrity-v1",
+  "checked_at": "2026-10-29T03:14:40.789769+00:00",
   "passed": true,
   "template_count": 72,
-  "mirrored_template_count": 1,
-  "source_variants": 2,
-  "verified_original_archive_entries": 662,
-  "files_including_archives_and_added_provenance": 666,
+  "mirrored_template_count": 10,
+  "source_variants": 11,
+  "verified_original_archive_entries": 894,
+  "files_including_archives_and_added_provenance": 934,
   "template_code_executed": false,
   "dependency_install_executed": false,
-  "max_file_bytes": 17772300,
-  "catalog_sha256": "1da60ba7005f0d77dadd0e5c82d6c847daba0e881b75288e5df9ac659ab78c70",
+  "runtime_render_verified": false,
+  "max_file_bytes": 49243123,
+  "catalog_sha256": "60c6df7498f49f91a6b9d2a85d3b48a3447f654863e1927024fa3d4ef6e79770",
   "all_source_entry_and_license_paths_exist": true,
-  "all_copied_archive_entry_hashes_match": true
+  "all_copied_archive_entry_hashes_match": true,
+  "strict_verifier": "scripts/library.py verify",
+  "previous_audit": "catalogs/history/2026-10-28/source-integrity-validation.json"
 }

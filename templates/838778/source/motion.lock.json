@@ -1,0 +1,37 @@
+{
+  "lockVersion": "0.1",
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entryContract": "window.renderFrame(frame, inputs)；兼容 window.seek(seconds, inputs)",
+    "timeBasis": "frame / fps",
+    "network": false
+  },
+  "dependencies": [
+    {
+      "name": "gsap",
+      "version": "3.14.2",
+      "source": "bundled",
+      "path": "assets/gsap.min.js",
+      "license": "GSAP Standard License"
+    }
+  ],
+  "tested": [
+    {
+      "os": "Windows 11 x64",
+      "node": "26.4.0",
+      "browser": "Chromium 152 headless shell",
+      "renderer": "DEEP STAGE 预览渲染器 + FFmpeg",
+      "testedAt": "2026-10-18",
+      "durationSeconds": 46,
+      "frames": 1380
+    }
+  ],
+  "fonts": {
+    "strategy": "system local() 优先，缺失回退 sans-serif；不分发字体文件",
+    "families": [
+      "Noto Sans SC",
+      "DIN Next LT Pro",
+      "Consolas"
+    ]
+  }
+}

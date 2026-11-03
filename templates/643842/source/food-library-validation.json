@@ -1,0 +1,458 @@
+{
+  "templateVersion": "0.8.1-rc.1",
+  "status": "candidate; technical frame checks passed; not submitted",
+  "baseVersion": "0.8.0-rc.2",
+  "baselineApproval": "User confirmed approval after email removal; no online re-verification implied",
+  "currentChecks": {
+    "status": "frame checks passed",
+    "tests": [
+      {
+        "instance": "test-library",
+        "framesDrawn": 192,
+        "iconsLoaded": [
+          {
+            "name": "milk",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "egg",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "drink",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "corn",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "carrot",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "sweet-potato",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "cake",
+            "width": 150,
+            "height": 150
+          }
+        ],
+        "checks": [
+          {
+            "frame": 191,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 151,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 120,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 108,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 107,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 105,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 102,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 101,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 99,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 97,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 96,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 55,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 24,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 20,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 12,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 11,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 9,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 8,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 6,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 5,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 3,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 1,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 0,
+            "deterministic": true,
+            "sameRegions": true
+          }
+        ],
+        "browserErrors": [],
+        "videoGenerated": false
+      },
+      {
+        "instance": "test-regression",
+        "framesDrawn": 384,
+        "iconsLoaded": [
+          {
+            "name": "milk",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "egg",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "sweet-potato",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "cake",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "drink",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "corn",
+            "width": 150,
+            "height": 150
+          },
+          {
+            "name": "carrot",
+            "width": 150,
+            "height": 150
+          }
+        ],
+        "checks": [
+          {
+            "frame": 383,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 343,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 312,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 300,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 299,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 297,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 294,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 293,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 291,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 289,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 288,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 247,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 216,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 204,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 203,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 201,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 198,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 197,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 195,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 193,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 192,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 151,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 120,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 108,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 107,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 105,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 102,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 101,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 99,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 97,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 96,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 55,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 24,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 20,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 12,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 11,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 9,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 8,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 6,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 5,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 3,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 1,
+            "deterministic": true,
+            "sameRegions": true
+          },
+          {
+            "frame": 0,
+            "deterministic": true,
+            "sameRegions": true
+          }
+        ],
+        "browserErrors": [],
+        "videoGenerated": false
+      }
+    ],
+    "scope": "all integer frames rendered in memory; reverse seek hashes and original/new semantic regions matched; no encoded video or continuous audio test"
+  },
+  "sourceHashes": {
+    "src/adapter.py": "e65ab5a1a86f37ad51f1d9489ce35769a7a4edb3cdad155d28417f8272c50955",
+    "src/audio.py": "7f6ad338bd8dc0b253b04793f694203fb3f839c0002abb928c0a4f88cb6a85f3",
+    "src/bookends.js": "534b96ac4c245da7f3169dd59a689bc7cc093912100e0c12ab6e829bae4ae598",
+    "src/editorial.js": "2d9a16a0aee2c630f5c08be2881f5fe8ab9ffc0b3265c0d572a091bb5e6c849a",
+    "src/explainer.js": "10b659a59abd3434dddc6f1b1af19fecbde7aa4ae13d5276683b9ab22fc572c4",
+    "src/font-guard.js": "1320e3de27b89c6220f8b33ccae029e168911f46f5b11fc3a66960e5ab3bd994",
+    "src/food-icons.js": "941b2774cd03cb8cb78ea3f57724eda647e1c9572e6a464bce81a6196e5a65a0",
+    "src/foundation.js": "30a87ca1b234c92887ba5e4912253aeb9030006bb919d162071f605d083cc235",
+    "src/graphics.js": "8350e87fe0f2bb3a6e7382866c51b21f9f0c91a02b0f23daa3d165d9bea10538",
+    "src/index.html": "fb43055c36bc878489266a5b10c56324eb039e0b84a20ebb852979bfe078daf5",
+    "src/mix.mjs": "e4819f6117c033aafb34077eb1f89a0ecd9ab03c48fc13da510a369acf8dde64",
+    "src/palette.js": "4466ebf2c583cfef220b67211c2a8e11d1df1781f735a3a31f36337b64adb198",
+    "src/presentation.py": "51cd3003f7139e79efd614e31753427e475ebc68d259e58c2b1d779eb7035238",
+    "src/presenter.js": "4950680874b74eaf1caeca4b5e30b6e07cabdae293ae22fdcab542c0701ac861",
+    "src/presenter.py": "84d0a78ff81a07e38594aa86fdc1dfe33048dca80257e4c5c79f41ab758d7daa",
+    "src/quality.py": "833c2f323ed715bbfb7162051738f700819ec4fdbb838963a4a169386cd6026e",
+    "src/render.mjs": "c1dabc95360b567b1f08d29f6b79b4d503ceaa5d3b0e39acbd2e6e639cb8229f",
+    "src/scenes.js": "1dce4f0a84ddeb4c51e8d4f9d80a4fd3ed57c6a8947294b6673893fd7d59a32d",
+    "src/short_scenes.py": "99f801982f1c10dee834ee426139d75914d471c77ff1c46c2ade0ed778a9c4a4",
+    "src/waterfall.js": "51d4e1b95c08ed4f8a7e8e8e1abc0c35e47ea355e27ca8f83c15dcfa501e291f"
+  },
+  "visualReview": "Viewed 7-item static gallery and actual runtime frame: recognizable icons, no clipping or label overlap. Owner visual acceptance of this packaged version pending.",
+  "newVideoGenerated": false,
+  "oldDemo": "previews/demo.mp4 remains historical 0.8-series demo; not re-rendered",
+  "license": "Code MIT; OpenMoji assets and modifications CC-BY-SA-4.0; font OFL; YuNet original license preserved"
+}

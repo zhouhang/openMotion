@@ -1,0 +1,126 @@
+{
+  "pacing": "short",
+  "duration": 16,
+  "scenes": [
+    {
+      "type": "graphic",
+      "id": "opening-question",
+      "variant": "label-question",
+      "duration": 4,
+      "title": "儿童专用，就能每天吃？",
+      "objects": [
+        {
+          "id": "package",
+          "label": "儿童专用",
+          "kind": "package"
+        },
+        {
+          "id": "snack",
+          "label": "点心",
+          "kind": "cookie"
+        },
+        {
+          "id": "daily",
+          "label": "每天",
+          "kind": "calendar"
+        }
+      ],
+      "sourceRefs": [],
+      "cues": {
+        "main": {
+          "frame": 55
+        }
+      },
+      "caption": "每天都适合？"
+    },
+    {
+      "type": "graphic",
+      "id": "check-contents",
+      "variant": "inspect",
+      "duration": 4,
+      "title": "糖、油脂、盐，都要看",
+      "objects": [
+        {
+          "id": "sugar",
+          "label": "糖",
+          "kind": "sugar"
+        },
+        {
+          "id": "oil",
+          "label": "油脂",
+          "kind": "oil"
+        },
+        {
+          "id": "salt",
+          "label": "盐",
+          "kind": "salt"
+        }
+      ],
+      "sourceRefs": [],
+      "cues": {
+        "main": {
+          "frame": 50
+        }
+      },
+      "note": "关注含量 · 不展示虚构检测值"
+    },
+    {
+      "type": "graphic",
+      "id": "snack-and-habits",
+      "variant": "routine",
+      "duration": 4,
+      "title": "适量加餐，养成健康习惯",
+      "objects": [
+        {
+          "id": "meal",
+          "label": "吃好正餐",
+          "kind": "plate"
+        },
+        {
+          "id": "snack",
+          "label": "适量加餐",
+          "kind": "cookie"
+        },
+        {
+          "id": "habit",
+          "label": "饮食习惯",
+          "kind": "loop"
+        }
+      ],
+      "sourceRefs": [],
+      "cues": {
+        "meal": {
+          "frame": 0
+        },
+        "snack": {
+          "frame": 1
+        },
+        "habit": {
+          "frame": 29
+        }
+      }
+    },
+    {
+      "type": "graphic",
+      "id": "daily-habits",
+      "variant": "calendar",
+      "duration": 4,
+      "title": "更值得关注：日复一日的习惯",
+      "objects": [
+        {
+          "id": "snack",
+          "label": "点心",
+          "kind": "cookie"
+        }
+      ],
+      "sourceRefs": [],
+      "cues": {
+        "main": {
+          "frame": 84
+        }
+      },
+      "note": "认识食物 · 合理选择 · 养成习惯",
+      "caption": "日复一日"
+    }
+  ]
+}

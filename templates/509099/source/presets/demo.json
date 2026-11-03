@@ -1,0 +1,46 @@
+{
+  "mode": "content",
+  "duration": 60,
+  "brand": "观点与表达",
+  "music": {
+    "mode": "none"
+  },
+  "segments": [
+    {
+      "intent": "statement",
+      "heading": "先理解问题，再决定怎样做",
+      "body": "无口播内容规划技术样例，不冒充真实语音对齐。"
+    },
+    {
+      "intent": "comparison",
+      "heading": "明确真正的交付物",
+      "items": [
+        "一套完整系统",
+        "一份可审阅的工作稿"
+      ]
+    },
+    {
+      "intent": "steps",
+      "heading": "用更小的步骤推进",
+      "items": [
+        "生成初稿",
+        "人工确认",
+        "修改交付"
+      ]
+    },
+    {
+      "intent": "questions",
+      "heading": "开始之前，先问三个问题",
+      "items": [
+        "为什么要做？",
+        "忽略了什么？",
+        "有没有更小的路径？"
+      ]
+    },
+    {
+      "intent": "statement",
+      "heading": "让复杂度服务于交付",
+      "body": "动作原速；只在允许的区间增加阅读停留。"
+    }
+  ]
+}

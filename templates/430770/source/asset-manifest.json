@@ -1,0 +1,36 @@
+{
+  "assetManifestVersion": "0.1",
+  "template": "deep-stage-media-wall",
+  "files": [
+    {
+      "path": "assets/motion.js",
+      "role": "animation-runtime",
+      "origin": "Motion.mini v1.2 —— 本模板自带的逐帧可寻址时间线（原创，约 200 行）",
+      "license": "本模板许可（licenses/TEMPLATE-LICENSE.txt）",
+      "distributed": true,
+      "purpose": "确定性时间线：任意帧独立 seek，渲染与预览一致；无第三方依赖"
+    },
+    {
+      "path": "assets/stage.css",
+      "role": "style",
+      "origin": "DEEP STAGE 原创舞台样式",
+      "license": "本模板许可（licenses/TEMPLATE-LICENSE.txt）",
+      "distributed": true,
+      "purpose": "深色立体舞台、玻璃屏幕框、HUD 基础件"
+    },
+    {
+      "path": "assets/grain.png",
+      "role": "texture",
+      "origin": "程序生成的中性灰噪点纹理（仅用于叠加胶片颗粒观感）",
+      "license": "本模板许可",
+      "distributed": true,
+      "purpose": "画面颗粒质感"
+    }
+  ],
+  "systemFonts": [
+    { "family": "Noto Sans SC", "role": "中文标题 / 正文", "distributed": false },
+    { "family": "DIN Next LT Pro", "role": "英文与数字", "distributed": false },
+    { "family": "Consolas", "role": "等宽小标签", "distributed": false }
+  ],
+  "userMedia": []
+}

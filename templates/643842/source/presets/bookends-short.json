@@ -1,0 +1,27 @@
+{
+  "duration": 14,
+  "scenes": [
+    {
+      "type": "opening",
+      "duration": 6,
+      "style": "auto",
+      "title": "图片多，怎么讲清楚？",
+      "lead": "讲清楚",
+      "subtitle": "先交代整体，再把重点讲明白",
+      "credit": ""
+    },
+    {
+      "type": "ending",
+      "duration": 8,
+      "style": "auto",
+      "title": "记住这三个动作",
+      "items": [
+        "先交代整体",
+        "再聚焦真实细节",
+        "最后回到完整画面"
+      ],
+      "credit": ""
+    }
+  ],
+  "pacing": "legacy"
+}

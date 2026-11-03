@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "content",
+    "captions"
+  ],
+  "properties": {
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text01",
+        "text02",
+        "text03",
+        "text04",
+        "text05",
+        "text06",
+        "text07",
+        "text08",
+        "text09",
+        "text10",
+        "text11",
+        "text12",
+        "text13",
+        "text14",
+        "text15",
+        "text16",
+        "text17",
+        "text18",
+        "text19",
+        "text20",
+        "text21",
+        "text22",
+        "text23",
+        "text24",
+        "text25",
+        "text26",
+        "text27",
+        "text28",
+        "text29",
+        "text30",
+        "text31",
+        "text32",
+        "text33",
+        "text34",
+        "text35"
+      ],
+      "properties": {
+        "text01": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "title": "孩子的点心，怎么选？"
+        },
+        "text02": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 5,
+          "title": "三个小方法"
+        },
+        "text03": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 5,
+          "title": "看配料表"
+        },
+        "text04": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6,
+          "title": "看营养成分表"
+        },
+        "text05": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 7,
+          "title": "看孩子是否适合"
+        },
+        "text06": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6,
+          "title": "先看主要原料"
+        },
+        "text07": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 9,
+          "title": "再关注添加糖、糖浆"
+        },
+        "text08": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 7,
+          "title": "排在前面的原料"
+        },
+        "text09": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6,
+          "title": "通常用量更多"
+        },
+        "text10": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6,
+          "title": "配料顺序示意"
+        },
+        "text11": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4,
+          "title": "配料表"
+        },
+        "text12": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 5,
+          "title": "营养成分表"
+        },
+        "text13": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4,
+          "title": "主要原料"
+        },
+        "text14": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8,
+          "title": "添加糖 / 糖浆"
+        },
+        "text15": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6,
+          "title": "留意钠含量"
+        },
+        "text16": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "title": "结合配料表关注添加糖"
+        },
+        "text17": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6,
+          "title": "信息相互补充"
+        },
+        "text18": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6,
+          "title": "孩子是否适合"
+        },
+        "text19": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4,
+          "title": "过敏风险"
+        },
+        "text20": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 5,
+          "title": "质地与年龄"
+        },
+        "text21": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 5,
+          "title": "一次吃多少"
+        },
+        "text22": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4,
+          "title": "逐项判断"
+        },
+        "text23": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "title": "食育，从一块点心开始"
+        },
+        "text24": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4,
+          "title": "认识食物"
+        },
+        "text25": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4,
+          "title": "学会选择"
+        },
+        "text26": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "title": "理解吃进身体的是什么"
+        },
+        "text27": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 7,
+          "title": "家长的点心选择"
+        },
+        "text28": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 11,
+          "title": "图形示意 · 原声节选"
+        },
+        "text29": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2,
+          "title": "配料"
+        },
+        "text30": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2,
+          "title": "营养"
+        },
+        "text31": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2,
+          "title": "适合"
+        },
+        "text32": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6,
+          "title": "结合配料表"
+        },
+        "text33": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6,
+          "title": "关注添加糖"
+        },
+        "text34": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3,
+          "title": "食育，"
+        },
+        "text35": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8,
+          "title": "从一块点心开始。"
+        }
+      }
+    },
+    "captions": {
+      "type": "array",
+      "maxItems": 80,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "start",
+          "end",
+          "text"
+        ],
+        "properties": {
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end": {
+            "type": "number",
+            "maximum": 43.541666666666664
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          }
+        }
+      }
+    },
+    "voiceover": {
+      "type": "string",
+      "description": "相对inputs.json所在目录的用户音频；缺省为无旁白技术预览，不代表口播适配已验收。"
+    }
+  }
+}

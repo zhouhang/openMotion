@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://motiongit.com/templates/deep-stage-full-video/params.schema.json",
+  "title": "DEEP STAGE 完整版 · 参数",
+  "description": "46 秒整条口播包装视频：6 个镜头、多屏 3D 舞台、口播字幕与可选音效轨。全部文案可替换。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "brand",
+    "kicker",
+    "title",
+    "subtitle",
+    "presenter",
+    "presenterRole",
+    "briefTitle",
+    "productName",
+    "caseTitle",
+    "outroTagline",
+    "captions",
+    "accent"
+  ],
+  "properties": {
+    "brand": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 24,
+      "description": "左上角品牌名",
+      "default": "DEEP STAGE"
+    },
+    "brandSub": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 18,
+      "description": "品牌下方小字",
+      "default": "口播包装模板"
+    },
+    "kicker": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 42,
+      "description": "片头小标签",
+      "default": "AIGC TEMPLATE / 口播视频模板"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 14,
+      "description": "主标题第一段",
+      "default": "DEEP"
+    },
+    "titleAccent": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 14,
+      "description": "主标题第二段（金属渐变，可留空）",
+      "default": "STAGE"
+    },
+    "subtitle": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 38,
+      "description": "片头副标题；用 **文字** 标出强调部分",
+      "default": "深色立体舞台 · 多屏空间层次 · 为口播而生"
+    },
+    "meta": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 48,
+      "description": "片头底部角标",
+      "default": "2026 / TEMPLATE 01 / 1920×1080 · 30FPS"
+    },
+    "presenter": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 12,
+      "description": "口播人名",
+      "default": "林 一"
+    },
+    "presenterRole": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 24,
+      "description": "口播职务",
+      "default": "产品主讲 / HOST"
+    },
+    "briefKicker": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 24,
+      "description": "主信息屏小标签",
+      "default": "BRIEF / 本期议题"
+    },
+    "briefTitle": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 20,
+      "description": "主信息屏标题",
+      "default": "三步讲清一个产品"
+    },
+    "briefSub": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 40,
+      "description": "主信息屏副标题",
+      "default": "从现场需求到落地结果，一条口播串起全部证据。"
+    },
+    "briefItem1Title": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 16,
+      "description": "要点 1 标题",
+      "default": "需求在现场"
+    },
+    "briefItem1Desc": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 24,
+      "description": "要点 1 说明",
+      "default": "先拍下真实场景，再谈功能。"
+    },
+    "briefItem2Title": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 16,
+      "description": "要点 2 标题",
+      "default": "方案怎样落地"
+    },
+    "briefItem2Desc": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 24,
+      "description": "要点 2 说明",
+      "default": "把复杂流程压成三条主线。"
+    },
+    "briefItem3Title": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 16,
+      "description": "要点 3 标题",
+      "default": "结果如何量化"
+    },
+    "briefItem3Desc": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 24,
+      "description": "要点 3 说明",
+      "default": "用数据替你说完最后一句。"
+    },
+    "productKicker": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 24,
+      "description": "产品屏小标签",
+      "default": "PRODUCT / 产品讲解"
+    },
+    "productName": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 12,
+      "description": "产品名",
+      "default": "DEEP ONE"
+    },
+    "productTagline": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 26,
+      "description": "产品标语；用 **文字** 标出强调部分",
+      "default": "把内容生产，装进**一块屏幕**。"
+    },
+    "productBody": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 60,
+      "description": "产品说明",
+      "default": "深色舞台承接产品视觉，参数与卖点从屏幕里浮出，越讲越近。"
+    },
+    "productSpec": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 32,
+      "description": "产品屏底部规格行",
+      "default": "1920×1080 / 30FPS / H.264"
+    },
+    "caseTitle": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 22,
+      "description": "案例屏标题",
+      "default": "一次改版，三个指标翻面"
+    },
+    "outroBrand": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 24,
+      "description": "片尾品牌名",
+      "default": "DEEP STAGE"
+    },
+    "outroTagline": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 28,
+      "description": "片尾副标",
+      "default": "深境舞台 · 口播视频包装模板"
+    },
+    "outroMeta": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 48,
+      "description": "片尾规格行",
+      "default": "HYPERFRAMES TEMPLATE · 1920×1080 · 30FPS"
+    },
+    "outroVersion": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 20,
+      "description": "片尾版本胶囊",
+      "default": "TEMPLATE v1.0"
+    },
+    "captions": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "description": "10 句口播字幕；用 **文字** 标出青色强调；顺序对应六个镜头",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 30
+      },
+      "default": [
+        "一块**深色舞台**，装下你的每一次口播。",
+        "人物画面居中，**信息屏在空间里**展开。",
+        "产品、案例、媒体素材，各有自己的位置。",
+        "讲产品，**参数**就从屏幕里长出来。",
+        "一个参数，一块切片，越讲越近。",
+        "讲案例，**数据**自己会说话。",
+        "前后对比，把变化钉在观众眼里。",
+        "讲素材，多屏就是你的**素材墙**。",
+        "六块屏，装下全部 B-roll。",
+        "把口播，**放进舞台**。"
+      ]
+    },
+    "accent": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "default": "#4DE3FF",
+      "description": "主色（六位十六进制）"
+    }
+  }
+}

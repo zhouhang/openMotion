@@ -1,0 +1,83 @@
+{
+  "mode": "content",
+  "duration": 32,
+  "brand": "语义动作复用验证",
+  "music": {
+    "mode": "none"
+  },
+  "segments": [
+    {
+      "intent": "expansion",
+      "heading": "需求增加，协作变得复杂",
+      "body": "语义示意，不代表统计数据",
+      "centerText": "项目交付",
+      "items": [
+        "设计",
+        "开发",
+        "测试",
+        "审批"
+      ],
+      "cueSeconds": [
+        0.8,
+        1.3,
+        1.8,
+        2.3
+      ],
+      "triggerSeconds": 3.6,
+      "resultText": "交付仍未落地"
+    },
+    {
+      "intent": "route-choice",
+      "heading": "先决定需要哪条路线",
+      "items": [
+        "一次做完整平台",
+        "先交付可用原型"
+      ],
+      "cueSeconds": [
+        0.8,
+        1.8
+      ],
+      "triggerSeconds": 3.5,
+      "answerIndex": 1,
+      "resultText": "先交付可用原型"
+    },
+    {
+      "intent": "object-flow",
+      "heading": "同一份内容，经过三个步骤",
+      "items": [
+        "起草",
+        "审核",
+        "发布"
+      ],
+      "cueSeconds": [
+        0.8,
+        2,
+        3.4
+      ],
+      "objectText": "稿件",
+      "resultText": "本轮交付完成"
+    },
+    {
+      "intent": "collapse",
+      "heading": "原有结构，失去支撑后坍塌",
+      "body": "先看清，再坍落；下方保留结果",
+      "effectText": "旧有结构",
+      "effectTarget": "text",
+      "granularity": "characters",
+      "triggerSeconds": 1.4,
+      "intensity": 1,
+      "seed": 43
+    },
+    {
+      "intent": "explode",
+      "heading": "冲击发生，内容向外炸裂",
+      "body": "先蓄力，再分裂；碎片运动限定在主舞台",
+      "effectText": "突破边界",
+      "effectTarget": "text",
+      "granularity": "tiles",
+      "triggerSeconds": 1.4,
+      "intensity": 1,
+      "seed": 71
+    }
+  ]
+}

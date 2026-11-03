@@ -1,0 +1,254 @@
+{
+  "pacing": "short",
+  "duration": 16,
+  "scenes": [
+    {
+      "type": "graphic",
+      "id": "food-categories",
+      "variant": "classify",
+      "duration": 4,
+      "title": "将对象分到不同类别",
+      "groups": [
+        {
+          "id": "seeds",
+          "label": "种子"
+        },
+        {
+          "id": "produce",
+          "label": "果蔬"
+        },
+        {
+          "id": "dairy",
+          "label": "奶类"
+        }
+      ],
+      "objects": [
+        {
+          "id": "pumpkin-seed",
+          "label": "南瓜子",
+          "kind": "seed",
+          "group": "seeds"
+        },
+        {
+          "id": "apple",
+          "label": "水果",
+          "kind": "apple",
+          "group": "produce"
+        },
+        {
+          "id": "carrot",
+          "label": "蔬菜",
+          "kind": "carrot",
+          "group": "produce"
+        },
+        {
+          "id": "milk",
+          "label": "奶类",
+          "kind": "milk",
+          "group": "dairy"
+        }
+      ],
+      "product": {
+        "id": "snack",
+        "label": "点心",
+        "kind": "cookie"
+      },
+      "cues": {
+        "seeds": {
+          "frame": 0
+        },
+        "produce": {
+          "frame": 36
+        },
+        "dairy": {
+          "frame": 36
+        }
+      },
+      "sourceRefs": []
+    },
+    {
+      "type": "graphic",
+      "id": "mix-ingredients",
+      "variant": "combine",
+      "duration": 4,
+      "title": "组合：保留同一组材料",
+      "groups": [
+        {
+          "id": "seeds",
+          "label": "种子"
+        },
+        {
+          "id": "produce",
+          "label": "果蔬"
+        },
+        {
+          "id": "dairy",
+          "label": "奶类"
+        }
+      ],
+      "objects": [
+        {
+          "id": "pumpkin-seed",
+          "label": "南瓜子",
+          "kind": "seed",
+          "group": "seeds"
+        },
+        {
+          "id": "apple",
+          "label": "水果",
+          "kind": "apple",
+          "group": "produce"
+        },
+        {
+          "id": "carrot",
+          "label": "蔬菜",
+          "kind": "carrot",
+          "group": "produce"
+        },
+        {
+          "id": "milk",
+          "label": "奶类",
+          "kind": "milk",
+          "group": "dairy"
+        }
+      ],
+      "product": {
+        "id": "snack",
+        "label": "点心",
+        "kind": "cookie"
+      },
+      "cues": {
+        "main": {
+          "frame": 60
+        }
+      },
+      "sourceRefs": [],
+      "carryFrom": "food-categories"
+    },
+    {
+      "type": "graphic",
+      "id": "make-snack",
+      "variant": "transform",
+      "duration": 4,
+      "title": "从材料变成结果",
+      "groups": [
+        {
+          "id": "seeds",
+          "label": "种子"
+        },
+        {
+          "id": "produce",
+          "label": "果蔬"
+        },
+        {
+          "id": "dairy",
+          "label": "奶类"
+        }
+      ],
+      "objects": [
+        {
+          "id": "pumpkin-seed",
+          "label": "南瓜子",
+          "kind": "seed",
+          "group": "seeds"
+        },
+        {
+          "id": "apple",
+          "label": "水果",
+          "kind": "apple",
+          "group": "produce"
+        },
+        {
+          "id": "carrot",
+          "label": "蔬菜",
+          "kind": "carrot",
+          "group": "produce"
+        },
+        {
+          "id": "milk",
+          "label": "奶类",
+          "kind": "milk",
+          "group": "dairy"
+        }
+      ],
+      "product": {
+        "id": "snack",
+        "label": "点心",
+        "kind": "cookie"
+      },
+      "cues": {
+        "main": {
+          "frame": 60
+        }
+      },
+      "sourceRefs": [],
+      "carryFrom": "mix-ingredients"
+    },
+    {
+      "type": "graphic",
+      "id": "question-result",
+      "variant": "qualify",
+      "duration": 4,
+      "title": "输入好，结果还要判断",
+      "groups": [
+        {
+          "id": "seeds",
+          "label": "种子"
+        },
+        {
+          "id": "produce",
+          "label": "果蔬"
+        },
+        {
+          "id": "dairy",
+          "label": "奶类"
+        }
+      ],
+      "objects": [
+        {
+          "id": "pumpkin-seed",
+          "label": "南瓜子",
+          "kind": "seed",
+          "group": "seeds"
+        },
+        {
+          "id": "apple",
+          "label": "水果",
+          "kind": "apple",
+          "group": "produce"
+        },
+        {
+          "id": "carrot",
+          "label": "蔬菜",
+          "kind": "carrot",
+          "group": "produce"
+        },
+        {
+          "id": "milk",
+          "label": "奶类",
+          "kind": "milk",
+          "group": "dairy"
+        }
+      ],
+      "product": {
+        "id": "snack",
+        "label": "点心",
+        "kind": "cookie"
+      },
+      "cues": {
+        "input": {
+          "frame": 18
+        },
+        "main": {
+          "frame": 48
+        }
+      },
+      "sourceRefs": [],
+      "carryFrom": "make-snack",
+      "labels": {
+        "input": "输入材料",
+        "result": "结果待判断"
+      }
+    }
+  ]
+}

@@ -1,0 +1,544 @@
+{
+  "schema": "openmotion-effect-reference-v1",
+  "reference_id": "douyin-7701349530544999743",
+  "created_on": "2026-10-29",
+  "status": "reference_only",
+  "implemented": false,
+  "production_eligible": false,
+  "source": {
+    "url": "https://www.douyin.com/video/7701349530544999743",
+    "local_path": "/Users/a123/Desktop/shortcut/video_source/douyin-7701349530544999743.mp4",
+    "sha256": "ffc7356ed8a95e425828d1e3c25a70a7c83b72cda67d56f61e38f5dedf39089b",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "decoded_frames": 3444,
+    "video_duration_seconds": 114.8,
+    "container_duration_seconds": 114.824,
+    "frame_number_basis": "zero-based; time_seconds = frame / 30",
+    "media_copied_into_template_library": false,
+    "usage": "local analysis reference; not a reusable production asset"
+  },
+  "analysis": {
+    "directory": "/Users/a123/Desktop/shortcut/work/2026-10-29-motion-analysis-77013495",
+    "report": "视频动效拆解.md",
+    "viewer": "analysis.html",
+    "all_frame_atlas_count": 35,
+    "atlas_frame_dimensions": [
+      160,
+      90
+    ],
+    "atlas_grid": [
+      10,
+      10
+    ],
+    "atlas_cell_dimensions": [
+      160,
+      114
+    ],
+    "clear_evidence_frame_count": 190,
+    "method": "Full decode and per-frame indexing, whole-video per-second overview, visual inspection of selected consecutive frame sequences; metrics are change candidates only."
+  },
+  "style_layers": [
+    {
+      "id": "SoftStudioStage",
+      "observed": "gray-white seamless space, broad soft light, floor contact shadows",
+      "inputs": [
+        "background",
+        "light_direction",
+        "shadow_style",
+        "safe_area"
+      ],
+      "implementation_options": [
+        "owned background asset + DOM compositing",
+        "procedural Three.js stage"
+      ]
+    },
+    {
+      "id": "WarmDeskStage",
+      "observed": "wood desk foreground, blurred warm lamp and curtain background",
+      "inputs": [
+        "background",
+        "table_plane",
+        "occlusion_mask",
+        "contact_shadows"
+      ],
+      "implementation_options": [
+        "owned background asset + 2.5D foreground props",
+        "Three.js and procedural materials"
+      ]
+    },
+    {
+      "id": "RoleUiTheme",
+      "observed": "black/white UI, teal emphasis, persistent role colors, rounded panels, micro-labels",
+      "inputs": [
+        "font_family",
+        "type_scale",
+        "role_colors",
+        "panel_radius",
+        "shadows",
+        "label_style"
+      ],
+      "note": "Style intent, not measured original author values."
+    }
+  ],
+  "motion_primitives": [
+    {
+      "id": "BlurStaggerTitle",
+      "evidence_frames": [
+        [
+          158,
+          173
+        ],
+        [
+          243,
+          258
+        ],
+        [
+          2142,
+          2151
+        ]
+      ],
+      "observed": "successive characters resolve from blurred to sharp",
+      "inputs": [
+        "text",
+        "start_frame",
+        "character_delays",
+        "blur_amount",
+        "offset",
+        "reading_hold"
+      ],
+      "remotion_route": "frame-driven DOM characters",
+      "openmotion_match": "charsAt and show blur helpers; reference-specific typography requires new styling"
+    },
+    {
+      "id": "DirectionalExit",
+      "evidence_frames": [
+        [
+          81,
+          88
+        ],
+        [
+          273,
+          286
+        ],
+        [
+          1302,
+          1307
+        ],
+        [
+          3090,
+          3099
+        ]
+      ],
+      "observed": "fast horizontal exit with directional smearing",
+      "inputs": [
+        "direction",
+        "travel",
+        "duration_frames",
+        "blur_mode"
+      ],
+      "remotion_route": "transform with sampled motion blur; simple gaussian blur is an approximation",
+      "openmotion_match": "place/show timing and blur mechanisms"
+    },
+    {
+      "id": "LayeredEntry",
+      "evidence_frames": [
+        [
+          195,
+          225
+        ],
+        [
+          287,
+          300
+        ],
+        [
+          1017,
+          1037
+        ]
+      ],
+      "observed": "separate layers enter at offset times then settle",
+      "inputs": [
+        "layer_offsets",
+        "per_layer_delays",
+        "opacity",
+        "scale",
+        "settle_time"
+      ],
+      "remotion_route": "independent local frame clocks and interpolation",
+      "note": "No specific original spring curve was established."
+    },
+    {
+      "id": "RetreatAndReplace",
+      "evidence_frames": [
+        [
+          350,
+          369
+        ],
+        [
+          413,
+          432
+        ]
+      ],
+      "observed": "old card scales down and retreats as foreground card enters",
+      "inputs": [
+        "old_rect",
+        "new_rect",
+        "focus",
+        "depth_shadow",
+        "timing"
+      ],
+      "remotion_route": "layout interpolation with independent opacity and transform"
+    },
+    {
+      "id": "TypedMessage",
+      "evidence_frames": [
+        [
+          1484,
+          1542
+        ]
+      ],
+      "observed": "message grows character by character with cursor",
+      "inputs": [
+        "text",
+        "character_cues",
+        "cursor_schedule",
+        "container_size"
+      ],
+      "remotion_route": "deterministic text truncation and cursor",
+      "openmotion_match": "S16 typing mechanism, not a ready-made chat component"
+    },
+    {
+      "id": "FocusPush",
+      "evidence_frames": [
+        [
+          840,
+          878
+        ],
+        [
+          2160,
+          2175
+        ]
+      ],
+      "observed": "parent image pushes toward focus; blur can rise during transition",
+      "inputs": [
+        "focus_x",
+        "focus_y",
+        "zoom",
+        "duration_frames",
+        "blur_schedule"
+      ],
+      "remotion_route": "parent transform and clipping"
+    },
+    {
+      "id": "RevealPath",
+      "evidence_frames": [
+        [
+          2403,
+          2432
+        ]
+      ],
+      "observed": "teal arcs draw between endpoints",
+      "inputs": [
+        "path",
+        "stroke_width",
+        "glow",
+        "progress"
+      ],
+      "remotion_route": "SVG strokeDashoffset",
+      "openmotion_match": "core.svgPath/pathAt, S03/S10"
+    },
+    {
+      "id": "MoveOnPath",
+      "evidence_frames": [
+        [
+          2516,
+          2606
+        ]
+      ],
+      "observed": "folder travels from source via cloud to destination",
+      "inputs": [
+        "paths",
+        "node_holds",
+        "progress",
+        "asset",
+        "arrival_feedback"
+      ],
+      "remotion_route": "shared curve length sampling for path and object",
+      "openmotion_match": "core.pathAt return point, S10 path-front mechanism"
+    },
+    {
+      "id": "SubjectOccludedTitle",
+      "evidence_frames": [
+        [
+          158,
+          173
+        ]
+      ],
+      "observed": "large background title is occluded by presenter foreground",
+      "inputs": [
+        "title",
+        "foreground_mask",
+        "background_layer"
+      ],
+      "remotion_route": "layer compositing with supplied or generated subject alpha",
+      "note": "An opaque full-frame video alone cannot produce a title-behind-subject effect with z-index."
+    }
+  ],
+  "semantic_recipes": [
+    {
+      "id": "CalendarDots",
+      "evidence_seconds": [
+        0,
+        3
+      ],
+      "inputs": [
+        "period",
+        "dot_states",
+        "activation_cues",
+        "label"
+      ]
+    },
+    {
+      "id": "ChatVsRole",
+      "evidence_frames": [
+        [
+          350,
+          472
+        ]
+      ],
+      "inputs": [
+        "left_object",
+        "right_object",
+        "comparison_titles",
+        "avatar",
+        "labels"
+      ],
+      "missing": [
+        "reference-specific card system",
+        "owned role asset"
+      ]
+    },
+    {
+      "id": "ChatThread",
+      "evidence_seconds": [
+        17.97,
+        29.47
+      ],
+      "inputs": [
+        "sidebar_roles",
+        "messages",
+        "cursor_cues",
+        "profile_panel",
+        "focus_cues"
+      ],
+      "missing": [
+        "editable chat UI components",
+        "state layout and text capacity rules"
+      ]
+    },
+    {
+      "id": "PlanListReveal",
+      "evidence_frames": [
+        [
+          1017,
+          1072
+        ]
+      ],
+      "inputs": [
+        "stage",
+        "heading",
+        "rows",
+        "role_asset",
+        "prop_assets",
+        "row_cues"
+      ]
+    },
+    {
+      "id": "MultiAgentChat",
+      "evidence_frames": [
+        [
+          1394,
+          1802
+        ]
+      ],
+      "inputs": [
+        "roles",
+        "question",
+        "waiting_cues",
+        "responses",
+        "summary",
+        "layout_capacity"
+      ],
+      "missing": [
+        "message state sequence",
+        "multi-role replies and summary component"
+      ]
+    },
+    {
+      "id": "AgentWorkstations",
+      "evidence_seconds": [
+        60.1,
+        64
+      ],
+      "inputs": [
+        "roles",
+        "devices",
+        "color_binding",
+        "entry_cues",
+        "heading"
+      ]
+    },
+    {
+      "id": "CloudStage",
+      "evidence_frames": [
+        [
+          2015,
+          2176
+        ]
+      ],
+      "inputs": [
+        "background",
+        "cloud_asset",
+        "role_asset",
+        "heading",
+        "camera_cues"
+      ],
+      "missing": [
+        "server-room background",
+        "cloud and role assets"
+      ]
+    },
+    {
+      "id": "TerminalPermission",
+      "evidence_frames": [
+        [
+          2177,
+          2290
+        ]
+      ],
+      "inputs": [
+        "stage",
+        "commands",
+        "typing_cues",
+        "key_asset",
+        "heading"
+      ],
+      "openmotion_match": "S16 term/termAt; new art direction and props required"
+    },
+    {
+      "id": "DeviceCloudRelay",
+      "evidence_frames": [
+        [
+          2291,
+          2606
+        ]
+      ],
+      "inputs": [
+        "stage",
+        "source_device",
+        "destination_states",
+        "cloud",
+        "folder",
+        "paths",
+        "node_holds",
+        "labels"
+      ],
+      "openmotion_match": "S10 path mechanism; S11 is a different four-node layout"
+    },
+    {
+      "id": "ChatFollowup",
+      "evidence_frames": [
+        [
+          2679,
+          2866
+        ]
+      ],
+      "inputs": [
+        "messages",
+        "append_cues",
+        "strikeout_target",
+        "result_label"
+      ]
+    },
+    {
+      "id": "CheckoutPanel",
+      "evidence_frames": [
+        [
+          3018,
+          3089
+        ]
+      ],
+      "inputs": [
+        "product",
+        "options",
+        "cursor_path",
+        "selection_cues"
+      ]
+    },
+    {
+      "id": "BenefitPairCards",
+      "evidence_frames": [
+        [
+          3090,
+          3167
+        ]
+      ],
+      "inputs": [
+        "left_card",
+        "right_card",
+        "rotations",
+        "shadows",
+        "center_operator",
+        "entry_cues"
+      ],
+      "openmotion_match": "B3 stagger and S01 space-card mechanisms only; new black/white cards and studio stage required"
+    }
+  ],
+  "existing_library_audit": {
+    "directory": "/Users/a123/content-pipeline/openMotion",
+    "catalogue_templates": 72,
+    "mirrored_templates": 1,
+    "template_id": "385712",
+    "source_variants": 2,
+    "source_file_count_verified": 662,
+    "static_verification_passed": true,
+    "runtime_render_verified": false,
+    "native_runtime": "HTML/CSS/SVG/Canvas/JavaScript, Python adapter, Playwright",
+    "native_canvas": [
+      1920,
+      1080
+    ],
+    "native_fps": 60,
+    "limitations": [
+      "not a Remotion runtime",
+      "portrait not declared supported",
+      "native action durations fixed",
+      "B1-B4 bounded reading holds only",
+      "reference-specific stage/assets/UI absent"
+    ],
+    "scope": "Historical observation before authenticated acquisition on 2026-10-29; do not treat these old counts as current library coverage.",
+    "superseded_by": "catalogs/authenticated-acquisition-2026-10-29.json"
+  },
+  "production_acceptance_requirements": [
+    "Original editable implementation and a truthful local provenance/version record",
+    "Parameter schema, text capacity, media interfaces and cue timing constraints",
+    "Font and media provenance with appropriate intended-use rights",
+    "Declared runtime entry and pinned dependencies",
+    "Source archive, manifest and file hashes compatible with the library source-type rules",
+    "Actual preview and render checks before production qualification"
+  ],
+  "suggested_first_implementations": [
+    "SoftStudioStage",
+    "ChatThread",
+    "FileTransferArc",
+    "BenefitPairCards"
+  ],
+  "not_done": [
+    "No new executable template",
+    "No Remotion composition",
+    "No production render",
+    "No changes to third-party source mirrors or verifier",
+    "No template-catalog executable registration"
+  ]
+}

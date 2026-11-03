@@ -1,0 +1,1944 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "duration",
+    "scenes"
+  ],
+  "properties": {
+    "duration": {
+      "type": "number",
+      "minimum": 3,
+      "maximum": 400,
+      "description": "等于场景逐帧取整后的合计，不用于缩放动作或人声"
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "content",
+              "captions"
+            ],
+            "properties": {
+              "type": {
+                "const": "explainer"
+              },
+              "content": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "text01",
+                  "text02",
+                  "text03",
+                  "text04",
+                  "text05",
+                  "text06",
+                  "text07",
+                  "text08",
+                  "text09",
+                  "text10",
+                  "text11",
+                  "text12",
+                  "text13",
+                  "text14",
+                  "text15",
+                  "text16",
+                  "text17",
+                  "text18",
+                  "text19",
+                  "text20",
+                  "text21",
+                  "text22",
+                  "text23",
+                  "text24",
+                  "text25",
+                  "text26",
+                  "text27",
+                  "text28",
+                  "text29",
+                  "text30",
+                  "text31",
+                  "text32",
+                  "text33",
+                  "text34",
+                  "text35"
+                ],
+                "properties": {
+                  "text01": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10,
+                    "title": "孩子的点心，怎么选？"
+                  },
+                  "text02": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5,
+                    "title": "三个小方法"
+                  },
+                  "text03": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5,
+                    "title": "看配料表"
+                  },
+                  "text04": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6,
+                    "title": "看营养成分表"
+                  },
+                  "text05": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 7,
+                    "title": "看孩子是否适合"
+                  },
+                  "text06": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6,
+                    "title": "先看主要原料"
+                  },
+                  "text07": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 9,
+                    "title": "再关注添加糖、糖浆"
+                  },
+                  "text08": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 7,
+                    "title": "排在前面的原料"
+                  },
+                  "text09": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6,
+                    "title": "通常用量更多"
+                  },
+                  "text10": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6,
+                    "title": "配料顺序示意"
+                  },
+                  "text11": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4,
+                    "title": "配料表"
+                  },
+                  "text12": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5,
+                    "title": "营养成分表"
+                  },
+                  "text13": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4,
+                    "title": "主要原料"
+                  },
+                  "text14": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8,
+                    "title": "添加糖 / 糖浆"
+                  },
+                  "text15": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6,
+                    "title": "留意钠含量"
+                  },
+                  "text16": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10,
+                    "title": "结合配料表关注添加糖"
+                  },
+                  "text17": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6,
+                    "title": "信息相互补充"
+                  },
+                  "text18": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6,
+                    "title": "孩子是否适合"
+                  },
+                  "text19": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4,
+                    "title": "过敏风险"
+                  },
+                  "text20": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5,
+                    "title": "质地与年龄"
+                  },
+                  "text21": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5,
+                    "title": "一次吃多少"
+                  },
+                  "text22": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4,
+                    "title": "逐项判断"
+                  },
+                  "text23": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10,
+                    "title": "食育，从一块点心开始"
+                  },
+                  "text24": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4,
+                    "title": "认识食物"
+                  },
+                  "text25": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4,
+                    "title": "学会选择"
+                  },
+                  "text26": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10,
+                    "title": "理解吃进身体的是什么"
+                  },
+                  "text27": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 7,
+                    "title": "家长的点心选择"
+                  },
+                  "text28": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 11,
+                    "title": "图形示意 · 原声节选"
+                  },
+                  "text29": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2,
+                    "title": "配料"
+                  },
+                  "text30": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2,
+                    "title": "营养"
+                  },
+                  "text31": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2,
+                    "title": "适合"
+                  },
+                  "text32": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6,
+                    "title": "结合配料表"
+                  },
+                  "text33": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6,
+                    "title": "关注添加糖"
+                  },
+                  "text34": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 3,
+                    "title": "食育，"
+                  },
+                  "text35": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8,
+                    "title": "从一块点心开始。"
+                  }
+                }
+              },
+              "captions": {
+                "type": "array",
+                "maxItems": 80,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "start",
+                    "end",
+                    "text"
+                  ],
+                  "properties": {
+                    "start": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "end": {
+                      "type": "number",
+                      "maximum": 43.541666666666664
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 32
+                    }
+                  }
+                }
+              },
+              "voiceover": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scope",
+                  "path"
+                ],
+                "properties": {
+                  "scope": {
+                    "enum": [
+                      "package",
+                      "instance"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "duration",
+              "logo",
+              "name",
+              "tagline",
+              "credit"
+            ],
+            "properties": {
+              "type": {
+                "const": "brand"
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 6,
+                "maximum": 10
+              },
+              "logo": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scope",
+                  "path"
+                ],
+                "properties": {
+                  "scope": {
+                    "enum": [
+                      "package",
+                      "instance"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  }
+                }
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 12
+              },
+              "tagline": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 22
+              },
+              "credit": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 90
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "heading",
+              "description",
+              "annotation",
+              "focus",
+              "credit",
+              "duration",
+              "image"
+            ],
+            "properties": {
+              "type": {
+                "const": "image"
+              },
+              "heading": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 2,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8
+                }
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 18
+              },
+              "annotation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 12
+              },
+              "focus": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "x,y,width,height归一化到实际显示方向；必须人工核对，宽高各不少于0.04"
+              },
+              "credit": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 90
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 8,
+                "maximum": 14
+              },
+              "image": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scope",
+                  "path"
+                ],
+                "properties": {
+                  "scope": {
+                    "enum": [
+                      "package",
+                      "instance"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "heading",
+              "description",
+              "annotation",
+              "focus",
+              "credit",
+              "video",
+              "offset",
+              "sourceDuration",
+              "freezeAt",
+              "freezeDuration",
+              "audioMode"
+            ],
+            "properties": {
+              "type": {
+                "const": "video"
+              },
+              "heading": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 2,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8
+                }
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 18
+              },
+              "annotation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 12
+              },
+              "focus": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "x,y,width,height归一化到实际显示方向；必须人工核对，宽高各不少于0.04"
+              },
+              "credit": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 90
+              },
+              "video": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scope",
+                  "path"
+                ],
+                "properties": {
+                  "scope": {
+                    "enum": [
+                      "package",
+                      "instance"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  }
+                }
+              },
+              "offset": {
+                "type": "number",
+                "minimum": 0
+              },
+              "sourceDuration": {
+                "type": "number",
+                "minimum": 6,
+                "maximum": 12
+              },
+              "freezeAt": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 11
+              },
+              "freezeDuration": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 4
+              },
+              "audioMode": {
+                "enum": [
+                  "mute",
+                  "source"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "heading",
+              "description",
+              "annotation",
+              "focus",
+              "credit",
+              "duration",
+              "images",
+              "selectedIndex"
+            ],
+            "properties": {
+              "type": {
+                "const": "image-wall"
+              },
+              "heading": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 2,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8
+                }
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 18
+              },
+              "annotation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 12
+              },
+              "focus": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "x,y,width,height归一化到实际显示方向；必须人工核对，宽高各不少于0.04"
+              },
+              "credit": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 90
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 16,
+                "maximum": 22
+              },
+              "images": {
+                "type": "array",
+                "minItems": 6,
+                "maxItems": 9,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "scope",
+                    "path"
+                  ],
+                  "properties": {
+                    "scope": {
+                      "enum": [
+                        "package",
+                        "instance"
+                      ]
+                    },
+                    "path": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 240
+                    }
+                  }
+                }
+              },
+              "selectedIndex": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 8
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "heading",
+              "description",
+              "annotation",
+              "credit",
+              "duration",
+              "images",
+              "columns",
+              "speed"
+            ],
+            "properties": {
+              "type": {
+                "const": "page-waterfall-wall"
+              },
+              "heading": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 2,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8
+                }
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 18
+              },
+              "annotation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 12
+              },
+              "credit": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 90
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 12,
+                "maximum": 30
+              },
+              "images": {
+                "type": "array",
+                "minItems": 12,
+                "maxItems": 60,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "scope",
+                    "path"
+                  ],
+                  "properties": {
+                    "scope": {
+                      "enum": [
+                        "package",
+                        "instance"
+                      ]
+                    },
+                    "path": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 240
+                    }
+                  }
+                }
+              },
+              "columns": {
+                "type": "integer",
+                "minimum": 4,
+                "maximum": 6
+              },
+              "speed": {
+                "type": "number",
+                "minimum": 0.6,
+                "maximum": 1.6
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "duration",
+              "title",
+              "subtitle",
+              "credit"
+            ],
+            "properties": {
+              "type": {
+                "const": "opening"
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 5,
+                "maximum": 8
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 28
+              },
+              "subtitle": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 32
+              },
+              "lead": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 6
+              },
+              "style": {
+                "enum": [
+                  "auto",
+                  "lead-word-zoom-assemble",
+                  "title-demote-to-label"
+                ]
+              },
+              "credit": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 90
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "duration",
+              "title",
+              "items",
+              "credit"
+            ],
+            "properties": {
+              "type": {
+                "const": "ending"
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 6,
+                "maximum": 12
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 16
+              },
+              "items": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 4,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 18
+                }
+              },
+              "style": {
+                "enum": [
+                  "auto",
+                  "list-reveal",
+                  "ui-to-brand-morph"
+                ]
+              },
+              "logo": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scope",
+                  "path"
+                ],
+                "properties": {
+                  "scope": {
+                    "enum": [
+                      "package",
+                      "instance"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  }
+                }
+              },
+              "brand": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 12
+              },
+              "tagline": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 24
+              },
+              "credit": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 90
+              }
+            }
+          },
+          {
+            "$ref": "#/$defs/graphic"
+          }
+        ]
+      }
+    },
+    "presenter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source"
+      ],
+      "properties": {
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope",
+            "path"
+          ],
+          "properties": {
+            "scope": {
+              "enum": [
+                "package",
+                "instance"
+              ]
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "srt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope",
+            "path"
+          ],
+          "properties": {
+            "scope": {
+              "enum": [
+                "package",
+                "instance"
+              ]
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "offset": {
+          "type": "number",
+          "minimum": 0
+        },
+        "sourceDuration": {
+          "type": "number",
+          "minimum": 5,
+          "maximum": 180
+        }
+      },
+      "description": "可选全程口播；自动人脸方形裁切后圆形显示，按页面占位避让；使用唯一原声；总帧数须匹配所选原声区间"
+    },
+    "pacing": {
+      "enum": [
+        "short",
+        "legacy"
+      ],
+      "default": "short",
+      "description": "新制作short，每页3–5秒；legacy只重放旧工程，不代表符合新版节奏"
+    },
+    "narration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source"
+      ],
+      "properties": {
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope",
+            "path"
+          ],
+          "properties": {
+            "scope": {
+              "enum": [
+                "instance",
+                "package"
+              ]
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "srt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope",
+            "path"
+          ],
+          "properties": {
+            "scope": {
+              "enum": [
+                "instance",
+                "package"
+              ]
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "offset": {
+          "type": "number",
+          "minimum": 0
+        },
+        "sourceDuration": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "gainDb": {
+          "type": "number",
+          "minimum": -12,
+          "maximum": 0
+        }
+      },
+      "description": "独立MP3/WAV或视频音轨，完整所选区间为主时钟；SRT只作依据，不自动生成字幕"
+    },
+    "presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "const": "editorial-card"
+        },
+        "resolution": {
+          "enum": [
+            "720p",
+            "1080p"
+          ],
+          "default": "1080p"
+        },
+        "heading": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "footer": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "roleLabel": {
+          "type": "string",
+          "maxLength": 26
+        },
+        "nameLabel": {
+          "type": "string",
+          "maxLength": 24
+        },
+        "portraitSize": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": 180,
+              "maximum": 266
+            },
+            {
+              "type": "integer",
+              "minimum": 260,
+              "maximum": 366
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "logo": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope",
+            "path"
+          ],
+          "properties": {
+            "scope": {
+              "enum": [
+                "package",
+                "instance"
+              ]
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "pageLabels": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "maxLength": 8
+          }
+        },
+        "videos": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source"
+            ],
+            "properties": {
+              "source": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scope",
+                  "path"
+                ],
+                "properties": {
+                  "scope": {
+                    "enum": [
+                      "package",
+                      "instance"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "at": {
+                "type": "number",
+                "minimum": 0
+              },
+              "offset": {
+                "type": "number",
+                "minimum": 0
+              },
+              "sourceDuration": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "crop": {
+                "oneOf": [
+                  {
+                    "const": "auto"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "cx",
+                      "cy",
+                      "width",
+                      "height"
+                    ],
+                    "properties": {
+                      "cx": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 1
+                      },
+                      "cy": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 1
+                      },
+                      "width": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 1
+                      },
+                      "height": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "graphic": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/graphicLegacy"
+        },
+        {
+          "$ref": "#/$defs/editorial"
+        }
+      ]
+    },
+    "graphicLegacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id",
+        "variant",
+        "duration",
+        "title",
+        "groups",
+        "objects",
+        "product",
+        "cues",
+        "sourceRefs"
+      ],
+      "properties": {
+        "type": {
+          "const": "graphic"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,39}$"
+        },
+        "variant": {
+          "enum": [
+            "classify",
+            "combine",
+            "transform",
+            "qualify"
+          ]
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 5
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "groups": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,39}$"
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8
+              }
+            }
+          }
+        },
+        "objects": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 9,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "kind",
+              "group"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,39}$"
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8
+              },
+              "kind": {
+                "enum": [
+                  "seed",
+                  "apple",
+                  "carrot",
+                  "milk",
+                  "grain",
+                  "bean",
+                  "cookie",
+                  "bar",
+                  "muffin",
+                  "circle",
+                  "square",
+                  "image"
+                ]
+              },
+              "group": {
+                "type": "string"
+              },
+              "image": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scope",
+                  "path"
+                ],
+                "properties": {
+                  "scope": {
+                    "enum": [
+                      "instance",
+                      "package"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "image"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "image"
+                  ]
+                },
+                "else": {
+                  "not": {
+                    "required": [
+                      "image"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "product": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "label",
+            "kind"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]{0,39}$"
+            },
+            "label": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8
+            },
+            "kind": {
+              "enum": [
+                "seed",
+                "apple",
+                "carrot",
+                "milk",
+                "grain",
+                "bean",
+                "cookie",
+                "bar",
+                "muffin",
+                "circle",
+                "square",
+                "image"
+              ]
+            },
+            "image": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "scope",
+                "path"
+              ],
+              "properties": {
+                "scope": {
+                  "enum": [
+                    "instance",
+                    "package"
+                  ]
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "image"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "image"
+                ]
+              },
+              "else": {
+                "not": {
+                  "required": [
+                    "image"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "cues": {
+          "type": "object",
+          "minProperties": 1,
+          "maxProperties": 4,
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "frame"
+            ],
+            "properties": {
+              "frame": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 108
+              },
+              "ref": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "boundary": {
+                "enum": [
+                  "start",
+                  "end"
+                ]
+              }
+            }
+          }
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "uniqueItems": true
+        },
+        "carryFrom": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,39}$"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "input",
+            "result"
+          ],
+          "properties": {
+            "input": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8
+            },
+            "result": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8
+            }
+          }
+        }
+      }
+    },
+    "editorial": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id",
+        "variant",
+        "duration",
+        "title",
+        "objects",
+        "cues",
+        "sourceRefs"
+      ],
+      "properties": {
+        "type": {
+          "const": "graphic"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,39}$"
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 5
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "uniqueItems": true
+        },
+        "variant": {
+          "enum": [
+            "label-question",
+            "document-focus",
+            "spotlight",
+            "reveal",
+            "inspect",
+            "fit",
+            "reframe",
+            "unpack",
+            "routine",
+            "origin",
+            "selection",
+            "calendar"
+          ]
+        },
+        "objects": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "kind"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,39}$"
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8
+              },
+              "kind": {
+                "enum": [
+                  "apple",
+                  "bar",
+                  "bean",
+                  "bottle",
+                  "calendar",
+                  "carrot",
+                  "child",
+                  "circle",
+                  "cookie",
+                  "corn",
+                  "document",
+                  "grain",
+                  "image",
+                  "loop",
+                  "milk",
+                  "muffin",
+                  "oat",
+                  "oil",
+                  "package",
+                  "plate",
+                  "rice",
+                  "salt",
+                  "seed",
+                  "sprout",
+                  "square",
+                  "sugar"
+                ]
+              },
+              "image": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scope",
+                  "path"
+                ],
+                "properties": {
+                  "scope": {
+                    "enum": [
+                      "instance",
+                      "package"
+                    ]
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "image"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "image"
+                  ]
+                },
+                "else": {
+                  "not": {
+                    "required": [
+                      "image"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 24
+        },
+        "cues": {
+          "type": "object",
+          "minProperties": 1,
+          "maxProperties": 6,
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "frame"
+            ],
+            "properties": {
+              "frame": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 108
+              },
+              "ref": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "boundary": {
+                "enum": [
+                  "start",
+                  "end"
+                ]
+              }
+            }
+          }
+        },
+        "caption": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "label-question"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 3,
+                "maxItems": 3
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "document-focus"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "spotlight"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 1,
+                "maxItems": 4
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "reveal"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 1,
+                "maxItems": 6
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "inspect"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 2,
+                "maxItems": 4
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "fit"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "reframe"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 2,
+                "maxItems": 4
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "unpack"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 3,
+                "maxItems": 6
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "routine"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 2,
+                "maxItems": 3
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "origin"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 3,
+                "maxItems": 3
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "selection"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 3,
+                "maxItems": 5
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "calendar"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "objects": {
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "variant": {
+                "enum": [
+                  "label-question",
+                  "selection",
+                  "calendar"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "caption"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "pacing": {
+            "const": "legacy"
+          }
+        },
+        "required": [
+          "pacing"
+        ]
+      },
+      "then": {
+        "properties": {
+          "scenes": {
+            "maxItems": 8
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "scenes": {
+            "maxItems": 32,
+            "items": {
+              "$ref": "#/$defs/graphic"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

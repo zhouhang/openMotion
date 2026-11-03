@@ -1,0 +1,55 @@
+{
+  "audioContractVersion": "1.0",
+  "template": "deep-stage-full-video",
+  "role": "sfx",
+  "optional": true,
+  "design": {
+    "palette": "纯合成音调（正弦 + 泛音 + 平滑 ADSR + 合成调性混响）",
+    "noiseSources": "none",
+    "transitions": "平滑滑音 / 低频涌起；无噪声扫频、无磨砂纹理、无白噪",
+    "alignment": "按 46 秒成片的六段镜头时间线设计，从 0 秒对齐"
+  },
+  "tracks": [
+    {
+      "path": "audio/sfx-deep-stage-full.wav",
+      "startSeconds": 0,
+      "durationSeconds": 46,
+      "sampleRate": 48000,
+      "channels": 2,
+      "codec": "pcm_s16le",
+      "peakDbfs": -1
+    }
+  ],
+  "scenes": [
+    {
+      "at": 0,
+      "name": "开场点火"
+    },
+    {
+      "at": 6.5,
+      "name": "口播主舞台"
+    },
+    {
+      "at": 16.5,
+      "name": "产品讲解"
+    },
+    {
+      "at": 25.5,
+      "name": "案例数据"
+    },
+    {
+      "at": 34.5,
+      "name": "媒体素材墙"
+    },
+    {
+      "at": 41.5,
+      "name": "收尾锁版"
+    }
+  ],
+  "hostInstructions": "支持音频的宿主在逐帧渲染后把该 WAV 从 0 秒混入；不支持音频的宿主输出静音视频，不得声称包含声音。",
+  "muxExample": "ffmpeg -i rendered.mp4 -i audio/sfx-deep-stage-full.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 192k -shortest out.mp4",
+  "measurements": {
+    "spectralFlatness": 0.0063,
+    "note": "白噪 ≈ 1.0；本轨为纯音调型"
+  }
+}

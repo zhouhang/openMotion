@@ -1,33 +1,376 @@
 {
-  "schema": "openmotion-import-audit-v1",
+  "schema": "openmotion-import-audit-v2",
+  "checked_at": "2026-10-29T03:14:40.789769+00:00",
   "passed": true,
-  "template_id": "385712",
-  "source_variants": 2,
-  "upstream_commit": "9dfbe7d7c6a6d4aa03f6f8e2f2285e631099faae",
-  "source_code_executed": false,
-  "dependencies_installed": false,
-  "largest_file_bytes": 17772300,
-  "file_over_github_100mb_limit": false,
-  "counted_source_templates": 1,
   "inventory_templates": 72,
-  "actual_template_files_per_variant": {
-    "zh": 331,
-    "en": 331
-  },
-  "imports": [
+  "counted_source_templates": 10,
+  "source_variants": 11,
+  "new_sources_imported": 9,
+  "template_code_executed": false,
+  "dependencies_installed": false,
+  "runtime_render_verified": false,
+  "previous_public_import_audit": "catalogs/history/2026-10-28/source-import-audit.json",
+  "authenticated_acquisition_evidence": "catalogs/authenticated-acquisition-2026-10-29.json",
+  "sources": [
     {
-      "language": "zh",
-      "package_sha256": "472a95af35f8e0c09c0f7dc2ca0992b7c9a3405c5aa8063730c347fc4e015c21",
-      "source_path": "templates/385712/zh",
-      "package_path": "templates/385712/archives/kinetic-tech-zh.motion",
-      "provenance_path": "templates/385712/zh/_openmotion-provenance.json"
+      "id": "385712",
+      "title": "酷炫科技风",
+      "version": "0.2.7-open-beta",
+      "source_kind": "pinned_public_git_export",
+      "variants": [
+        {
+          "language": "zh",
+          "source_path": "templates/385712/zh",
+          "package_path": "templates/385712/archives/kinetic-tech-zh.motion",
+          "package_sha256": "472a95af35f8e0c09c0f7dc2ca0992b7c9a3405c5aa8063730c347fc4e015c21",
+          "source_entry": "adapter.py",
+          "license_path": "templates/385712/zh/licenses/TEMPLATE-LICENSE.txt",
+          "runtime": {
+            "profile": "kinetic-user-core/1",
+            "entry": "adapter.py",
+            "dependencyLock": "motion.lock.json"
+          },
+          "provenance_path": "templates/385712/zh/_openmotion-provenance.json"
+        },
+        {
+          "language": "en",
+          "source_path": "templates/385712/en",
+          "package_path": "templates/385712/archives/kinetic-tech-en.motion",
+          "package_sha256": "533320d081c578cb824dfbc6ce9d4ae3eb1ca190d67ae7185b4a32b02e236255",
+          "source_entry": "adapter.py",
+          "license_path": "templates/385712/en/licenses/TEMPLATE-LICENSE.txt",
+          "runtime": {
+            "profile": "kinetic-user-core/1",
+            "entry": "adapter.py",
+            "dependencyLock": "motion.lock.json"
+          },
+          "provenance_path": "templates/385712/en/_openmotion-provenance.json"
+        }
+      ]
     },
     {
-      "language": "en",
-      "package_sha256": "533320d081c578cb824dfbc6ce9d4ae3eb1ca190d67ae7185b4a32b02e236255",
-      "source_path": "templates/385712/en",
-      "package_path": "templates/385712/archives/kinetic-tech-en.motion",
-      "provenance_path": "templates/385712/en/_openmotion-provenance.json"
+      "id": "228996",
+      "title": "DEEP STAGE 口播主舞台",
+      "version": "1.0.0",
+      "source_kind": "verified_open_author_release",
+      "variants": [
+        {
+          "source_kind": "verified_open_author_release",
+          "language": "default",
+          "version": "1.0.0",
+          "template_slug": "deep-stage-host-stage",
+          "upstream_commit": null,
+          "package_path": "templates/228996/archives/original-author-release-1.0.0.motion",
+          "package_sha256": "9fba89b865b5c599c8cc55de078d67efbcae335d168e0bf564551f14abc70791",
+          "release_archive_sha256": "9fba89b865b5c599c8cc55de078d67efbcae335d168e0bf564551f14abc70791",
+          "release_archive_bytes": 9853024,
+          "content_protection": "open",
+          "source_url": "https://motiongit.com/@thepandaq/deep-stage-host-stage",
+          "publisher_template_id": 880,
+          "publisher_release_id": 492,
+          "envelope_manifest_sha256": "72b680c4f0261a9cfee4d1005506dd1a97ce9a61162f567497405485141d7956",
+          "delivery_receipt_sha256": "d225ac5fd7f1fac024645b43adb3d96ba75a2032ba56c2577b43246f9512e152",
+          "delivery_evidence_path": "templates/228996/redacted-delivery-evidence.json",
+          "delivery_evidence_sha256": "4f24b5f2bea1dd2d8f295e7cee915e28ea469251a49aa78eb22df43623a68029",
+          "source_path": "templates/228996/source",
+          "source_entry": "src/index.html",
+          "runtime": {
+            "profile": "html-canvas/1",
+            "entry": "src/index.html",
+            "dependencyLock": "motion.lock.json"
+          },
+          "license_path": "templates/228996/source/licenses/TEMPLATE-LICENSE.txt",
+          "provenance_path": "templates/228996/source/_openmotion-provenance.json"
+        }
+      ]
+    },
+    {
+      "id": "838778",
+      "title": "DEEP STAGE 深境舞台完整版",
+      "version": "1.0.0",
+      "source_kind": "verified_open_author_release",
+      "variants": [
+        {
+          "source_kind": "verified_open_author_release",
+          "language": "default",
+          "version": "1.0.0",
+          "template_slug": "deep-stage-full-video",
+          "upstream_commit": null,
+          "package_path": "templates/838778/archives/original-author-release-1.0.0.motion",
+          "package_sha256": "9fe1e32e028557cf8d9aee8a67b9e03a571dd3f89877278d9de77b5b0de8022a",
+          "release_archive_sha256": "9fe1e32e028557cf8d9aee8a67b9e03a571dd3f89877278d9de77b5b0de8022a",
+          "release_archive_bytes": 49243123,
+          "content_protection": "open",
+          "source_url": "https://motiongit.com/@thepandaq/deep-stage-full-video",
+          "publisher_template_id": 885,
+          "publisher_release_id": 510,
+          "envelope_manifest_sha256": "8b0837f8a2d42b0ee65dd72a27300de7c5c6fb05ba890fb92af68f03ae74fa21",
+          "delivery_receipt_sha256": "a664cf0f93c2bcad314f9741f8aed32882d080252556b80d96dbcde19af7e7ed",
+          "delivery_evidence_path": "templates/838778/redacted-delivery-evidence.json",
+          "delivery_evidence_sha256": "e468513bb59353fb7ff3294920b106f0b23440852e857f8af0cc078d933ca948",
+          "source_path": "templates/838778/source",
+          "source_entry": "src/index.html",
+          "runtime": {
+            "profile": "html-canvas/1",
+            "entry": "src/index.html",
+            "dependencyLock": "motion.lock.json"
+          },
+          "license_path": "templates/838778/source/licenses/TEMPLATE-LICENSE.txt",
+          "provenance_path": "templates/838778/source/_openmotion-provenance.json"
+        }
+      ]
+    },
+    {
+      "id": "587362",
+      "title": "DEEP STAGE 案例数据",
+      "version": "1.0.0",
+      "source_kind": "verified_open_author_release",
+      "variants": [
+        {
+          "source_kind": "verified_open_author_release",
+          "language": "default",
+          "version": "1.0.0",
+          "template_slug": "deep-stage-case-data",
+          "upstream_commit": null,
+          "package_path": "templates/587362/archives/original-author-release-1.0.0.motion",
+          "package_sha256": "5a22647ba36531c3960f9c2ac65df6dbca33030733308e795379e22db5045c60",
+          "release_archive_sha256": "5a22647ba36531c3960f9c2ac65df6dbca33030733308e795379e22db5045c60",
+          "release_archive_bytes": 6577753,
+          "content_protection": "open",
+          "source_url": "https://motiongit.com/@thepandaq/deep-stage-case-data",
+          "publisher_template_id": 882,
+          "publisher_release_id": 494,
+          "envelope_manifest_sha256": "db55e565a37d786d8726e133ac3a675625a5df29f292adaa56348827e3978002",
+          "delivery_receipt_sha256": "6b8b034426ffcf1a7dd331d51645d22d5509d4017bc2f97a4177ad6c2cae58a2",
+          "delivery_evidence_path": "templates/587362/redacted-delivery-evidence.json",
+          "delivery_evidence_sha256": "76a814f9136b9f9129c8cb5c3c5efd4c675bf9e6297a30cab5b3d373439bbe9b",
+          "source_path": "templates/587362/source",
+          "source_entry": "src/index.html",
+          "runtime": {
+            "profile": "html-canvas/1",
+            "entry": "src/index.html",
+            "dependencyLock": "motion.lock.json"
+          },
+          "license_path": "templates/587362/source/licenses/TEMPLATE-LICENSE.txt",
+          "provenance_path": "templates/587362/source/_openmotion-provenance.json"
+        }
+      ]
+    },
+    {
+      "id": "509099",
+      "title": "目标与证据 · 17类语义动效",
+      "version": "0.4.0-rc.5",
+      "source_kind": "verified_open_author_release",
+      "variants": [
+        {
+          "source_kind": "verified_open_author_release",
+          "language": "default",
+          "version": "0.4.0-rc.5",
+          "template_slug": "product-update-story",
+          "upstream_commit": null,
+          "package_path": "templates/509099/archives/original-author-release-0.4.0-rc.5.motion",
+          "package_sha256": "99d4a0852741ee52596a8ddd078419fb8ef26c4f3dc23385a33317d7087ba2bd",
+          "release_archive_sha256": "99d4a0852741ee52596a8ddd078419fb8ef26c4f3dc23385a33317d7087ba2bd",
+          "release_archive_bytes": 11366619,
+          "content_protection": "open",
+          "source_url": "https://motiongit.com/@frankye1211/product-update-story",
+          "publisher_template_id": 886,
+          "publisher_release_id": 542,
+          "envelope_manifest_sha256": "65086edc5bfb1c3d2b01bcbe9f878eb740b5ec68c07a5d7562360a3adc5423d6",
+          "delivery_receipt_sha256": "08b7d2a594e69903a212430c5a839a7a50422a34a961d46c55945e6ef73435e3",
+          "delivery_evidence_path": "templates/509099/redacted-delivery-evidence.json",
+          "delivery_evidence_sha256": "edd01b974ef28f3daa41bdbdca90ae67e2cf9d703c9fd5a90a928f188e816020",
+          "source_path": "templates/509099/source",
+          "source_entry": "src/adapter.py",
+          "runtime": {
+            "profile": "native-python-node/1",
+            "entry": "src/adapter.py",
+            "dependencyLock": "motion.lock.json"
+          },
+          "license_path": "templates/509099/source/licenses/TEMPLATE-LICENSE.txt",
+          "provenance_path": "templates/509099/source/_openmotion-provenance.json"
+        }
+      ]
+    },
+    {
+      "id": "643842",
+      "title": "图解口播与图片展示",
+      "version": "0.8.1-rc.1",
+      "source_kind": "verified_open_author_release",
+      "variants": [
+        {
+          "source_kind": "verified_open_author_release",
+          "language": "default",
+          "version": "0.8.1-rc.1",
+          "template_slug": "moonwhite-robot-unified",
+          "upstream_commit": null,
+          "package_path": "templates/643842/archives/original-author-release-0.8.1-rc.1.motion",
+          "package_sha256": "571b9f87d2da76358fbaae515b5ebe1ca556177cab92a8b39b0cbc8d1473f7df",
+          "release_archive_sha256": "571b9f87d2da76358fbaae515b5ebe1ca556177cab92a8b39b0cbc8d1473f7df",
+          "release_archive_bytes": 13955969,
+          "content_protection": "open",
+          "source_url": "https://motiongit.com/@frankye1211/moonwhite-robot-unified",
+          "publisher_template_id": 888,
+          "publisher_release_id": 747,
+          "envelope_manifest_sha256": "016453158812091fe901a24ac114439d84ef5853efa8ab8ab28ad0f915d0c6c7",
+          "delivery_receipt_sha256": "fd249baaa081ddf1239d077a6ae6ef47af1455de87b03988f6d3de1a092ec6eb",
+          "delivery_evidence_path": "templates/643842/redacted-delivery-evidence.json",
+          "delivery_evidence_sha256": "a6e09c4a1577e66cab48ba3dd12d3b50980ce08a71a65a8e00c49f45bfab2b71",
+          "source_path": "templates/643842/source",
+          "source_entry": "src/adapter.py",
+          "runtime": {
+            "profile": "native-python-node/1",
+            "entry": "src/adapter.py",
+            "dependencyLock": "motion.lock.json"
+          },
+          "license_path": "templates/643842/source/licenses/TEMPLATE-LICENSE.txt",
+          "provenance_path": "templates/643842/source/_openmotion-provenance.json"
+        }
+      ]
+    },
+    {
+      "id": "648878",
+      "title": "DEEP STAGE 产品讲解",
+      "version": "1.0.0",
+      "source_kind": "verified_open_author_release",
+      "variants": [
+        {
+          "source_kind": "verified_open_author_release",
+          "language": "default",
+          "version": "1.0.0",
+          "template_slug": "deep-stage-product-focus",
+          "upstream_commit": null,
+          "package_path": "templates/648878/archives/original-author-release-1.0.0.motion",
+          "package_sha256": "e592e2f7c7ce5edd211abfcd2fb9b3ab1293714b35790da4b3d929734cb6ef4e",
+          "release_archive_sha256": "e592e2f7c7ce5edd211abfcd2fb9b3ab1293714b35790da4b3d929734cb6ef4e",
+          "release_archive_bytes": 7409984,
+          "content_protection": "open",
+          "source_url": "https://motiongit.com/@thepandaq/deep-stage-product-focus",
+          "publisher_template_id": 881,
+          "publisher_release_id": 493,
+          "envelope_manifest_sha256": "643b9943c07d118312d4a7657cc48695ad5bf990dbacc89f23e142cef5944fa8",
+          "delivery_receipt_sha256": "4eabc3a8d1497a7fd4eb44dd449ecd85a095b6e5e14fa6e6bb6c5b4e6e361fca",
+          "delivery_evidence_path": "templates/648878/redacted-delivery-evidence.json",
+          "delivery_evidence_sha256": "82abc82b72056b7449ad47b5841ec2679305e0006178d4ac9ba66974d8a2a4df",
+          "source_path": "templates/648878/source",
+          "source_entry": "src/index.html",
+          "runtime": {
+            "profile": "html-canvas/1",
+            "entry": "src/index.html",
+            "dependencyLock": "motion.lock.json"
+          },
+          "license_path": "templates/648878/source/licenses/TEMPLATE-LICENSE.txt",
+          "provenance_path": "templates/648878/source/_openmotion-provenance.json"
+        }
+      ]
+    },
+    {
+      "id": "921052",
+      "title": "DEEP STAGE 开场点火标题",
+      "version": "1.0.0",
+      "source_kind": "verified_open_author_release",
+      "variants": [
+        {
+          "source_kind": "verified_open_author_release",
+          "language": "default",
+          "version": "1.0.0",
+          "template_slug": "deep-stage-title-ignition",
+          "upstream_commit": null,
+          "package_path": "templates/921052/archives/original-author-release-1.0.0.motion",
+          "package_sha256": "2f186c1e74ce971d2b9a858fc94f2d9ceffdcf528a35e239f4f1c28148c05cee",
+          "release_archive_sha256": "2f186c1e74ce971d2b9a858fc94f2d9ceffdcf528a35e239f4f1c28148c05cee",
+          "release_archive_bytes": 3065958,
+          "content_protection": "open",
+          "source_url": "https://motiongit.com/@thepandaq/deep-stage-title-ignition",
+          "publisher_template_id": 879,
+          "publisher_release_id": 491,
+          "envelope_manifest_sha256": "30938530a14bfc44744dccdbbf4f3174d9ffe6abe9e6e9e627551366d1717c48",
+          "delivery_receipt_sha256": "1ec7731c56f943074104d8ede9fa97aa63c2b68c2c491491a0d79aa57e231e25",
+          "delivery_evidence_path": "templates/921052/redacted-delivery-evidence.json",
+          "delivery_evidence_sha256": "d024c715bad0e9a25b1f7b4c63228df1beae9768dedf047c1027325453496b51",
+          "source_path": "templates/921052/source",
+          "source_entry": "src/index.html",
+          "runtime": {
+            "profile": "html-canvas/1",
+            "entry": "src/index.html",
+            "dependencyLock": "motion.lock.json"
+          },
+          "license_path": "templates/921052/source/licenses/TEMPLATE-LICENSE.txt",
+          "provenance_path": "templates/921052/source/_openmotion-provenance.json"
+        }
+      ]
+    },
+    {
+      "id": "430770",
+      "title": "DEEP STAGE 媒体素材墙",
+      "version": "1.0.0",
+      "source_kind": "verified_open_author_release",
+      "variants": [
+        {
+          "source_kind": "verified_open_author_release",
+          "language": "default",
+          "version": "1.0.0",
+          "template_slug": "deep-stage-media-wall",
+          "upstream_commit": null,
+          "package_path": "templates/430770/archives/original-author-release-1.0.0.motion",
+          "package_sha256": "6b6d7884aeddc4ed7d0109393fdf091fac8e9cc1123c9177f5016b9b9782f0d9",
+          "release_archive_sha256": "6b6d7884aeddc4ed7d0109393fdf091fac8e9cc1123c9177f5016b9b9782f0d9",
+          "release_archive_bytes": 5216932,
+          "content_protection": "open",
+          "source_url": "https://motiongit.com/@thepandaq/deep-stage-media-wall",
+          "publisher_template_id": 883,
+          "publisher_release_id": 495,
+          "envelope_manifest_sha256": "fa7d71219143953ecec451580d95af1f8da57c371fffd6b927a61e43e0bdff28",
+          "delivery_receipt_sha256": "592becb8bbbdc7a9c1742847b07a89a30f1b6fc1f24b1e7368d1fa00d6857799",
+          "delivery_evidence_path": "templates/430770/redacted-delivery-evidence.json",
+          "delivery_evidence_sha256": "37b0b4e2982feae851b5f451b86c74f812fad4c7406af59eaaeaac2693523376",
+          "source_path": "templates/430770/source",
+          "source_entry": "src/index.html",
+          "runtime": {
+            "profile": "html-canvas/1",
+            "entry": "src/index.html",
+            "dependencyLock": "motion.lock.json"
+          },
+          "license_path": "templates/430770/source/licenses/TEMPLATE-LICENSE.txt",
+          "provenance_path": "templates/430770/source/_openmotion-provenance.json"
+        }
+      ]
+    },
+    {
+      "id": "581039",
+      "title": "DEEP STAGE 收尾锁版",
+      "version": "1.0.0",
+      "source_kind": "verified_open_author_release",
+      "variants": [
+        {
+          "source_kind": "verified_open_author_release",
+          "language": "default",
+          "version": "1.0.0",
+          "template_slug": "deep-stage-outro-lockup",
+          "upstream_commit": null,
+          "package_path": "templates/581039/archives/original-author-release-1.0.0.motion",
+          "package_sha256": "625e93846c577aa7b976c4bb6188cbcd28b211b36382516681a67bfcdf89fc10",
+          "release_archive_sha256": "625e93846c577aa7b976c4bb6188cbcd28b211b36382516681a67bfcdf89fc10",
+          "release_archive_bytes": 3050447,
+          "content_protection": "open",
+          "source_url": "https://motiongit.com/@thepandaq/deep-stage-outro-lockup",
+          "publisher_template_id": 884,
+          "publisher_release_id": 496,
+          "envelope_manifest_sha256": "10f496c9332d8712048b5bf0e4d1b4321745f9c38e0731a2c94a5330325b4457",
+          "delivery_receipt_sha256": "67b816e4a963c64b332536568eb991a095bc58054f28770568e5b75fbb48cf90",
+          "delivery_evidence_path": "templates/581039/redacted-delivery-evidence.json",
+          "delivery_evidence_sha256": "241d0d5173126ecb64b403a6ac14ab9fd11ba79538659ceef62b53115409c824",
+          "source_path": "templates/581039/source",
+          "source_entry": "src/index.html",
+          "runtime": {
+            "profile": "html-canvas/1",
+            "entry": "src/index.html",
+            "dependencyLock": "motion.lock.json"
+          },
+          "license_path": "templates/581039/source/licenses/TEMPLATE-LICENSE.txt",
+          "provenance_path": "templates/581039/source/_openmotion-provenance.json"
+        }
+      ]
     }
   ]
 }

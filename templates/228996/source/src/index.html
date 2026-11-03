@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>DEEP STAGE · 口播主舞台 动效</title>
+<link rel="stylesheet" href="../assets/stage.css" />
+<style>
+  /* ---------- 场景基础 ---------- */
+  .veil { position: absolute; inset: 0; z-index: 20; background: #04060B; pointer-events: none; }
+  .slot .slot-anim { transform-origin: 50% 50%; }
+  /* 舞台背景层：整体后移 800px 并按透视比例放大，投影后与原始位置完全一致，
+     但让地平线 / 地面网格 / 光束真正位于所有屏幕之后（避免线穿过屏幕） */
+  .world-bg {
+    position: absolute; inset: 0; transform-style: preserve-3d;
+    transform-origin: 50% 42%;
+    transform: translateZ(-800px) scale(1.5);
+  }
+  /* 屏幕挂签：放在槽位顶部预留的 30px 条内，保证 3D 变换下也能正常绘制 */
+  .slot-tag { top: 6px; }
+  .slot--brief .frame, .slot--chapters .frame { top: 30px; }
+
+  /* ---------- 9:16 人物画面（纯 CSS/SVG 电影感剪影） ---------- */
+  .host { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: #04060B; }
+  .host * { box-sizing: border-box; }
+  .host-set {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(118% 82% at 42% 22%, rgba(34,62,90,.55) 0%, rgba(15,25,41,.5) 34%, rgba(6,10,17,0) 64%),
+      radial-gradient(86% 62% at 88% 46%, rgba(96,58,30,.28) 0%, rgba(26,18,14,0) 64%),
+      linear-gradient(180deg, #05080E 0%, #070B14 34%, #0A0F19 56%, #06090F 76%, #04060B 100%);
+  }
+  .host-glow { position: absolute; border-radius: 50%; pointer-events: none; mix-blend-mode: screen; }
+  .host-glow--cool {
+    width: 560px; height: 540px; left: -32%; top: 0%;
+    background: radial-gradient(circle at 50% 50%, rgba(77,227,255,.20) 0%, rgba(52,150,190,.10) 34%, rgba(20,60,80,0) 68%);
+    filter: blur(26px);
+  }
+  .host-glow--warm {
+    width: 460px; height: 460px; right: -30%; top: 18%;
+    background: radial-gradient(circle at 50% 50%, rgba(255,177,104,.14) 0%, rgba(190,110,50,.07) 38%, rgba(60,30,12,0) 70%);
+    filter: blur(28px);
+  }
+  .host-softbox {
+    position: absolute; left: -14%; top: 2%; width: 360px; height: 300px; border-radius: 50%;
+    background: radial-gradient(ellipse at 46% 44%, rgba(176,222,244,.17) 0%, rgba(120,180,214,.09) 40%, rgba(40,80,110,0) 72%);
+    filter: blur(34px); mix-blend-mode: screen; pointer-events: none;
+  }
+  .host-softbox--w {
+    left: auto; right: -18%; top: 26%; width: 340px; height: 300px;
+    background: radial-gradient(ellipse at 52% 48%, rgba(255,206,156,.12) 0%, rgba(210,140,80,.06) 42%, rgba(90,50,24,0) 74%);
+    filter: blur(38px);
+  }
+  .host-bokeh { position: absolute; inset: 0; pointer-events: none; }
+  .host-orb {
+    position: absolute; display: block; border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+      rgba(150,220,245,.26) 0%, rgba(150,220,245,.34) 52%, rgba(196,238,255,.48) 77%,
+      rgba(132,208,242,.30) 89%, rgba(80,150,190,0) 100%);
+  }
+  .host-orb--w {
+    background: radial-gradient(circle at 50% 50%,
+      rgba(255,196,130,.24) 0%, rgba(255,196,130,.32) 52%, rgba(255,226,190,.46) 77%,
+      rgba(255,196,130,.28) 89%, rgba(150,90,40,0) 100%);
+  }
+  .host-orb--big { mix-blend-mode: screen; }
+  .host-figure { position: absolute; inset: 0; transform-origin: 50% 62%; }
+  .host-figure svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .host-spill {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(118deg, rgba(77,227,255,.07) 0%, rgba(77,227,255,0) 26%),
+      linear-gradient(296deg, rgba(255,177,104,.05) 0%, rgba(255,177,104,0) 30%);
+  }
+  .host-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(116% 84% at 50% 40%, rgba(4,6,11,0) 30%, rgba(4,6,11,.22) 58%, rgba(3,4,7,.62) 84%, rgba(3,4,7,.86) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.52) 0%, rgba(4,6,11,0) 14%, rgba(4,6,11,0) 72%, rgba(4,6,11,.3) 100%);
+  }
+  .host-fade {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(4,6,11,.34) 0%, rgba(4,6,11,0) 12%, rgba(4,6,11,0) 74%, rgba(4,6,11,.5) 100%);
+  }
+  .host-crops { position: absolute; inset: 0; pointer-events: none; }
+  .host-crop { position: absolute; width: 24px; height: 24px; border: 0 solid rgba(203,216,235,.38); }
+  .host-crop--tl { left: 12px; top: 12px; border-left-width: 1px; border-top-width: 1px; }
+  .host-crop--tr { right: 12px; top: 12px; border-right-width: 1px; border-top-width: 1px; }
+  .host-crop--bl { left: 12px; bottom: 12px; border-left-width: 1px; border-bottom-width: 1px; }
+  .host-crop--br { right: 12px; bottom: 12px; border-right-width: 1px; border-bottom-width: 1px; }
+  .host-cam {
+    position: absolute; left: 21px; top: 20px;
+    font: 400 32px/1 var(--font-mono); letter-spacing: .2em;
+    color: rgba(203,216,235,.82); text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+  .host-rec {
+    position: absolute; right: 21px; top: 20px; display: flex; align-items: center; gap: 10px;
+    font: 400 32px/1 var(--font-mono); letter-spacing: .2em;
+    color: rgba(244,247,252,.88); text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+  .host-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: radial-gradient(circle at 38% 34%, #FF9C8C 0%, #E0443C 68%, #B3322C 100%);
+    box-shadow: 0 0 12px rgba(255,84,70,.5), 0 0 3px rgba(255,120,100,.85);
+  }
+  .host-tag { position: absolute; left: 21px; bottom: 20px; display: flex; align-items: baseline; gap: 9px; }
+  .host-tag-name {
+    font: 700 32px/1 var(--font-mono); letter-spacing: .2em;
+    color: rgba(150,230,248,.92); text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+  .host-tag-slash { font: 400 26px/1 var(--font-mono); color: rgba(120,134,160,.95); }
+  .host-tag-cn {
+    font: 500 32px/1 var(--font-cjk); letter-spacing: .07em;
+    color: rgba(226,235,247,.9); text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+  .host-ratio {
+    position: absolute; right: 21px; bottom: 82px;
+    font: 400 32px/1 var(--font-mono); letter-spacing: .18em;
+    color: rgba(195,206,223,.62); text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+
+  /* ---------- 主信息屏（设计 1120×630） ---------- */
+  .brief { position: absolute; inset: 0; overflow: hidden; color: var(--ink-0); font-family: var(--font-cjk); }
+  .brief__viz {
+    position: absolute; top: -30px; right: -52px; width: 560px; height: 640px; opacity: .95;
+    -webkit-mask-image: linear-gradient(90deg, rgba(4,6,11,0) 0%, rgba(4,6,11,.3) 22%, rgba(4,6,11,.94) 46%, rgba(4,6,11,1) 64%);
+    mask-image: linear-gradient(90deg, rgba(4,6,11,0) 0%, rgba(4,6,11,.3) 22%, rgba(4,6,11,.94) 46%, rgba(4,6,11,1) 64%);
+  }
+  .brief__viz svg { display: block; width: 100%; height: 100%; }
+  .brief__main {
+    position: absolute; left: 60px; top: 48px; bottom: 34px; width: 660px;
+    display: flex; flex-direction: column; align-items: flex-start;
+  }
+  .brief__kicker {
+    display: flex; align-items: center; gap: 12px;
+    font: 400 16px/1.2 var(--font-mono); letter-spacing: .20em; text-transform: uppercase; color: #AEBBD0;
+  }
+  .brief__kicker::before { content: ""; width: 22px; height: 1px; background: var(--accent); opacity: .9; }
+  .brief__title {
+    margin: 26px 0 0; font-size: 66px; line-height: 1.07; font-weight: 800;
+    letter-spacing: -.02em; color: var(--ink-0);
+  }
+  .brief__sub { margin: 16px 0 0; font-size: 22px; line-height: 1.55; font-weight: 400; color: var(--ink-1); }
+  .brief__items { width: 100%; margin-top: auto; }
+  .brief__item {
+    position: relative; display: flex; align-items: center; gap: 20px;
+    min-height: 84px; padding-left: 22px; border-top: 1px solid var(--line);
+  }
+  .brief__item:last-child { border-bottom: 1px solid var(--line); }
+  .brief__item::before {
+    content: ""; position: absolute; left: 0; top: 50%; width: 2px; height: 28px; margin-top: -14px;
+    background: linear-gradient(180deg, rgba(77,227,255,.10), var(--accent), rgba(77,227,255,.10));
+    opacity: .55;
+  }
+  .brief__num {
+    flex: 0 0 auto; width: 48px;
+    font-family: var(--font-num); font-weight: 700; font-size: 32px; line-height: 1;
+    letter-spacing: .02em; color: #AEBBD0;
+  }
+  .brief__item-body { padding: 13px 0; }
+  .brief__item-title { font-size: 24px; line-height: 1.35; font-weight: 600; letter-spacing: .01em; color: var(--ink-0); }
+  .brief__item-desc { margin-top: 5px; font-size: 17px; line-height: 1.45; color: #93A1B7; }
+
+  /* ---------- 竖向章节导航屏（260×462） ---------- */
+  .chapters {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    padding: 32px 28px 24px; color: var(--ink-1); font-family: var(--font-cjk);
+  }
+  .chapters__head { flex: none; height: 14px; display: flex; align-items: center; }
+  .chapters__label {
+    display: flex; align-items: center;
+    font: 400 12px/1 var(--font-mono); letter-spacing: .18em;
+    text-transform: uppercase; color: #AEBBD0;
+  }
+  .chapters__dot {
+    width: 5px; height: 5px; margin-right: 9px; background: var(--accent);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+  .chapters__nav { position: relative; flex: 1 1 auto; display: flex; flex-direction: column; margin-top: 22px; min-height: 0; }
+  .chapters__rail { position: absolute; left: -12px; top: 4px; bottom: 2px; width: 1px; background: var(--line); }
+  .chapters__rail-on {
+    position: absolute; left: -1px; top: 0; width: 3px; display: block;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 95%, #fff), color-mix(in srgb, var(--accent) 45%, transparent));
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  .ch-row { position: relative; flex: 1 1 0; display: flex; align-items: center; padding-left: 14px; }
+  .ch-row + .ch-row { border-top: 1px solid rgba(126,168,255,.07); }
+  .ch-row__idx {
+    flex: none; width: 28px;
+    font: 700 18px/1 var(--font-num); letter-spacing: .04em; color: #98A6BE;
+    font-variant-numeric: tabular-nums;
+  }
+  .ch-row__name { flex: 1 1 auto; font: 500 18px/1 var(--font-cjk); letter-spacing: .04em; color: #B6C2D4; }
+  .ch-row__time { flex: none; padding-right: 2px; font: 400 10px/1 var(--font-mono); letter-spacing: .04em; color: rgba(133,147,171,.85); }
+  .ch-row--on { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 11%, transparent), rgba(77,227,255,0) 92%); }
+  .ch-row--on .ch-row__idx { color: var(--accent); }
+  .ch-row--on .ch-row__name { font-weight: 700; color: var(--ink-0); }
+  .ch-row--on .ch-row__time { color: color-mix(in srgb, var(--accent) 80%, #fff); }
+  .ch-row__bar {
+    position: absolute; left: 0; top: 50%; width: 2px; height: 22px; margin-top: -11px;
+    display: block; background: var(--accent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 75%, transparent);
+  }
+  .chapters__foot { flex: none; display: flex; justify-content: center; padding-top: 14px; }
+  .chapters__foot span {
+    position: relative; font: 400 11px/1 var(--font-mono); letter-spacing: .14em;
+    color: #AEBBD0; white-space: nowrap;
+  }
+  .chapters__foot span::before {
+    content: ""; position: absolute; left: 0; right: 0; top: -9px; height: 1px;
+    background: linear-gradient(90deg, rgba(126,168,255,.02), rgba(126,168,255,.26), rgba(126,168,255,.02));
+  }
+
+  /* ---------- 下三分之一（人名条，覆盖层） ---------- */
+  .lower-third { position: absolute; left: 700px; top: 692px; width: 660px; z-index: 3; }
+  .lt-bar {
+    position: absolute; left: 0; top: 0; width: 3px; height: 66px;
+    background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 8%, transparent));
+    box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  .lt-name { padding-left: 22px; font-size: 34px; font-weight: 700; letter-spacing: .06em; color: var(--ink-0); }
+  .lt-role {
+    margin-top: 8px; padding-left: 22px;
+    font: 400 15px/1 var(--font-mono); letter-spacing: .26em; text-transform: uppercase; color: #AEBBD0;
+  }
+  .lt-rule { margin-top: 16px; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 36%, transparent), transparent); }
+
+  /* ---------- 大气层 ---------- */
+  .atmos { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+  .dust { position: absolute; inset: 0; opacity: .6; }
+  .mote {
+    position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s);
+    border-radius: 50%; background: rgba(190,225,255,var(--o,.5)); filter: blur(.4px);
+    box-shadow: 0 0 10px rgba(120,200,255,.5);
+  }
+  .atmos-grain {
+    position: absolute; inset: -60px; opacity: .045; mix-blend-mode: overlay;
+    background-image: url("../assets/grain.png"); background-size: 260px 260px;
+  }
+  .sweep-wrap { position: absolute; inset: 0; }
+  .sweep {
+    position: absolute; left: -30%; top: -20%; width: 40%; height: 140%; transform: rotate(18deg);
+    background: linear-gradient(90deg, rgba(150,210,255,0), rgba(150,210,255,.05), rgba(150,210,255,0));
+    filter: blur(28px); opacity: .7;
+  }
+</style>
+</head>
+<body>
+<div id="root">
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="bg-base"></div>
+    <div class="bg-haze bg-haze--cold"></div>
+    <div class="bg-haze bg-haze--warm"></div>
+    <div class="bg-haze bg-haze--violet"></div>
+    <div class="bg-vignette"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <!-- 3D 舞台 -->
+  <div class="stage">
+    <div class="world" id="world">
+      <div class="world-bg">
+        <div class="floor"></div>
+        <div class="horizon"></div>
+        <div class="horizon-glow"></div>
+        <div class="beams">
+          <i class="beam" style="--x:6%;--w:22%;--h:980px;--o:.06;--r:-7deg"></i>
+          <i class="beam" style="--x:30%;--w:16%;--h:880px;--o:.045;--r:-3deg"></i>
+          <i class="beam" style="--x:62%;--w:18%;--h:920px;--o:.05;--r:4deg"></i>
+          <i class="beam" style="--x:82%;--w:20%;--h:1000px;--o:.055;--r:9deg"></i>
+        </div>
+        <div class="wall">
+          <i style="left:96px;top:322px;width:150px;height:84px"></i>
+          <i style="left:1860px;top:300px;width:170px;height:96px"></i>
+          <i style="left:120px;top:470px;width:110px;height:62px;opacity:.35"></i>
+          <i style="left:1720px;top:456px;width:126px;height:70px;opacity:.4"></i>
+          <i style="left:838px;top:160px;width:244px;height:138px;opacity:.3"></i>
+        </div>
+      </div>
+
+      <!-- 第一层：9:16 人物画面 -->
+      <div class="slot slot--host" style="--x:180px;--y:122px;--w:470px;--h:836px;--z:-10px;--ry:4deg">
+        <div class="slot-anim" id="slot-host">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:470px;--dh:836px;--k:1">
+                <div class="host">
+                  <div class="host-set"></div>
+                  <div class="host-glow host-glow--cool"></div>
+                  <div class="host-glow host-glow--warm"></div>
+                  <div class="host-softbox"></div>
+                  <div class="host-softbox host-softbox--w"></div>
+                  <div class="host-bokeh" aria-hidden="true">
+                    <i class="host-orb" style="left:11%;top:19%;width:48px;height:48px;opacity:.27;filter:blur(6px)"></i>
+                    <i class="host-orb" style="left:31%;top:8%;width:26px;height:26px;opacity:.2;filter:blur(3.5px)"></i>
+                    <i class="host-orb host-orb--big" style="left:5%;top:36%;width:94px;height:94px;opacity:.12;filter:blur(20px)"></i>
+                    <i class="host-orb host-orb--w" style="left:86%;top:43%;width:40px;height:40px;opacity:.24;filter:blur(5px)"></i>
+                    <i class="host-orb host-orb--w" style="left:75%;top:21%;width:24px;height:24px;opacity:.18;filter:blur(3px)"></i>
+                    <i class="host-orb host-orb--w" style="left:68%;top:60%;width:15px;height:15px;opacity:.13;filter:blur(4px)"></i>
+                  </div>
+
+                  <div class="host-figure" aria-hidden="true">
+                    <svg viewBox="0 0 470 836" preserveAspectRatio="xMidYMid meet" focusable="false">
+                      <defs>
+                        <path id="hs-silh" d="M258 226
+                          C236 229 218 238 204 252
+                          C193 263 185 281 181 300
+                          C178 308 177 316 176 322
+                          C174 330 170 336 168 342
+                          C164 354 161 364 163 372
+                          C166 382 172 388 174 392
+                          C171 396 168 400 169 405
+                          C170 410 175 412 176 417
+                          C177 424 181 430 184 437
+                          C188 446 192 453 198 460
+                          C204 468 212 480 222 489
+                          C229 496 234 502 237 510
+                          C239 520 239 531 237 542
+                          C235 553 232 563 227 573
+                          C223 583 217 593 210 602
+                          C196 619 176 632 154 646
+                          C122 666 88 682 58 700
+                          C34 712 10 728 -10 748
+                          C-14 758 -17 772 -18 790
+                          L-18 836 L486 836 L478 792
+                          C477 758 475 730 471 706
+                          C467 678 461 652 452 628
+                          C441 600 424 576 402 556
+                          C378 534 354 522 344 512
+                          C337 503 333 492 332 482
+                          C331 472 332 461 337 450
+                          C343 439 350 427 355 413
+                          C360 398 363 380 362 360
+                          C361 336 355 306 344 280
+                          C332 256 312 236 290 228
+                          C278 224 266 224 258 226 Z"/>
+                        <linearGradient id="hs-bodyg" x1="0.24" y1="0.12" x2="0.82" y2="1">
+                          <stop offset="0" stop-color="#070A11"/>
+                          <stop offset=".42" stop-color="#0A1019"/>
+                          <stop offset=".76" stop-color="#090D16"/>
+                          <stop offset="1" stop-color="#06080E"/>
+                        </linearGradient>
+                        <radialGradient id="hs-sking" cx="0.43" cy="0.45" r="0.46">
+                          <stop offset="0" stop-color="#303D52" stop-opacity=".46"/>
+                          <stop offset=".38" stop-color="#1B2433" stop-opacity=".26"/>
+                          <stop offset=".72" stop-color="#0D121C" stop-opacity=".1"/>
+                          <stop offset="1" stop-color="#080C14" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="hs-hairg" cx="0.7" cy="0.36" r="0.26">
+                          <stop offset="0" stop-color="#6F88A6" stop-opacity=".18"/>
+                          <stop offset=".5" stop-color="#2C3A4E" stop-opacity=".09"/>
+                          <stop offset="1" stop-color="#0A0F18" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="hs-chinsh" cx="0.45" cy="0.55" r="0.15">
+                          <stop offset="0" stop-color="#04060B" stop-opacity=".55"/>
+                          <stop offset=".6" stop-color="#04060B" stop-opacity=".24"/>
+                          <stop offset="1" stop-color="#04060B" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="hs-shoulderg" cx="0.26" cy="0.82" r="0.4">
+                          <stop offset="0" stop-color="#7E9CBC" stop-opacity=".23"/>
+                          <stop offset=".5" stop-color="#3D526B" stop-opacity=".1"/>
+                          <stop offset="1" stop-color="#0B1018" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="hs-chestg" cx="0.84" cy="0.9" r="0.34">
+                          <stop offset="0" stop-color="#FFB168" stop-opacity=".13"/>
+                          <stop offset=".48" stop-color="#B97846" stop-opacity=".06"/>
+                          <stop offset="1" stop-color="#3A2618" stop-opacity="0"/>
+                        </radialGradient>
+                        <linearGradient id="hs-fillg" x1="0" y1="1" x2="1" y2="0.2">
+                          <stop offset="0" stop-color="#7FA6C4" stop-opacity=".12"/>
+                          <stop offset=".42" stop-color="#3A4E66" stop-opacity=".05"/>
+                          <stop offset=".72" stop-color="#6A5038" stop-opacity=".04"/>
+                          <stop offset="1" stop-color="#FFB168" stop-opacity=".07"/>
+                        </linearGradient>
+                        <linearGradient id="hs-cloth" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#5E7085" stop-opacity="0"/>
+                          <stop offset=".3" stop-color="#A8C0D6" stop-opacity=".44"/>
+                          <stop offset=".7" stop-color="#FFD2A0" stop-opacity=".5"/>
+                          <stop offset="1" stop-color="#FFD2A0" stop-opacity="0"/>
+                        </linearGradient>
+                        <radialGradient id="hs-haloglow" cx="0.5" cy="0.5" r="0.5">
+                          <stop offset="0" stop-color="#4DE3FF" stop-opacity=".17"/>
+                          <stop offset=".46" stop-color="#2E9FC0" stop-opacity=".09"/>
+                          <stop offset="1" stop-color="#14343F" stop-opacity="0"/>
+                        </radialGradient>
+                        <linearGradient id="hs-maskcyan" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#F4F7FC"/>
+                          <stop offset=".24" stop-color="#F4F7FC" stop-opacity=".95"/>
+                          <stop offset=".38" stop-color="#F4F7FC" stop-opacity=".3"/>
+                          <stop offset=".48" stop-color="#F4F7FC" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="hs-maskgold" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset=".52" stop-color="#F4F7FC" stop-opacity="0"/>
+                          <stop offset=".62" stop-color="#F4F7FC" stop-opacity=".26"/>
+                          <stop offset=".76" stop-color="#F4F7FC" stop-opacity=".86"/>
+                          <stop offset="1" stop-color="#F4F7FC"/>
+                        </linearGradient>
+                        <linearGradient id="hs-maskfall" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset=".44" stop-color="#04060B" stop-opacity="0"/>
+                          <stop offset=".56" stop-color="#04060B" stop-opacity=".25"/>
+                          <stop offset=".68" stop-color="#04060B" stop-opacity=".6"/>
+                          <stop offset=".82" stop-color="#04060B" stop-opacity=".85"/>
+                          <stop offset=".95" stop-color="#04060B" stop-opacity=".95"/>
+                        </linearGradient>
+                        <linearGradient id="hs-maskfallg" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset=".48" stop-color="#04060B" stop-opacity="0"/>
+                          <stop offset=".64" stop-color="#04060B" stop-opacity=".2"/>
+                          <stop offset=".8" stop-color="#04060B" stop-opacity=".55"/>
+                          <stop offset=".95" stop-color="#04060B" stop-opacity=".8"/>
+                        </linearGradient>
+                        <mask id="hs-mask-cyan" maskUnits="userSpaceOnUse" x="0" y="0" width="470" height="836">
+                          <rect width="470" height="836" fill="url(#hs-maskcyan)"/>
+                          <rect width="470" height="836" fill="url(#hs-maskfall)"/>
+                        </mask>
+                        <mask id="hs-mask-gold" maskUnits="userSpaceOnUse" x="0" y="0" width="470" height="836">
+                          <rect width="470" height="836" fill="url(#hs-maskgold)"/>
+                          <rect width="470" height="836" fill="url(#hs-maskfall)"/>
+                        </mask>
+                        <mask id="hs-mask-cyan-g" maskUnits="userSpaceOnUse" x="0" y="0" width="470" height="836">
+                          <rect width="470" height="836" fill="url(#hs-maskcyan)"/>
+                          <rect width="470" height="836" fill="url(#hs-maskfallg)"/>
+                        </mask>
+                        <mask id="hs-mask-gold-g" maskUnits="userSpaceOnUse" x="0" y="0" width="470" height="836">
+                          <rect width="470" height="836" fill="url(#hs-maskgold)"/>
+                          <rect width="470" height="836" fill="url(#hs-maskfallg)"/>
+                        </mask>
+                        <clipPath id="hs-clip"><use href="#hs-silh"/></clipPath>
+                        <filter id="hs-blur-xs" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation=".6"/></filter>
+                        <filter id="hs-blur-sm" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.2"/></filter>
+                        <filter id="hs-blur-md" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5.5"/></filter>
+                        <filter id="hs-grain-f" x="0" y="0" width="100%" height="100%">
+                          <feTurbulence type="fractalNoise" baseFrequency="0.88" numOctaves="3" stitchTiles="stitch"/>
+                          <feColorMatrix type="saturate" values="0"/>
+                          <feComponentTransfer><feFuncA type="linear" slope=".7"/></feComponentTransfer>
+                        </filter>
+                      </defs>
+
+                      <ellipse cx="266" cy="372" rx="192" ry="182" fill="url(#hs-haloglow)"/>
+
+                      <g mask="url(#hs-mask-cyan-g)" filter="url(#hs-blur-md)" opacity=".55">
+                        <use href="#hs-silh" transform="translate(-7,-2)" fill="#3FC9E8"/>
+                      </g>
+                      <g mask="url(#hs-mask-gold-g)" filter="url(#hs-blur-md)" opacity=".38">
+                        <use href="#hs-silh" transform="translate(8,3)" fill="#FFB168"/>
+                      </g>
+                      <g mask="url(#hs-mask-cyan)" filter="url(#hs-blur-xs)">
+                        <use href="#hs-silh" transform="translate(-2.1,-1)" fill="#C4F6FF" opacity=".95"/>
+                      </g>
+                      <g mask="url(#hs-mask-gold)" filter="url(#hs-blur-xs)">
+                        <use href="#hs-silh" transform="translate(2.3,1.1)" fill="#FFC994" opacity=".78"/>
+                      </g>
+
+                      <use href="#hs-silh" fill="url(#hs-bodyg)"/>
+
+                      <g clip-path="url(#hs-clip)">
+                        <rect width="470" height="836" fill="url(#hs-sking)"/>
+                        <rect width="470" height="836" fill="url(#hs-hairg)"/>
+                        <rect width="470" height="836" fill="url(#hs-shoulderg)"/>
+                        <rect width="470" height="836" fill="url(#hs-chestg)"/>
+                        <rect width="470" height="836" fill="url(#hs-fillg)"/>
+                        <rect width="470" height="836" fill="url(#hs-chinsh)"/>
+                        <path d="M 224 578 C 180 604 120 640 56 690" stroke="url(#hs-cloth)" stroke-width="16" fill="none" opacity=".1" filter="url(#hs-blur-sm)"/>
+                        <path d="M 342 514 C 386 542 436 584 470 640" stroke="url(#hs-cloth)" stroke-width="14" fill="none" opacity=".12" filter="url(#hs-blur-sm)"/>
+                        <path d="M 340 320 C 350 350 352 386 344 414" stroke="#FFD2A0" stroke-width="5" fill="none" opacity=".11" filter="url(#hs-blur-sm)"/>
+                        <path d="M 358 400 C 362 420 360 438 352 450" stroke="#FFC48E" stroke-width="3.4" fill="none" opacity=".11" filter="url(#hs-blur-sm)"/>
+                        <path d="M 190 300 C 182 326 178 352 180 376" stroke="#8FE3F1" stroke-width="3" fill="none" opacity=".09" filter="url(#hs-blur-sm)"/>
+                        <path d="M 240 520 C 242 550 242 576 238 604" stroke="#151E2B" stroke-width="7" fill="none" opacity=".3" filter="url(#hs-blur-sm)"/>
+                        <path d="M 336 500 C 338 528 338 554 336 584" stroke="#121A26" stroke-width="9" fill="none" opacity=".28" filter="url(#hs-blur-sm)"/>
+                        <path d="M 206 474 C 218 490 229 502 236 514" stroke="#A9C4DC" stroke-width="3" fill="none" opacity=".12" filter="url(#hs-blur-sm)"/>
+                        <path d="M 164 372 C 170 384 174 392 176 398" stroke="#C8ECFF" stroke-width="2.4" fill="none" opacity=".15" filter="url(#hs-blur-sm)"/>
+                        <path d="M 198 462 C 214 478 226 490 232 502" stroke="#04060B" stroke-width="10" fill="none" opacity=".24" filter="url(#hs-blur-sm)"/>
+                        <path d="M 340 720 C 372 748 406 780 432 816" stroke="#16202D" stroke-width="18" fill="none" opacity=".28" filter="url(#hs-blur-sm)"/>
+                      </g>
+                    </svg>
+                  </div>
+
+                  <svg class="host-grain" width="470" height="836" viewBox="0 0 470 836" aria-hidden="true" focusable="false" style="position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:soft-light;opacity:.55;pointer-events:none">
+                    <rect width="470" height="836" filter="url(#hs-grain-f)"/>
+                  </svg>
+
+                  <div class="host-spill"></div>
+                  <div class="host-vig"></div>
+                  <div class="host-fade"></div>
+
+                  <div class="host-crops" aria-hidden="true">
+                    <span class="host-crop host-crop--tl"></span>
+                    <span class="host-crop host-crop--tr"></span>
+                    <span class="host-crop host-crop--bl"></span>
+                    <span class="host-crop host-crop--br"></span>
+                  </div>
+
+                  <div class="host-cam" aria-hidden="true">CAM 01</div>
+                  <div class="host-rec" aria-hidden="true"><i class="host-dot"></i><span>REC</span></div>
+                  <div class="host-tag" aria-hidden="true">
+                    <span class="host-tag-name">HOST</span>
+                    <span class="host-tag-slash">/</span>
+                    <span class="host-tag-cn">口播画面</span>
+                  </div>
+                  <div class="host-ratio" aria-hidden="true">9:16</div>
+                </div>
+              </div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 第二层：主信息屏 -->
+      <div class="slot slot--brief" style="--x:760px;--y:124px;--w:860px;--h:514px;--z:-130px;--ry:-9deg">
+        <div class="slot-anim" id="slot-brief">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:1120px;--dh:630px;--k:0.768">
+                <div class="brief">
+                  <div class="brief__viz" aria-hidden="true">
+                    <svg viewBox="0 0 520 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <pattern id="bv-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                          <path d="M 40 0 L 0 0 0 40" stroke="rgba(126,168,255,.12)" stroke-width="1"/>
+                        </pattern>
+                        <radialGradient id="bv-glow" cx="50%" cy="50%" r="50%">
+                          <stop offset="0" stop-color="#4DE3FF" stop-opacity=".15"/>
+                          <stop offset=".55" stop-color="#4DE3FF" stop-opacity=".05"/>
+                          <stop offset="1" stop-color="#4DE3FF" stop-opacity="0"/>
+                        </radialGradient>
+                        <linearGradient id="bv-ring" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0" stop-color="#4DE3FF" stop-opacity=".58"/>
+                          <stop offset=".52" stop-color="#4DE3FF" stop-opacity=".20"/>
+                          <stop offset="1" stop-color="#FFB168" stop-opacity=".40"/>
+                        </linearGradient>
+                        <linearGradient id="bv-gold" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#FFB168" stop-opacity=".18"/>
+                          <stop offset=".5" stop-color="#FFB168" stop-opacity=".72"/>
+                          <stop offset="1" stop-color="#FFB168" stop-opacity=".24"/>
+                        </linearGradient>
+                      </defs>
+                      <rect x="0" y="24" width="520" height="512" fill="url(#bv-grid)"/>
+                      <circle cx="280" cy="280" r="226" fill="url(#bv-glow)"/>
+                      <g stroke-linecap="round">
+                        <circle cx="280" cy="280" r="218" stroke="rgba(126,168,255,.24)" stroke-dasharray="1 9"/>
+                        <circle cx="280" cy="280" r="168" stroke="url(#bv-ring)"/>
+                        <circle cx="280" cy="280" r="118" stroke="rgba(77,227,255,.24)"/>
+                        <circle cx="280" cy="280" r="68" stroke="rgba(77,227,255,.34)"/>
+                        <path d="M228.1 120.2 A168 168 0 0 1 422.5 191" stroke="url(#bv-gold)" stroke-width="1.5"/>
+                        <path d="M468.8 171 A218 218 0 0 1 496.8 257.2" stroke="#FFB168" stroke-opacity=".38"/>
+                      </g>
+                      <g stroke="rgba(126,168,255,.22)">
+                        <path d="M280 60 V492" stroke-dasharray="1 6"/>
+                        <path d="M52 280 H500" stroke-dasharray="1 6"/>
+                      </g>
+                      <g stroke="rgba(126,168,255,.38)" stroke-linecap="round">
+                        <path d="M275 80 H280"/><path d="M275 120 H280"/><path d="M275 160 H280"/><path d="M271 200 H280"/>
+                        <path d="M275 240 H280"/><path d="M275 320 H280"/><path d="M275 360 H280"/><path d="M271 400 H280"/>
+                        <path d="M275 440 H280"/><path d="M275 480 H280"/>
+                      </g>
+                      <g stroke="rgba(126,168,255,.38)" stroke-linecap="round">
+                        <path d="M80 280 V285"/><path d="M120 280 V285"/><path d="M160 280 V285"/><path d="M200 280 V285"/>
+                        <path d="M240 280 V285"/><path d="M320 280 V285"/><path d="M360 280 V285"/><path d="M400 280 V285"/>
+                        <path d="M440 280 V285"/><path d="M480 280 V285"/>
+                      </g>
+                      <g>
+                        <circle cx="216.1" cy="256.8" r="8.5" stroke="rgba(77,227,255,.40)"/>
+                        <circle cx="216.1" cy="256.8" r="3" fill="#4DE3FF" fill-opacity=".95"/>
+                        <text x="192" y="242" fill="rgba(174,187,208,.9)" font-family="Consolas,monospace" font-size="10" letter-spacing="1.4">01</text>
+                      </g>
+                      <g>
+                        <circle cx="347.7" cy="183.4" r="8.5" stroke="rgba(77,227,255,.40)"/>
+                        <circle cx="347.7" cy="183.4" r="3" fill="#4DE3FF" fill-opacity=".95"/>
+                        <text x="364" y="172" fill="rgba(174,187,208,.9)" font-family="Consolas,monospace" font-size="10" letter-spacing="1.4">02</text>
+                      </g>
+                      <g>
+                        <circle cx="435.8" cy="343" r="8.5" stroke="rgba(255,177,104,.46)"/>
+                        <circle cx="435.8" cy="343" r="3" fill="#FFB168" fill-opacity=".95"/>
+                        <text x="404" y="368" fill="rgba(174,187,208,.9)" font-family="Consolas,monospace" font-size="10" letter-spacing="1.4">03</text>
+                      </g>
+                      <circle cx="280" cy="280" r="2.6" fill="#4DE3FF" fill-opacity=".8"/>
+                      <path d="M280 268 V292 M268 280 H292" stroke="rgba(77,227,255,.45)" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+
+                  <div class="brief__main">
+                    <div class="brief__kicker" id="t-kicker">BRIEF / 本期议题</div>
+                    <h1 class="brief__title" id="t-title">三步讲清一个产品</h1>
+                    <p class="brief__sub" id="t-sub">从现场需求到落地结果，一条口播串起全部证据。</p>
+                    <div class="brief__items" id="t-items"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+          <div class="slot-tag">SCREEN A / BRIEF</div>
+        </div>
+      </div>
+
+      <!-- 第三层：竖向章节导航屏 -->
+      <div class="slot slot--chapters" style="--x:1690px;--y:264px;--w:260px;--h:492px;--z:-240px;--ry:-16deg">
+        <div class="slot-anim" id="slot-chapters">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:260px;--dh:462px;--k:1">
+                <div class="chapters">
+                  <div class="chapters__head" id="t-chapters-head">
+                    <span class="chapters__label"><i class="chapters__dot"></i>CONTENTS / 章节</span>
+                  </div>
+                  <nav class="chapters__nav" id="t-chapters-nav"></nav>
+                  <div class="chapters__foot"><span>DEEP STAGE · SIX CHAPTERS</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+          <div class="slot-tag">SCREEN B / CONTENTS</div>
+        </div>
+      </div>
+
+      <!-- 下三分之一（覆盖层，由镜头外单独控制） -->
+      <div class="lower-third" id="lower-third">
+        <i class="lt-bar"></i>
+        <div class="lt-name" id="t-presenter">林 一</div>
+        <div class="lt-role" id="t-role">产品主讲 / HOST</div>
+        <div class="lt-rule"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 大气层 -->
+  <div class="atmos">
+    <div class="dust" id="dust">
+      <i class="mote" style="--x:12%;--y:24%;--s:3px;--o:.5"></i>
+      <i class="mote" style="--x:19%;--y:62%;--s:2px;--o:.4"></i>
+      <i class="mote" style="--x:26%;--y:14%;--s:2px;--o:.35"></i>
+      <i class="mote" style="--x:33%;--y:78%;--s:3px;--o:.45"></i>
+      <i class="mote" style="--x:41%;--y:38%;--s:2px;--o:.3"></i>
+      <i class="mote" style="--x:48%;--y:88%;--s:2px;--o:.4"></i>
+      <i class="mote" style="--x:55%;--y:20%;--s:3px;--o:.5"></i>
+      <i class="mote" style="--x:61%;--y:56%;--s:2px;--o:.35"></i>
+      <i class="mote" style="--x:68%;--y:32%;--s:2px;--o:.3"></i>
+      <i class="mote" style="--x:74%;--y:72%;--s:3px;--o:.45"></i>
+      <i class="mote" style="--x:81%;--y:44%;--s:2px;--o:.4"></i>
+      <i class="mote" style="--x:88%;--y:18%;--s:2px;--o:.3"></i>
+      <i class="mote" style="--x:93%;--y:66%;--s:3px;--o:.5"></i>
+      <i class="mote" style="--x:7%;--y:82%;--s:2px;--o:.35"></i>
+    </div>
+    <div class="sweep-wrap"><div class="sweep"></div></div>
+    <div class="atmos-grain"></div>
+  </div>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hud-tick hud-tick--tl hud-corner"></div>
+    <div class="hud-tick hud-tick--tr hud-corner"></div>
+    <div class="hud-tick hud-tick--bl hud-corner"></div>
+    <div class="hud-tick hud-tick--br hud-corner"></div>
+    <div class="logo" id="t-logo">
+      <svg class="logo-mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="31" height="31" rx="6" fill="none" stroke="var(--accent)" stroke-opacity=".55"/>
+        <rect x="8" y="8" width="18" height="18" rx="3" fill="none" stroke="#9FD8EE" stroke-opacity=".38"/>
+        <path d="M0 21.5h34" stroke="var(--accent)" stroke-opacity=".75" stroke-width="1"/>
+        <circle cx="17" cy="21.5" r="2" fill="var(--accent)"/>
+      </svg>
+      <div class="logo-type"><b id="t-brand">DEEP STAGE</b><span>口播包装模板</span></div>
+    </div>
+    <div class="hud-right" id="t-hud-right">
+      <div class="hud-chapter"><b id="t-ch-num">02</b><i>/</i><span id="t-ch-total">06</span></div>
+      <div class="chapter-name" id="t-ch-name">02 · 口播舞台</div>
+      <div class="progress"><i id="progress-bar"></i></div>
+    </div>
+    <div class="hud-rail">DEEP STAGE — DARK STAGE SYSTEM</div>
+    <div class="hud-foot">DEEP STAGE · TEMPLATE 02 · 1920×1080</div>
+  </div>
+
+  <div class="veil" id="veil"></div>
+</div>
+
+<script src="../assets/motion.js"></script>
+<script>
+(function () {
+  "use strict";
+  var FPS = 30;
+  var DEFAULT_PARAMS = {
+    brand: "DEEP STAGE",
+    presenter: "林 一",
+    role: "产品主讲 / HOST",
+    kicker: "BRIEF / 本期议题",
+    title: "三步讲清一个产品",
+    subtitle: "从现场需求到落地结果，一条口播串起全部证据。",
+    items: [
+      { title: "需求在现场", body: "先拍下真实场景，再谈功能。" },
+      { title: "方案怎样落地", body: "把复杂流程压成三条主线。" },
+      { title: "结果如何量化", body: "用数据替你说完最后一句。" }
+    ],
+    chapters: [
+      { name: "开场", time: "0:00" },
+      { name: "口播舞台", time: "0:06" },
+      { name: "产品", time: "0:16" },
+      { name: "案例", time: "0:25" },
+      { name: "素材", time: "0:34" },
+      { name: "收尾", time: "0:41" }
+    ],
+    active: 2,
+    accent: "#4DE3FF"
+  };
+  var tl = null;
+  var lastKey = null;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function pad2(n) { return ("0" + n).slice(-2); }
+  function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+
+  function applyParams(p) {
+    document.documentElement.style.setProperty("--accent", p.accent || "#4DE3FF");
+    $("t-brand").textContent = p.brand || "";
+    $("t-kicker").textContent = p.kicker || "";
+    $("t-title").textContent = p.title || "";
+    $("t-sub").textContent = p.subtitle || "";
+    $("t-presenter").textContent = p.presenter || "";
+    $("t-role").textContent = p.role || "";
+
+    /* 3 条编号要点：固定 01/02/03 槽位 */
+    var items = Array.isArray(p.items) ? p.items : [];
+    var wrap = $("t-items");
+    clear(wrap);
+    for (var i = 0; i < 3; i++) {
+      var src = items[i] || {};
+      var row = document.createElement("div");
+      row.className = "brief__item";
+      var num = document.createElement("span");
+      num.className = "brief__num";
+      num.textContent = pad2(i + 1);
+      var body = document.createElement("div");
+      body.className = "brief__item-body";
+      var h = document.createElement("h2");
+      h.className = "brief__item-title";
+      h.textContent = String(src.title || "");
+      var d = document.createElement("p");
+      d.className = "brief__item-desc";
+      d.textContent = String(src.body || "");
+      body.appendChild(h);
+      body.appendChild(d);
+      row.appendChild(num);
+      row.appendChild(body);
+      wrap.appendChild(row);
+    }
+
+    /* 6 条章节：固定 01–06 槽位，active 决定高亮 */
+    var chapters = Array.isArray(p.chapters) ? p.chapters : [];
+    var active = Math.min(6, Math.max(1, Math.round(Number(p.active) || 1)));
+    var nav = $("t-chapters-nav");
+    clear(nav);
+    var rail = document.createElement("i");
+    rail.className = "chapters__rail";
+    var railOn = document.createElement("b");
+    railOn.className = "chapters__rail-on";
+    railOn.style.height = (((active - 0.5) / 6) * 100).toFixed(2) + "%";
+    rail.appendChild(railOn);
+    nav.appendChild(rail);
+    for (var j = 0; j < 6; j++) {
+      var c = chapters[j] || {};
+      var chRow = document.createElement("div");
+      chRow.className = "ch-row" + (j + 1 === active ? " ch-row--on" : "");
+      var idx = document.createElement("span");
+      idx.className = "ch-row__idx";
+      idx.textContent = pad2(j + 1);
+      var name = document.createElement("span");
+      name.className = "ch-row__name";
+      name.textContent = String(c.name || "");
+      var time = document.createElement("span");
+      time.className = "ch-row__time";
+      time.textContent = String(c.time || "");
+      chRow.appendChild(idx);
+      chRow.appendChild(name);
+      chRow.appendChild(time);
+      if (j + 1 === active) {
+        var bar = document.createElement("i");
+        bar.className = "ch-row__bar";
+        chRow.appendChild(bar);
+      }
+      nav.appendChild(chRow);
+    }
+    $("t-ch-num").textContent = pad2(active);
+    $("t-ch-name").textContent = pad2(active) + "  ·  " + String((chapters[active - 1] || {}).name || "");
+  }
+
+  function build(p) {
+    applyParams(p);
+    var t = Motion.timeline();
+
+    /* ---------- 0.0–0.6 黑场淡入 ---------- */
+    t.fromTo("#veil", { opacity: 1 }, { opacity: 0 }, { duration: 0.62, ease: "power2.out", at: 0 });
+
+    /* ---------- 0.22–2.5 舞台点火 ---------- */
+    t.fromTo(".horizon", { opacity: 0, scaleX: 0.18 }, { opacity: 1, scaleX: 1 }, { duration: 2.3, ease: "power3.out", at: 0.22, transformOrigin: "50% 50%" });
+    t.fromTo(".horizon-glow", { opacity: 0 }, { opacity: 1 }, { duration: 2.0, ease: "power2.out", at: 0.4 });
+    t.fromTo(".floor", { opacity: 0 }, { opacity: 1 }, { duration: 2.2, ease: "power2.out", at: 0.34 });
+    t.fromTo(".beam", { opacity: 0 }, { opacity: 1 }, { duration: 1.6, stagger: 0.12, ease: "power2.out", at: 0.85 });
+    t.fromTo(".wall i", { opacity: 0 }, { opacity: 0.44 }, { duration: 0.7, stagger: 0.07, ease: "power2.out", at: 1.05 });
+    t.fromTo(".bg-grain", { opacity: 0 }, { opacity: 0.055 }, { duration: 1.3, ease: "power2.out", at: 0.5 });
+
+    /* ---------- 0.5–1.6 HUD ---------- */
+    t.fromTo(".hud-corner", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, stagger: 0.08, ease: "power2.out", at: 0.5 });
+    t.fromTo("#t-logo", { opacity: 0, x: -18 }, { opacity: 1, x: 0 }, { duration: 0.9, ease: "power3.out", at: 0.6 });
+    t.fromTo("#t-hud-right", { opacity: 0, x: 20 }, { opacity: 1, x: 0 }, { duration: 0.9, ease: "power3.out", at: 0.8 });
+    t.fromTo(".hud-rail", { opacity: 0 }, { opacity: 1 }, { duration: 1.0, ease: "power2.out", at: 1.0 });
+    t.fromTo(".hud-foot", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, ease: "power2.out", at: 1.35 });
+    t.fromTo("#progress-bar", { scaleX: 0 }, { scaleX: 1 }, { duration: 14, ease: "linear", at: 0, transformOrigin: "0% 50%" });
+
+    /* ---------- 三层错峰入位：人物 → 主屏 → 章节屏 ---------- */
+    t.fromTo("#slot-host", { opacity: 0, scale: 0.94, y: 46 }, { opacity: 1, scale: 1, y: 0 }, { duration: 1.3, ease: "power4.out", at: 0.6 });
+    t.fromTo("#slot-brief", { opacity: 0, x: 132, scale: 0.93 }, { opacity: 1, x: 0, scale: 1 }, { duration: 1.2, ease: "power4.out", at: 0.95 });
+    t.fromTo("#slot-chapters", { opacity: 0, x: -84, scale: 0.94 }, { opacity: 1, x: 0, scale: 1 }, { duration: 1.05, ease: "power3.out", at: 1.3 });
+
+    /* ---------- 人物画面内部：底色 → 剪影镜头缓推 → 取景信息 ---------- */
+    t.fromTo(".host-set", { opacity: 0 }, { opacity: 1 }, { duration: 1.2, ease: "power2.out", at: 0.7 });
+    t.fromTo(".host-figure", { opacity: 0, scale: 1.045 }, { opacity: 1, scale: 1 }, { duration: 1.6, ease: "power3.out", at: 0.78, transformOrigin: "50% 62%" });
+    t.fromTo(".host-glow", { opacity: 0 }, { opacity: 1 }, { duration: 1.4, ease: "power2.out", at: 0.85 });
+    t.fromTo(".host-softbox", { opacity: 0 }, { opacity: 1 }, { duration: 1.4, ease: "power2.out", at: 0.9 });
+    t.fromTo(".host-cam", { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, { duration: 0.7, ease: "power2.out", at: 1.35 });
+    t.fromTo(".host-rec", { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, { duration: 0.7, ease: "power2.out", at: 1.5 });
+    t.fromTo(".host-tag", { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, { duration: 0.8, ease: "power2.out", at: 1.7 });
+    t.fromTo(".host-ratio", { opacity: 0 }, { opacity: 1 }, { duration: 0.8, ease: "power2.out", at: 1.85 });
+    t.fromTo(".host-crop", { opacity: 0 }, { opacity: 1 }, { duration: 0.8, stagger: 0.06, ease: "power2.out", at: 1.6 });
+
+    /* ---------- 主信息屏内容 ---------- */
+    t.fromTo(".brief__viz", { opacity: 0, scale: 0.94 }, { opacity: 0.95, scale: 1 }, { duration: 1.5, ease: "power2.out", at: 1.85, transformOrigin: "50% 50%" });
+    t.fromTo(".brief__kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0 }, { duration: 0.7, ease: "power2.out", at: 1.95 });
+    t.fromTo(".brief__title", { opacity: 0, y: 30 }, { opacity: 1, y: 0 }, { duration: 0.95, ease: "power4.out", at: 2.1 });
+    t.fromTo(".brief__sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0 }, { duration: 0.85, ease: "power2.out", at: 2.45 });
+    t.fromTo(".brief__item", { opacity: 0, x: -22 }, { opacity: 1, x: 0 }, { duration: 0.7, stagger: 0.16, ease: "power3.out", at: 2.7 });
+
+    /* ---------- 章节导航屏内容：逐行出现 → 当前章高亮 ---------- */
+    t.fromTo("#t-chapters-head", { opacity: 0 }, { opacity: 1 }, { duration: 0.6, ease: "power2.out", at: 2.15 });
+    t.fromTo(".chapters__rail", { opacity: 0 }, { opacity: 1 }, { duration: 0.6, ease: "power2.out", at: 2.2 });
+    t.fromTo(".ch-row", { opacity: 0, y: 12 }, { opacity: 1, y: 0 }, { duration: 0.6, stagger: 0.075, ease: "power2.out", at: 2.3 });
+    t.fromTo(".chapters__foot", { opacity: 0 }, { opacity: 1 }, { duration: 0.7, ease: "power2.out", at: 2.8 });
+    t.fromTo(".chapters__rail-on", { scaleY: 0 }, { scaleY: 1 }, { duration: 0.9, ease: "power3.out", at: 3.05, transformOrigin: "50% 0%" });
+    t.fromTo(".ch-row--on .ch-row__bar", { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1 }, { duration: 0.55, ease: "power3.out", at: 3.15, transformOrigin: "50% 50%" });
+
+    /* ---------- 下三分之一人名条滑入 ---------- */
+    t.fromTo("#lower-third", { opacity: 0, x: -44 }, { opacity: 1, x: 0 }, { duration: 0.8, ease: "power3.out", at: 3.7 });
+    t.fromTo(".lt-bar", { scaleY: 0 }, { scaleY: 1 }, { duration: 0.6, ease: "power3.out", at: 3.7, transformOrigin: "50% 0%" });
+    t.fromTo(".lt-role", { opacity: 0, x: -18 }, { opacity: 1, x: 0 }, { duration: 0.7, ease: "power2.out", at: 3.95 });
+    t.fromTo(".lt-rule", { scaleX: 0 }, { scaleX: 1 }, { duration: 0.95, ease: "power3.inOut", at: 4.0, transformOrigin: "0% 50%" });
+
+    /* ---------- 镜头：一条连续的缓慢横移（带轻微推近） ---------- */
+    t.fromTo("#world", { x: 20, y: 12, scale: 1 }, { x: -28, y: -6, scale: 1.022 }, { duration: 13.2, ease: "sine.inOut", at: 0.35 });
+
+    /* ---------- 持续到结尾的缓慢运动 ---------- */
+    t.fromTo(".horizon-glow", { opacity: 1 }, { opacity: 0.78 }, { duration: 4.2, ease: "sine.inOut", at: 4.6 });
+    t.fromTo(".sweep-wrap", { x: -360 }, { x: 2280 }, { duration: 10.5, ease: "power2.inOut", at: 2.4 });
+    t.fromTo(".sweep", { opacity: 0 }, { opacity: 0.7 }, { duration: 2.4, ease: "power2.out", at: 2.4 });
+    t.fromTo("#slot-brief", { y: 0 }, { y: -9 }, { duration: 4.6, ease: "sine.inOut", at: 5.2 });
+    t.fromTo("#slot-chapters", { y: 0 }, { y: 7 }, { duration: 5.0, ease: "sine.inOut", at: 5.6 });
+    t.fromTo(".host-glow--cool", { opacity: 1 }, { opacity: 0.72 }, { duration: 5.0, ease: "sine.inOut", at: 4.2 });
+    t.fromTo(".host-glow--warm", { opacity: 1 }, { opacity: 0.8 }, { duration: 5.4, ease: "sine.inOut", at: 4.6 });
+    t.to("#dust", { y: -46, duration: 9.0, ease: "sine.inOut", at: 0.4 });
+
+    return t;
+  }
+
+  /* MotionGit html-canvas/1 标准入口：frame 为整数帧 */
+  window.renderFrame = function (frame, inputs) {
+    var p = Object.assign({}, DEFAULT_PARAMS, inputs || {});
+    var key = JSON.stringify(p);
+    if (!tl || key !== lastKey) { tl = build(p); lastKey = key; }
+    tl.seek(Math.max(0, Number(frame) || 0) / FPS);
+    return true;
+  };
+  /* 兼容旧入口：t 为秒 */
+  window.seek = function (t, inputs) {
+    return window.renderFrame(Math.round((Number(t) || 0) * FPS), inputs);
+  };
+
+  window.renderFrame(0, window.__MOTION_INPUTS__ || null);
+  window.__MOTION_READY__ = true;
+})();
+</script>
+</body>
+</html>

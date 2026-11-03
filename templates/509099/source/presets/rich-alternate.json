@@ -1,0 +1,91 @@
+{
+  "mode": "content",
+  "duration": 38,
+  "brand": "独立新内容验证",
+  "music": {
+    "mode": "none"
+  },
+  "segments": [
+    {
+      "intent": "expansion",
+      "heading": "需求增加，协作变得复杂",
+      "body": "语义示意，不代表统计数据",
+      "centerText": "筹备展会",
+      "items": [
+        "场地",
+        "人员",
+        "物料",
+        "排练",
+        "验收",
+        "接待"
+      ],
+      "cueSeconds": [
+        0.6,
+        1,
+        1.4,
+        1.8,
+        2.2,
+        2.6
+      ],
+      "triggerSeconds": 4.2,
+      "resultText": "先确认活动范围"
+    },
+    {
+      "intent": "route-choice",
+      "heading": "先决定需要哪条路线",
+      "items": [
+        "扩大活动规模",
+        "先验证一个展位"
+      ],
+      "cueSeconds": [
+        0.8,
+        1.8
+      ],
+      "triggerSeconds": 3.5,
+      "answerIndex": 0,
+      "resultText": "本例选择第一条"
+    },
+    {
+      "intent": "object-flow",
+      "heading": "同一份内容，经过三个步骤",
+      "items": [
+        "提案",
+        "设计",
+        "制作",
+        "布展",
+        "验收"
+      ],
+      "cueSeconds": [
+        0.5,
+        1.4,
+        2.3,
+        3.2,
+        4.1
+      ],
+      "objectText": "展板",
+      "resultText": "展板完成验收"
+    },
+    {
+      "intent": "collapse",
+      "heading": "原有结构，失去支撑后坍塌",
+      "body": "先看清，再坍落；下方保留结果",
+      "effectText": "固定假设",
+      "effectTarget": "card",
+      "granularity": "tiles",
+      "triggerSeconds": 1.4,
+      "intensity": 0.7,
+      "seed": 10
+    },
+    {
+      "intent": "explode",
+      "heading": "冲击发生，内容向外炸裂",
+      "body": "先蓄力，再分裂；碎片运动限定在主舞台",
+      "effectText": "新想法",
+      "effectTarget": "text",
+      "granularity": "characters",
+      "triggerSeconds": 1.4,
+      "intensity": 1.4,
+      "seed": 99
+    }
+  ]
+}

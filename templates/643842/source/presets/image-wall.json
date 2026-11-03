@@ -1,0 +1,50 @@
+{
+  "duration": 16,
+  "scenes": [
+    {
+      "type": "image-wall",
+      "duration": 16,
+      "images": [
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-12181303.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-4110503.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-6331113.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-6368793.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-7937483.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-8063448.jpg"
+        }
+      ],
+      "selectedIndex": 1,
+      "focus": [
+        0.62,
+        0.015,
+        0.22,
+        0.22
+      ],
+      "heading": [
+        "从丰富素材",
+        "找到一个重点"
+      ],
+      "description": "先交代全貌，再把细节讲清楚",
+      "annotation": "看这颗苹果的果梗",
+      "credit": "Photos: Pexels · 作者、来源与修改记录见本期素材清单"
+    }
+  ],
+  "pacing": "legacy"
+}

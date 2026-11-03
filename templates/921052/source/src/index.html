@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>DEEP STAGE · 开场点火 标题动效</title>
+<link rel="stylesheet" href="../assets/stage.css" />
+<style>
+  /* ---------- 标题场景 ---------- */
+  .title-scene {
+    position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .title-scene .kicker { margin-top: -26px; }
+
+  .ts-title {
+    display: flex; margin-top: 30px;
+    font-family: var(--font-num); font-weight: 700; font-size: 196px; line-height: .92;
+    letter-spacing: .015em; color: #F7FAFF;
+  }
+  .ts-word { display: block; text-shadow: 0 0 90px rgba(77, 227, 255, .28), 0 20px 70px rgba(0, 0, 0, .55); white-space: nowrap; }
+  .ts-word + .ts-word {
+    margin-left: .16em; color: transparent;
+    background: linear-gradient(180deg, #EAF6FF 8%, color-mix(in srgb, var(--accent) 52%, #CBE6F2) 58%, color-mix(in srgb, var(--accent) 26%, #4E7E9C) 100%);
+    -webkit-background-clip: text; background-clip: text;
+  }
+  .ts-line { width: 760px; height: 1px; margin: 40px 0 30px; }
+  .ts-sub { font-family: var(--font-cjk); font-size: 30px; font-weight: 400; letter-spacing: .2em; color: var(--ink-1); }
+  .ts-sub b { color: var(--accent); font-weight: 500; }
+  .ts-meta { margin-top: 22px; font: 400 14px/1 var(--font-mono); letter-spacing: .3em; color: #A8B6CA; }
+
+  .brand { position: absolute; left: 64px; top: 46px; display: flex; align-items: center; gap: 14px; z-index: 4; }
+  .brand-mark { display: block; opacity: .92; }
+  .brand-type b { display: block; font-family: var(--font-num); font-weight: 700; font-size: 21px; letter-spacing: .18em; color: var(--ink-0); }
+  .veil { position: absolute; inset: 0; z-index: 20; background: #04060B; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="root">
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="bg-base"></div>
+    <div class="bg-haze bg-haze--cold"></div>
+    <div class="bg-haze bg-haze--warm"></div>
+    <div class="bg-haze bg-haze--violet"></div>
+    <div class="bg-vignette"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <!-- 3D 舞台 -->
+  <div class="stage">
+    <div class="world" id="world">
+      <div class="floor"></div>
+      <div class="horizon"></div>
+      <div class="horizon-glow"></div>
+      <div class="beams">
+        <i class="beam" style="--x:6%;--w:22%;--h:980px;--o:.06;--r:-7deg"></i>
+        <i class="beam" style="--x:30%;--w:16%;--h:880px;--o:.045;--r:-3deg"></i>
+        <i class="beam" style="--x:62%;--w:18%;--h:920px;--o:.05;--r:4deg"></i>
+        <i class="beam" style="--x:82%;--w:20%;--h:1000px;--o:.055;--r:9deg"></i>
+      </div>
+      <div class="wall">
+        <i style="left:96px;top:322px;width:150px;height:84px"></i>
+        <i style="left:1860px;top:300px;width:170px;height:96px"></i>
+        <i style="left:120px;top:470px;width:110px;height:62px;opacity:.35"></i>
+        <i style="left:1720px;top:456px;width:126px;height:70px;opacity:.4"></i>
+        <i style="left:838px;top:206px;width:244px;height:138px;opacity:.3"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- HUD 角落 -->
+  <div class="hud">
+    <div class="hud-tick hud-tick--tl hud-corner"></div>
+    <div class="hud-tick hud-tick--tr hud-corner"></div>
+    <div class="hud-tick hud-tick--bl hud-corner"></div>
+    <div class="hud-tick hud-tick--br hud-corner"></div>
+  </div>
+
+  <!-- 品牌角标 -->
+  <div class="brand">
+    <svg class="brand-mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+      <rect x="1.5" y="1.5" width="31" height="31" rx="6" fill="none" stroke="var(--accent)" stroke-opacity=".55" />
+      <rect x="8" y="8" width="18" height="18" rx="3" fill="none" stroke="#9FD8EE" stroke-opacity=".38" />
+      <path d="M0 21.5h34" stroke="var(--accent)" stroke-opacity=".75" stroke-width="1" />
+      <circle cx="17" cy="21.5" r="2" fill="var(--accent)" />
+    </svg>
+    <div class="brand-type"><b id="t-brand">DEEP STAGE</b></div>
+  </div>
+
+  <!-- 标题场景 -->
+  <div class="title-scene">
+    <div class="kicker" id="t-kicker">AIGC TEMPLATE / 口播视频模板</div>
+    <h1 class="ts-title">
+      <span class="ts-word ts-word--1" id="t-word1">DEEP</span>
+      <span class="ts-word ts-word--2" id="t-word2">STAGE</span>
+    </h1>
+    <div class="ts-line hairline" id="t-line"></div>
+    <div class="ts-sub" id="t-sub">深色立体舞台 · 多屏空间层次 · <b>为口播而生</b></div>
+    <div class="ts-meta" id="t-meta">2026 / TEMPLATE 01 / 1920×1080 · 30FPS</div>
+  </div>
+
+  <div class="veil" id="veil"></div>
+</div>
+
+<script src="../assets/motion.js"></script>
+<script>
+(function () {
+  "use strict";
+  var FPS = 30;
+  var DEFAULT_PARAMS = {
+    brand: "DEEP STAGE",
+    kicker: "AIGC TEMPLATE / 口播视频模板",
+    title: "DEEP",
+    titleAccent: "STAGE",
+    subtitle: "深色立体舞台 · 多屏空间层次 · 为口播而生",
+    meta: "2026 / TEMPLATE 01 / 1920×1080 · 30FPS",
+    accent: "#4DE3FF"
+  };
+  var tl = null;
+  var lastKey = null;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function applyParams(p) {
+    document.documentElement.style.setProperty("--accent", p.accent || "#4DE3FF");
+    if ($("t-brand")) $("t-brand").textContent = p.brand || "";
+    $("t-kicker").textContent = p.kicker || "";
+    $("t-word1").textContent = p.title || "";
+    var w2 = $("t-word2");
+    if (p.titleAccent && String(p.titleAccent).trim()) {
+      w2.textContent = p.titleAccent;
+      w2.style.display = "block";
+    } else {
+      w2.style.display = "none";
+    }
+    $("t-sub").innerHTML = String(p.subtitle || "");
+    $("t-meta").textContent = p.meta || "";
+  }
+
+  function build(p) {
+    applyParams(p);
+    var t = Motion.timeline();
+
+    /* 0–0.72 从黑场淡入 */
+    t.fromTo("#veil", { opacity: 1 }, { opacity: 0 }, { duration: 0.72, ease: "power2.out", at: 0 });
+
+    /* 0.28–3.0 点火：地平线 → 地面网格 → 光束 → 远景屏幕墙 */
+    t.fromTo(".horizon", { opacity: 0, scaleX: 0.2 }, { opacity: 1, scaleX: 1 }, { duration: 2.4, ease: "power3.out", at: 0.28 });
+    t.fromTo(".horizon-glow", { opacity: 0 }, { opacity: 1 }, { duration: 2.0, ease: "power2.out", at: 0.45 });
+    t.fromTo(".floor", { opacity: 0 }, { opacity: 1 }, { duration: 2.2, ease: "power2.out", at: 0.4 });
+    t.fromTo(".beam", { opacity: 0 }, { opacity: 1 }, { duration: 1.6, stagger: 0.1, ease: "power2.out", at: 0.9 });
+    t.fromTo(".wall i", { opacity: 0 }, { opacity: 0.42 }, { duration: 0.6, stagger: 0.06, ease: "power2.out", at: 1.0 });
+    t.fromTo(".bg-grain", { opacity: 0 }, { opacity: 0.055 }, { duration: 1.4, ease: "power2.out", at: 0.6 });
+
+    /* 0.55–1.7 HUD 角标与品牌 */
+    t.fromTo(".hud-corner", { opacity: 0 }, { opacity: 1 }, { duration: 1.0, stagger: 0.08, ease: "power2.out", at: 0.55 });
+    t.fromTo(".brand", { opacity: 0, x: -18 }, { opacity: 1, x: 0 }, { duration: 0.9, ease: "power3.out", at: 0.8 });
+
+    /* 0.85–3.95 文字层级 */
+    t.fromTo(".kicker", { opacity: 0, y: 16 }, { opacity: 1, y: 0 }, { duration: 0.8, ease: "power2.out", at: 0.85 });
+    t.fromTo(".ts-word", { opacity: 0, y: 84 }, { opacity: 1, y: 0 }, { duration: 1.1, stagger: 0.14, ease: "power4.out", at: 1.05 });
+    t.fromTo("#t-line", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1 }, { duration: 1.0, ease: "power3.inOut", at: 2.15, transformOrigin: "50% 50%" });
+    t.fromTo(".ts-sub", { opacity: 0, y: 22 }, { opacity: 1, y: 0 }, { duration: 0.9, ease: "power2.out", at: 2.45 });
+    t.fromTo(".ts-meta", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, ease: "power2.out", at: 3.05 });
+
+    /* 1.0–10.0 镜头持续缓慢推进（一条连续运动，不来回） */
+    t.fromTo("#world", { x: 0, y: 0, scale: 1 }, { x: -16, y: -8, scale: 1.03 }, { duration: 9.0, ease: "sine.inOut", at: 1.0 });
+    t.to(".horizon-glow", { opacity: 0.82 }, { duration: 4.0, ease: "sine.inOut", at: 3.4 });
+
+    return t;
+  }
+
+  /* MotionGit html-canvas/1 标准入口：frame 为整数帧 */
+  window.renderFrame = function (frame, inputs) {
+    var p = Object.assign({}, DEFAULT_PARAMS, inputs || {});
+    var key = JSON.stringify(p);
+    if (!tl || key !== lastKey) { tl = build(p); lastKey = key; }
+    tl.seek(Math.max(0, Number(frame) || 0) / FPS);
+    return true;
+  };
+  /* 兼容旧入口：t 为秒 */
+  window.seek = function (t, inputs) {
+    return window.renderFrame(Math.round((Number(t) || 0) * FPS), inputs);
+  };
+
+  window.renderFrame(0, window.__MOTION_INPUTS__ || null);
+  window.__MOTION_READY__ = true;
+})();
+</script>
+</body>
+</html>

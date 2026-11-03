@@ -1,0 +1,77 @@
+{
+  "$schema": "https://motiongit.com/schema/motion/0.1.json",
+  "format": "motiongit-template",
+  "specVersion": "0.1.0-draft.1",
+  "template": {
+    "id": "deep-stage-title-ignition",
+    "version": "1.0.0",
+    "name": "DEEP STAGE · 开场点火标题",
+    "status": "candidate"
+  },
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entry": "src/index.html",
+    "dependencyLock": "motion.lock.json"
+  },
+  "parameters": {
+    "schema": "params.schema.json",
+    "defaultPreset": "presets/demo.json"
+  },
+  "assets": {
+    "manifest": "asset-manifest.json"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 30,
+      "den": 1
+    },
+    "durationPolicy": "fixed",
+    "durationSeconds": 10
+  },
+  "license": {
+    "file": "licenses/TEMPLATE-LICENSE.txt"
+  },
+  "permissions": {
+    "network": false
+  },
+  "variants": [
+    {
+      "id": "warm",
+      "name": "暖金",
+      "preset": "presets/warm.json",
+      "swatch": "#FFB168"
+    },
+    {
+      "id": "violet",
+      "name": "紫罗兰",
+      "preset": "presets/violet.json",
+      "swatch": "#A78BFF"
+    }
+  ],
+  "ai": {
+    "summary": "DEEP STAGE 深境舞台的开场点火标题动效：深色 3D 舞台先亮起地平线与地面透视网格，远景屏幕墙逐块点亮，主标题两段从天而降并带金属渐变，最后落到副标题与角标。适合产品发布、案例复盘、课程片头。可改品牌名、两段主标题、副标题、角标、主色。 随包附带可选音效轨（纯合成、无噪声源，按模板真实时间线对齐；支持音频的宿主可混入）。",
+    "entry": "README.md",
+    "guide": "guide.json",
+    "authoring": {
+      "tool": "deepseek-flash",
+      "client": "dsh"
+    }
+  },
+  "integrity": "integrity.json",
+  "preview": {
+    "video": "previews/preview.mp4",
+    "cover": "previews/cover.jpg"
+  },
+  "extensions": {
+    "motiongit.com:audio": {
+      "contract": "audio.json",
+      "optional": true,
+      "role": "sfx",
+      "file": "audio/sfx-deep-stage-title-ignition.wav",
+      "durationSeconds": 10,
+      "design": "tonal-only, no noise sources, smooth transitions"
+    }
+  }
+}

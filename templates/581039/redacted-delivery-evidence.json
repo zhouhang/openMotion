@@ -1,0 +1,17 @@
+{
+  "schema": "openmotion-redacted-delivery-evidence-v1",
+  "template_id": "581039",
+  "publisher_template_id": 884,
+  "publisher_release_id": 496,
+  "version": "1.0.0",
+  "template_slug": "deep-stage-outro-lockup",
+  "content_protection": "open",
+  "release_archive_sha256": "625e93846c577aa7b976c4bb6188cbcd28b211b36382516681a67bfcdf89fc10",
+  "release_archive_bytes": 3050447,
+  "envelope_manifest_sha256": "10f496c9332d8712048b5bf0e4d1b4321745f9c38e0731a2c94a5330325b4457",
+  "delivery_receipt_sha256": "67b816e4a963c64b332536568eb991a095bc58054f28770568e5b75fbb48cf90",
+  "personal_envelope_included": false,
+  "source_url": "https://motiongit.com/@thepandaq/deep-stage-outro-lockup",
+  "official_helper_signature_verified": true,
+  "official_helper_sha256": "7004609ddbc0ccf6451beeb477aff0d3c85bda74f902e5922465c85cd347f6f3"
+}

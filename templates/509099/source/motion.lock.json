@@ -1,0 +1,17 @@
+{
+  "status": "experimental",
+  "profile": "native-python-node/1",
+  "dependencies": {
+    "python": "3.11+ standard library only",
+    "node": "22+",
+    "browser": "Chrome/Chromium",
+    "playwright": "existing module",
+    "ffmpeg": "existing executable",
+    "ffprobe": "existing executable"
+  },
+  "testedPlatform": "Windows",
+  "network": false,
+  "timing": "24fps integer output frames; SRT sentence times; global voiceover clock",
+  "semanticJudgement": "assistant review, not programmatic truth validation",
+  "templateVersion": "0.4.0-rc.5"
+}

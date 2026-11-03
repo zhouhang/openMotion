@@ -1,0 +1,17 @@
+{
+  "schema": "openmotion-redacted-delivery-evidence-v1",
+  "template_id": "509099",
+  "publisher_template_id": 886,
+  "publisher_release_id": 542,
+  "version": "0.4.0-rc.5",
+  "template_slug": "product-update-story",
+  "content_protection": "open",
+  "release_archive_sha256": "99d4a0852741ee52596a8ddd078419fb8ef26c4f3dc23385a33317d7087ba2bd",
+  "release_archive_bytes": 11366619,
+  "envelope_manifest_sha256": "65086edc5bfb1c3d2b01bcbe9f878eb740b5ec68c07a5d7562360a3adc5423d6",
+  "delivery_receipt_sha256": "08b7d2a594e69903a212430c5a839a7a50422a34a961d46c55945e6ef73435e3",
+  "personal_envelope_included": false,
+  "source_url": "https://motiongit.com/@frankye1211/product-update-story",
+  "official_helper_signature_verified": true,
+  "official_helper_sha256": "7004609ddbc0ccf6451beeb477aff0d3c85bda74f902e5922465c85cd347f6f3"
+}

@@ -1,0 +1,247 @@
+{
+  "guideVersion": "0.1",
+  "fit": {
+    "summary": "新制作默认以3–5秒图形单元解释内容：分类、组合、变形、判断，支持稳定对象接续与独立原声。八类旧模块显式legacy重放。",
+    "genres": [
+      "knowledge",
+      "product",
+      "showcase"
+    ],
+    "goodFor": [
+      "先文字说明、再用真实图片和视频解释",
+      "品牌片头片尾和角标",
+      "截图、产品图片的真实区域放大",
+      "视频中的关键时刻说明",
+      "6–9张素材总览后聚焦一张",
+      "大量案例、照片、页面截图的氛围总览"
+    ],
+    "notFor": [
+      "自动识别配料表或自动追踪目标",
+      "未指定焦点直接套旧坐标",
+      "任意画幅、无限条目、任意时长自动适配",
+      "在12秒内保证逐张读清60张图片的正文",
+      "任意时长口播自动压入固定43.54秒文字模块"
+    ],
+    "editorialCard": "0.8新增编辑式人物卡片；默认预设1080p，原有未设置presentation的路线仍为720p"
+  },
+  "duration": {
+    "policy": "fit-content",
+    "min": 3,
+    "max": 400,
+    "default": 16,
+    "param": "duration",
+    "rules": [
+      "新制作pacing=short，1–32个graphic场景，每页3–5秒，先按语义关系拆页，不按字幕行机械切页",
+      "旧八类动作合同不截断、不加速；显式pacing=legacy重放，不能称符合新节奏",
+      "真实口播按完整所选区间匹配总帧数，不循环、不变速；字幕默认不生成",
+      "按对象变化选classify/combine/transform/qualify；carryFrom只连接已声明相邻动作",
+      "有SRT时逐条覆盖所选区间原文，cues引用实际句子边界；需要词级强调时另供真实词轴"
+    ]
+  },
+  "materials": [
+    {
+      "role": "video.presenter",
+      "required": false,
+      "ask": "编辑式讲解可提供1–64段同一人物视频及独立原声，或准确at；不要求用户手填复杂配置",
+      "use": "presentation.videos；与旧圆窗根presenter二选一",
+      "maps": [
+        "presentation"
+      ],
+      "ifMissing": "保留明确示意的人物输入区，或由用户选择不使用此风格；不能伪造真人"
+    },
+    {
+      "role": "image.logo",
+      "required": false,
+      "ask": "提供带透明背景的品牌标识或普通图片",
+      "use": "使用brand.logo，contain等比，保持原色与透明，不做非等比变形",
+      "maps": [
+        "scenes"
+      ],
+      "ifMissing": "所选场景缺少对应素材时明确阻塞；可删除整个未选场景，不用空白冒充素材已绑定"
+    },
+    {
+      "role": "image.photo",
+      "required": false,
+      "ask": "提供产品图、截图、报告等",
+      "use": "使用image.image与focus，按素材实际方向标注；不能仅凭素材外观声称安全、适用或验证通过",
+      "maps": [
+        "scenes"
+      ],
+      "ifMissing": "所选场景缺少对应素材时明确阻塞；可删除整个未选场景，不用空白冒充素材已绑定"
+    },
+    {
+      "role": "video.footage",
+      "required": false,
+      "ask": "提供视频与明确时间段",
+      "use": "使用video.video、offset、sourceDuration；素材不足不循环；source模式保留片段原音，停帧处插入等长静音，后续声画共同继续",
+      "maps": [
+        "scenes"
+      ],
+      "ifMissing": "所选场景缺少对应素材时明确阻塞；可删除整个未选场景，不用空白冒充素材已绑定"
+    },
+    {
+      "role": "x-gallery",
+      "required": false,
+      "ask": "提供6–9张照片和叙述重点",
+      "use": "绑定images、selectedIndex、focus；素材缺少即阻塞。默认预设依赖实例素材，不内置Pexels照片",
+      "maps": [
+        "scenes"
+      ],
+      "ifMissing": "请提供图库或本期图片路径，再按源图确认焦点"
+    },
+    {
+      "role": "x-waterfall",
+      "required": false,
+      "ask": "提供12–60张照片或页面截图",
+      "use": "scenes.images输入全部图片，columns为4–6，speed为0.6–1.6；不填focus或selectedIndex。保持真实独立图片数量，不把循环重复记成新增作品",
+      "maps": [
+        "scenes"
+      ],
+      "ifMissing": "缺少12张时请补图，或改用6–9张image-wall；不得自动重复凑输入数量"
+    },
+    {
+      "role": "audio.voiceover",
+      "required": false,
+      "ask": "如文字模块需要旁白，请提供43.54秒匹配原编排的音频及本模块字幕",
+      "use": "explainer.voiceover使用scope/path引用，时钟与模块起点一致，不裁短或加速声音",
+      "maps": [
+        "scenes"
+      ],
+      "ifMissing": "允许明确无旁白预览，保留原文字动作与独立音效，不声称完成真实口播适配"
+    },
+    {
+      "role": "video.presenter",
+      "required": false,
+      "ask": "一段清晰的单人口播视频，可选对应SRT；用户只需选全程画中画并提供素材",
+      "use": "presenter.source；按人脸定位裁成方形，圆形遮罩；整页逐帧检查文字与主素材，留白不足则等比收拢页面留出侧边",
+      "maps": [
+        "presenter"
+      ],
+      "ifMissing": "不启用人物圆窗，按现有文字和素材场景制作"
+    },
+    {
+      "role": "audio.voiceover",
+      "required": false,
+      "ask": "提供本期原声，有对应时间码字幕可一起提供",
+      "use": "narration.source与可选narration.srt；SRT仅作依据，画面不自动显示字幕",
+      "ifMissing": "按静音图形预设做视觉演示，不冒充真实口播验收",
+      "maps": [
+        "narration"
+      ]
+    }
+  ],
+  "copy": [
+    {
+      "param": "scenes",
+      "label": "场景、文案与素材绑定",
+      "from": [
+        "conversation"
+      ],
+      "rule": "助手先按原文语义组织1–32个3–5秒图形单元，再绑定原文编号、稳定对象及真实句级落点；legacy只重放旧模块，不让用户填写底层配置"
+    },
+    {
+      "param": "duration",
+      "label": "总时长",
+      "from": [
+        "conversation"
+      ],
+      "rule": "由各场取整到24fps后的实际长度求和；不改变素材播放速度"
+    },
+    {
+      "param": "scenes",
+      "label": "短开场与短结尾",
+      "from": [
+        "conversation"
+      ],
+      "rule": "新短片可用label-question开场、calendar结束，均3–5秒；旧opening/ending只在legacy显式重放，不能直接截短。"
+    },
+    {
+      "param": "pacing",
+      "label": "制作路线",
+      "from": [
+        "conversation"
+      ],
+      "rule": "新制作使用short；legacy仅重放旧合同，不绕过5秒限制制作新片"
+    }
+  ],
+  "conversation": [
+    "先核对素材身份、内容和时间，不把Logo当作机器人或把示意当实际证据",
+    "同一素材更换后重新核对focus，截图可读性不足则改镜头或补清晰原图",
+    "用户素材留在实例目录，不自动纳入公开包；示例素材许可与模板MIT独立",
+    "默认演示明确静音视频、仅动作音效；需要片段原声时显式source，不添加BGM",
+    "图片墙focus只绑定选中照片；缩略图cover，前移完整图contain，局部放大等比；返回保持原顺序和原槽位。",
+    "瀑布墙为氛围总览，允许输入图库显式循环；卡片有真实透视变化，标题与字体保持正面。短时长或慢速不保证每张图可读，应检查本期可见覆盖。重点精读用image-wall。",
+    "文字模块完整35项content以explainer-params.schema.json为容量依据；可从presets/explainer.json替换。旧版字幕使用本模块相对秒数，禁止重复增加全片偏移。没有字幕就明确传空数组。",
+    "瀑布墙保持无机器人、无连线、无点按声，仅开头paper轻扫；其他模块原有设计不变。",
+    "按标题去空白后12字为边界选开场；短标题lead必须为有意义的连续短语，不机械截取开头字。",
+    "结尾若提供实际Logo和品牌名称，默认采用UI框收缩为胶囊、展开Logo及品牌字组装；缺少品牌素材用列表。声明Logo却文件缺失仍报错。",
+    "原43.54秒explainer内部含原开头与结尾，保持完整；新开头结尾可独立配合素材模块，组合旧完整模块时避免重复叙述，不偷偷裁切原声。",
+    "单图聚焦image不绘制延伸线与末端机器人；保留焦点边框、注释文字、完整图和局部等比缩放，其它场景不变。",
+    "使用graphic-contracts.json选择表达关系与容量；图形应讲清变化，不用文字堆叠替代图解",
+    "每页包含进入、动作、阅读和退出共3–5秒；不能靠小装饰动效重置页面时长",
+    "先交连续样片验收，再扩展全片；自动检查只给证据，不追认视觉和语义已通过",
+    "新图解按graphic-contracts.json选择，不需要虚设groups或product。无图表数据不画测量刻度、百分比或健康判定。",
+    "每个SRT单元按时间交集唯一归属，显示文字可跨场引用其意义，但不能杜撰词级时间。",
+    "带日期/来源的文档仅用中性示意；note可说明示意身份，不伪造官方截图。"
+  ],
+  "hostWithoutTools": [
+    "交付素材映射与镜头草稿，不声称已导出；使用README中的本地入口完成制作"
+  ],
+  "workflow": [
+    "先读README.md、params.schema.json和presentation-contract.json，确认实际制作风格",
+    "优先从presets/editorial-card.json理解新风格；替换全部本期文字、素材和页眉标注，删除不需要的示例角色",
+    "presentation.videos自动匹配须有独立narration；不能凭文件名猜时码；显式at也必须基于实际素材",
+    "按3–5秒graphic合同、原文归属和真实素材编排；旧媒体/长动作路线不设置presentation",
+    "用src/adapter.py plan生成新实例，再render；不得写入只读原包",
+    "核对最终编码的画面、转场、声音与口型；公开demo不是实际人脸跟踪或真实口播验收"
+  ],
+  "contracts": "graphic-contracts.json",
+  "validation": {
+    "status": "experimental",
+    "details": "0.8.0-rc.2基线清除邮箱后审核通过，由用户于2026-10-21确认；本0.8.1-rc.1为新增图片资料的本地候选，尚未提交。Windows静态与运行检查见QA.md；macOS/Linux及连续声画未重新验证。"
+  },
+  "presenter": {
+    "legacyCircle": {
+      "mode": "full-time-circle",
+      "placement": "auto per page; stable anchor; reserve a side lane when natural space is insufficient",
+      "failure": "face detection coverage below 80% or gap above 2s stops; no guessed centre crop",
+      "audio": "unique source audio with original selected timing, no BGM added",
+      "limitations": [
+        "single presenter; no identity recognition or multi-person director selection",
+        "scene durations still obey existing contracts; total must match source interval",
+        "alternating full-frame presenter/material mode is not implemented in this version",
+        "technical collision checks do not replace human composition and lip-sync review"
+      ]
+    },
+    "editorialCard": {
+      "layout": "fixed right rounded card, left graphics stage",
+      "labels": "presentation.roleLabel/nameLabel; may be blank",
+      "logo": "presentation.logo optional",
+      "time": "global 24fps; waveform or all explicit at",
+      "contracts": "presentation-contract.json"
+    }
+  },
+  "releaseCandidate": {
+    "version": "0.8.1-rc.1",
+    "presentation": "Read README and presentation-contract.json for editorial-card; other original capabilities preserved",
+    "demo": "presets/editorial-card.json; bundled original animated demo character is not a real person",
+    "rights": "User portraits, voices, logos and private evidence are instance-only and excluded from this author archive",
+    "validation": "new candidate not submitted; current static/runtime checks in QA.md"
+  },
+  "foodLibrary": {
+    "manifest": "food-library.json",
+    "preset": "presets/food-library.json",
+    "automaticKinds": [
+      "corn",
+      "milk",
+      "carrot"
+    ],
+    "otherAssets": "egg/sweet-potato/cake/drink use kind=image and package PNG refs",
+    "licenses": [
+      "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "licenses/OPENMOJI-ATTRIBUTION.md"
+    ],
+    "scope": "image library only; page timing, SFX, morph algorithms and existing layouts retained; separate bottom-corner circle mockup is not merged",
+    "morphBoundary": "ingredient placement uses new icons; bowl-to-cookie remains the original path morph; cake must not replace cookie by inference"
+  }
+}

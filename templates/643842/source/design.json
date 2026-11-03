@@ -1,0 +1,113 @@
+{
+  "format": "ai-color-design",
+  "version": "1.0.0",
+  "id": "moonwhite-gradients",
+  "name": "月白·互补组·双色渐变组",
+  "language": "zh-CN",
+  "createdAt": "2026-10-19",
+  "scope": "知识类视频的浅色渐变背景；不绑定动画模板",
+  "status": "用户提供的色值、色标位置与四组双色渐变",
+  "palette": {
+    "start": { "name": "白雪藤", "hex": "#E8F4F0" },
+    "anchor": { "name": "月白", "hex": "#EEF7F2" },
+    "complement": { "name": "银白", "hex": "#F1F0ED" },
+    "end": { "name": "梨花白", "hex": "#F8F5F0" }
+  },
+  "terminology": {
+    "complement": "保留用户提供的互补角色名称，不代表本文件已验证其为色相环上的严格互补色"
+  },
+  "gradientSettings": {
+    "type": "linear",
+    "angleDeg": 90,
+    "direction": "left-to-right",
+    "interpolationColorSpace": "oklab",
+    "positionUnit": "percent",
+    "defaultGradientId": null,
+    "selectionNote": "未指定唯一默认渐变；制作时明确选用一个 gradient id"
+  },
+  "referenceStops": [
+    { "colorRef": "palette.start", "hex": "#E8F4F0", "position": 0, "role": "起点" },
+    { "colorRef": "palette.anchor", "hex": "#EEF7F2", "position": 33, "role": "本色" },
+    { "colorRef": "palette.complement", "hex": "#F1F0ED", "position": 67, "role": "互补" },
+    { "colorRef": "palette.end", "hex": "#F8F5F0", "position": 100, "role": "收束" }
+  ],
+  "referenceStopsNote": "以上为用户给出的四色定位。下列四组双色渐变各自只使用两个端点，不自动插入 33% 和 67% 色标。",
+  "gradients": [
+    {
+      "id": "baixueteng-to-lihuabai",
+      "name": "白雪藤 → 梨花白",
+      "stops": [
+        { "colorRef": "palette.start", "hex": "#E8F4F0", "position": 0 },
+        { "colorRef": "palette.end", "hex": "#F8F5F0", "position": 100 }
+      ],
+      "css": "linear-gradient(90deg in oklab, #E8F4F0 0%, #F8F5F0 100%)"
+    },
+    {
+      "id": "yuebai-to-yinbai",
+      "name": "月白 → 银白",
+      "stops": [
+        { "colorRef": "palette.anchor", "hex": "#EEF7F2", "position": 0 },
+        { "colorRef": "palette.complement", "hex": "#F1F0ED", "position": 100 }
+      ],
+      "css": "linear-gradient(90deg in oklab, #EEF7F2 0%, #F1F0ED 100%)"
+    },
+    {
+      "id": "lihuabai-to-yinbai",
+      "name": "梨花白 → 银白",
+      "stops": [
+        { "colorRef": "palette.end", "hex": "#F8F5F0", "position": 0 },
+        { "colorRef": "palette.complement", "hex": "#F1F0ED", "position": 100 }
+      ],
+      "css": "linear-gradient(90deg in oklab, #F8F5F0 0%, #F1F0ED 100%)"
+    },
+    {
+      "id": "baixueteng-to-yuebai",
+      "name": "白雪藤 → 月白",
+      "stops": [
+        { "colorRef": "palette.start", "hex": "#E8F4F0", "position": 0 },
+        { "colorRef": "palette.anchor", "hex": "#EEF7F2", "position": 100 }
+      ],
+      "css": "linear-gradient(90deg in oklab, #E8F4F0 0%, #EEF7F2 100%)"
+    }
+  ],
+  "supportingColors": {
+    "text": {
+      "name": "鸦青",
+      "hex": "#424B50",
+      "origin": "沿用此前图文展示的文字辅助色，不属于本次用户提供的四色渐变",
+      "usage": ["标题", "正文", "字幕", "标签"]
+    }
+  },
+  "composition": {
+    "aspectRatio": "16:9",
+    "border": "none",
+    "outerFrame": false,
+    "decorativeOutline": false,
+    "backgroundBleed": "full",
+    "contentPadding": "保留文字安全留白，不添加外框",
+    "areaRatios": null
+  },
+  "rules": {
+    "must": [
+      "保留指定 HEX、渐变方向、OKLab 插值和端点位置",
+      "明确区分 referenceStops 四色定位与 gradients 双色渐变",
+      "渐变用于背景或内容表面，文字使用可读的深色",
+      "后续用户明确修改优先于本文件"
+    ],
+    "mustNot": [
+      "把双色渐变自动改成四色渐变",
+      "将 33% 和 67% 误读为画面面积比例",
+      "未经说明切换为 sRGB 插值",
+      "自动混入另一方案的山岚、淡翠绿或凝脂莲青",
+      "添加外边框或装饰相框",
+      "将静态渐变自动解释为动画或转场"
+    ]
+  },
+  "accessibility": {
+    "normalTextMinimumContrast": 4.5,
+    "largeTextMinimumContrast": 3.0,
+    "contrastPairs": [],
+    "validationNote": "尚未记录本渐变组合的实际对比度；需检查文字覆盖区域及实际透明度，不继承其他方案的结果"
+  },
+  "instructionForAI": "使用 palette 解析颜色，使用 gradients 中选定项的 stops 和 css 生成双色渐变。referenceStops 只记录用户四色定位，不默认合成为第五种渐变。不把未指定的比例、动画、字体或时长视为已批准要求。"
+}

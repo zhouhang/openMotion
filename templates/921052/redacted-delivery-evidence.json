@@ -1,0 +1,17 @@
+{
+  "schema": "openmotion-redacted-delivery-evidence-v1",
+  "template_id": "921052",
+  "publisher_template_id": 879,
+  "publisher_release_id": 491,
+  "version": "1.0.0",
+  "template_slug": "deep-stage-title-ignition",
+  "content_protection": "open",
+  "release_archive_sha256": "2f186c1e74ce971d2b9a858fc94f2d9ceffdcf528a35e239f4f1c28148c05cee",
+  "release_archive_bytes": 3065958,
+  "envelope_manifest_sha256": "30938530a14bfc44744dccdbbf4f3174d9ffe6abe9e6e9e627551366d1717c48",
+  "delivery_receipt_sha256": "1ec7731c56f943074104d8ede9fa97aa63c2b68c2c491491a0d79aa57e231e25",
+  "personal_envelope_included": false,
+  "source_url": "https://motiongit.com/@thepandaq/deep-stage-title-ignition",
+  "official_helper_signature_verified": true,
+  "official_helper_sha256": "7004609ddbc0ccf6451beeb477aff0d3c85bda74f902e5922465c85cd347f6f3"
+}

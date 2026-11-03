@@ -1,0 +1,32 @@
+{
+  "duration": 16,
+  "scenes": [
+    {
+      "type": "opening",
+      "duration": 6,
+      "style": "auto",
+      "title": "当手上有很多图片时如何找到最值得讲述的重点",
+      "subtitle": "用整体建立印象，用细节解释重点",
+      "credit": ""
+    },
+    {
+      "type": "ending",
+      "duration": 10,
+      "style": "auto",
+      "title": "把丰富素材变成清楚表达",
+      "items": [
+        "让素材形成整体印象",
+        "让重点保持清晰可读",
+        "让表达留下个人识别"
+      ],
+      "credit": "",
+      "logo": {
+        "scope": "instance",
+        "path": "user-assets/user-logo.png"
+      },
+      "brand": "素材演示",
+      "tagline": "用清楚的表达，让内容被记住"
+    }
+  ],
+  "pacing": "legacy"
+}

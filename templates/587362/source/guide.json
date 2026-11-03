@@ -1,0 +1,262 @@
+{
+  "guideVersion": "0.1",
+  "fit": {
+    "summary": "深色立体舞台上的案例数据屏：一块数据仪表盘（标题 + 3 个 KPI 数字滚动 + 6 根柱图逐根生长 + 脚注）配右侧「改造前 / 改造后」对比副屏，镜头缓慢横移。适合讲案例、复盘、增长数据的段落。",
+    "goodFor": [
+      "案例复盘、增长复盘、项目结果页",
+      "产品改版前后的数据对比",
+      "季度 / 月度数据汇报的中段",
+      "课程里讲「数据怎么变了」的段落"
+    ],
+    "notFor": [
+      "要真人出镜口播的段落（请用「口播主舞台」模板）",
+      "只有一句话结论、没有具体数字的内容",
+      "竖屏（本模板固定 1920×1080 横屏）"
+    ],
+    "placement": "body",
+    "genres": [
+      "knowledge",
+      "showcase",
+      "product"
+    ]
+  },
+  "duration": {
+    "policy": "fixed",
+    "min": 13,
+    "max": 13,
+    "default": 13
+  },
+  "materials": [
+    {
+      "role": "text.facts",
+      "use": "案例标题、3 个 KPI、6 根柱图、脚注口径、改造前 / 改造后的三行数据",
+      "ask": "把这次案例的关键数字发我：标题、三个指标（名字 / 数值 / 前缀 / 后缀）、六个月或六个阶段的柱图数据、数据口径脚注，以及改造前后的三行对比。",
+      "required": true,
+      "maps": [
+        "title",
+        "kicker",
+        "kpis",
+        "bars",
+        "footnote",
+        "before",
+        "after",
+        "beforeTitle",
+        "afterTitle"
+      ]
+    },
+    {
+      "role": "audio.music",
+      "use": "可选：一段克制的低频电子 / 氛围床，衬数据入场",
+      "ask": "要我按这段数据屏的节奏推荐一段授权背景音乐吗？还是你自带音乐？",
+      "required": false,
+      "ifMissing": "模板不内置音频；没有音乐时保持静音也成立，画面节奏按 13 秒固定。"
+    },
+    {
+      "role": "x-sfx",
+      "use": "随包附带的可选音效轨：纯合成音调设计，按本模板真实动画时间线对齐；支持音频的宿主在渲染后混入",
+      "ask": "需要我把附带音效混进成片吗？也可以换成你自己的音乐或完全静音。",
+      "required": false,
+      "ifMissing": "宿主不支持音频时输出静音视频，画面与时长不受影响；不得声称已包含声音。"
+    }
+  ],
+  "copy": [
+    {
+      "param": "brand",
+      "label": "左上角品牌名",
+      "rule": "1–3 个英文词，全大写最好看；也会作为左侧竖排小字显示。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "kicker",
+      "label": "数据屏左上角小标签",
+      "rule": "建议「类别 / 中文说明」，不超过 42 个字符。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "title",
+      "label": "案例标题",
+      "rule": "一行写完，8–16 个中文字最好；超过 20 个字会被屏幕裁掉。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "kpis",
+      "label": "三个关键指标",
+      "rule": "固定 3 条，每条写指标名（12 字内）、数值、前缀（+ / − / 空）和后缀（% / 万 / 空）；数值支持 0–2 位小数。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "bars",
+      "label": "六根柱图数据",
+      "rule": "固定 6 条，value 是 0–100 的柱高，最高的一根会自动变成主色高亮；label 是横轴标签（6 字内）。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "footnote",
+      "label": "数据脚注",
+      "rule": "一行写清口径、范围与样本量，60 字以内。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "before",
+      "label": "改造前三行数据",
+      "rule": "固定 3 条，每条行名 8 字内、行值 10 字内（可带单位，如 21天）。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "after",
+      "label": "改造后三行数据",
+      "rule": "固定 3 条，行名必须与改造前一一对应，行值可带单位（如 12天）。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "beforeTitle",
+      "label": "对比卡（前）标题",
+      "rule": "10 字以内，默认「改造前」。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "afterTitle",
+      "label": "对比卡（后）标题",
+      "rule": "10 字以内，默认「改造后」。",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "kpiNote",
+      "label": "KPI 对照说明",
+      "rule": "三个指标右下角的同一句小字，如「VS 2025 同期」；留空则只显示指标名。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "chartLabel",
+      "label": "柱图标题",
+      "rule": "图表左上角的标题，建议「TREND / 中文说明」。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "chartRange",
+      "label": "柱图区间小字",
+      "rule": "图表右上角的区间与口径，如「INDEX · APR → SEP 2026」。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "chartMarker",
+      "label": "图表标记线文案",
+      "rule": "柱图中间竖虚线上的小字（如「改版上线」）；留空则隐藏这条标记线。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "lockLabel",
+      "label": "数据锁定标签",
+      "rule": "数据屏右上角的小标签，如「DATA LOCKED · 2026 Q3」；留空则隐藏。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "compareLabel",
+      "label": "对比副屏小标题",
+      "rule": "24 字以内，默认「BEFORE / AFTER」。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "footTag",
+      "label": "脚注来源标签",
+      "rule": "脚注右侧的来源小字，如「SOURCE / CRM EXPORT」。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "chapter",
+      "label": "右上角章节号",
+      "rule": "写法「04 / 06」；只写一个数字也能显示。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "screenLabel",
+      "label": "右上角章节名",
+      "rule": "章节号下方的一行小字，如「CASE / 案例讲解」。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "meta",
+      "label": "右下角角标",
+      "rule": "建议「品牌 / 版本 / 画幅」，52 字以内。",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "caption",
+      "label": "底部字幕",
+      "rule": "34 字以内，一行；用 <em>…</em> 可让局部变主色；留空则不显示字幕带。",
+      "from": [
+        "conversation",
+        "text.script"
+      ]
+    },
+    {
+      "param": "accent",
+      "label": "主色",
+      "rule": "六位十六进制颜色；默认冷青 #4DE3FF，暖金 #FFB168，紫罗兰 #A78BFF。",
+      "from": [
+        "conversation"
+      ]
+    }
+  ],
+  "hostWithoutTools": [
+    "如果你只能聊天、不能运行命令：把标题、三个 KPI、六根柱图和改造前后三行数据发我，我返回一份可直接粘贴的参数 JSON；你把它交给能运行模板的客户端即可出片。",
+    "没有渲染环境时，先确认数字与口径，出片交给有本地渲染能力的工具完成。"
+  ],
+  "conversation": [
+    "先确认案例的一句话结论，再决定标题；标题不要超过 16 个中文字。",
+    "KPI 只取 3 个最有说服力的；超过 3 个就建议拆成两段视频，而不是硬塞。",
+    "柱图固定 6 根，超过或不足时建议合并成 6 个阶段（如 4 月–9 月），保持横轴节奏。",
+    "改造前 / 改造后的三行必须一一对应，行名一致，数字才能被看成同一件事的变化。",
+    "视频固定 13 秒；数字滚动与柱图生长占前 5 秒，后 8 秒留给对比副屏与镜头横移。"
+  ]
+}

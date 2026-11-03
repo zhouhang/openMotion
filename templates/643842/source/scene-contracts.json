@@ -1,0 +1,325 @@
+{
+  "fps": 24,
+  "canvas": [
+    1280,
+    720
+  ],
+  "scenes": {
+    "brand": {
+      "capacity": {
+        "logos": 1,
+        "nameMaxCharacters": 12
+      },
+      "duration": [
+        6,
+        10
+      ],
+      "motionWindows": {
+        "enter": [
+          0,
+          1
+        ],
+        "robotUnderline": [
+          1,
+          2.5
+        ],
+        "shrinkToCorner": [
+          3.1,
+          4.4
+        ]
+      },
+      "hold": "4.4秒以后可阅读停留",
+      "fit": "contain / preserve source alpha and color"
+    },
+    "image": {
+      "capacity": {
+        "images": 1,
+        "focusRectangles": 1,
+        "headingLines": 2
+      },
+      "duration": [
+        8,
+        14
+      ],
+      "motionWindows": {
+        "enter": [
+          0,
+          0.9
+        ],
+        "overviewHold": [
+          0.9,
+          2.1
+        ],
+        "zoom": [
+          2.1,
+          3.3
+        ],
+        "annotate": [
+          3.3,
+          4.5
+        ],
+        "restore": "duration-1.8 至 duration-0.8"
+      },
+      "hold": "4.5至duration-1.8保持局部阅读",
+      "focus": "按图片当前方向归一化，静态位置，不是自动检测"
+    },
+    "video": {
+      "capacity": {
+        "clips": 1,
+        "freezePoints": 1,
+        "focusRectangles": 1
+      },
+      "sourceDuration": [
+        6,
+        12
+      ],
+      "freezeDuration": [
+        1,
+        4
+      ],
+      "sourceClock": "t<freezeAt ? t : t<freezeAt+pause ? freezeAt : t-pause",
+      "audioClock": "source音轨在相同暂停区间插入静音，后续声画共同继续",
+      "loop": false,
+      "fit": "contain，冻结时最多16%等比推近，明确焦点"
+    },
+    "image-wall": {
+      "capacity": {
+        "images": [
+          6,
+          9
+        ],
+        "selectedImages": 1,
+        "focusRectangles": 1,
+        "headingLines": 2
+      },
+      "duration": [
+        16,
+        22
+      ],
+      "motionWindows": {
+        "assemble": [
+          0,
+          1.4
+        ],
+        "overview": [
+          1.4,
+          2.8
+        ],
+        "select": [
+          2.8,
+          3.8
+        ],
+        "lift": [
+          3.8,
+          5.4
+        ],
+        "wholePhoto": [
+          5.4,
+          7
+        ],
+        "detailZoom": [
+          7,
+          8.4
+        ],
+        "annotate": [
+          8.4,
+          9.5
+        ],
+        "reading": "9.5至duration-4",
+        "restoreDetail": "duration-4至duration-3",
+        "returnToSlot": "duration-3至duration-2",
+        "finalOverview": "最后2秒"
+      },
+      "fit": "cover thumbnail -> contain hero -> uniform focus zoom -> original slot",
+      "focus": "归一化静态矩形，人工确认；边缘平移夹紧，不作自动检测",
+      "order": "返回照片与输入序号和槽位严格一致"
+    },
+    "page-waterfall-wall": {
+      "capacity": {
+        "images": [
+          12,
+          60
+        ],
+        "columns": [
+          4,
+          6
+        ],
+        "speed": [
+          0.6,
+          1.6
+        ],
+        "headingLines": 2
+      },
+      "duration": [
+        12,
+        30
+      ],
+      "motionWindows": {
+        "wallFadeIn": [
+          0,
+          1.2
+        ],
+        "heading": [
+          0.6,
+          1.4
+        ],
+        "annotation": [
+          2.2,
+          3
+        ],
+        "flow": "从0到duration持续错速流动",
+        "fadeOut": "最后1.2秒"
+      },
+      "motion": "相邻列反向，列速48+8*column px/sec乘speed；透视平面y=-0.31,x=0.22,z=-0.14弧度，离轴投影",
+      "texture": "原图等比cover到圆角卡片，3x3网格透视投影；正文与字体不进入投影",
+      "loop": "只循环gallery展示；循环不是新的独立素材，视频不适用",
+      "coverage": "12–60是输入容量，非保证全部清晰阅读；按本期可见卡片及时间记录覆盖",
+      "camera": "x=830+240*sin(t*0.34-0.7)，横向巡航以展示两侧列；不保证短时间逐张精读"
+    },
+    "explainer": {
+      "durationSeconds": 43.541666666666664,
+      "frames": 1045,
+      "capacity": {
+        "textSlots": 35,
+        "captionMax": 80,
+        "captionMaxCharacters": 32
+      },
+      "parts": [
+        "opening",
+        "ingredients",
+        "nutrition",
+        "suitability",
+        "closing"
+      ],
+      "sourceContracts": "explainer-contracts.json",
+      "copySchema": "explainer-params.schema.json",
+      "selection": "作为完整模块使用；不拆五段、不改变原时长或动作速度",
+      "voiceover": "可选相对素材引用，必须与43.54秒固定时长相符；没有旁白时仅内容与动作音效",
+      "clock": "字幕相对本模块，准备时加起始帧转换全局时钟；渲染时按模块局部时间读取"
+    },
+    "opening": {
+      "duration": [
+        5,
+        8
+      ],
+      "capacity": {
+        "titleCharacters": 28,
+        "subtitleCharacters": 32,
+        "leadCharacters": 6
+      },
+      "selection": "bookend-selection.json",
+      "variants": {
+        "lead-word-zoom-assemble": {
+          "leadAppear": [
+            0,
+            0.35
+          ],
+          "assemble": [
+            0.85,
+            2.1
+          ],
+          "subtitle": [
+            2.1,
+            2.8
+          ],
+          "read": "2.8至duration-.35",
+          "exit": "最后.35秒"
+        },
+        "title-demote-to-label": {
+          "titleAppear": [
+            0,
+            0.65
+          ],
+          "subtitle": [
+            0.7,
+            1.3
+          ],
+          "moveToHeader": [
+            2.5,
+            3.9
+          ],
+          "bodyIntro": [
+            3.5,
+            4.3
+          ],
+          "handoff": "页眉保留到末帧，随后素材模块继承标题；explainer保留其原独立页眉"
+        }
+      }
+    },
+    "ending": {
+      "capacity": {
+        "items": [
+          1,
+          4
+        ],
+        "itemCharacters": 18,
+        "titleCharacters": 16,
+        "logos": 1
+      },
+      "selection": "bookend-selection.json",
+      "variants": {
+        "list-reveal": {
+          "duration": [
+            6,
+            12
+          ],
+          "rowStaggerSeconds": 0.5,
+          "reading": "最后一项出现后持续停留"
+        },
+        "ui-to-brand-morph": {
+          "duration": [
+            10,
+            12
+          ],
+          "summary": [
+            0,
+            4.2
+          ],
+          "gather": [
+            3.6,
+            4.6
+          ],
+          "inputField": [
+            4.25,
+            5.1
+          ],
+          "capsule": [
+            5.1,
+            6.3
+          ],
+          "logoUnfold": [
+            6.3,
+            7.5
+          ],
+          "brandGlyphAssemble": [
+            7.35,
+            8.6
+          ],
+          "read": "8.65秒后品牌停留"
+        }
+      },
+      "logoFit": "contain保留原色、透明与比例；输入框→胶囊→Logo容器连续变形，任意位图不做伪造矢量形变",
+      "audio": "新增开头结尾不添加tap或其他音效"
+    }
+  },
+  "selection": "1–8个模块可组合；旧完整文字模块仍含原开头结尾，使用新开头结尾时由助手避免无意义重复；未隐式裁切旧模块",
+  "presenterExtension": {
+    "optional": true,
+    "sourceClock": "global selected original video interval at 24fps",
+    "faceSamplingHz": 3,
+    "crop": "smoothed square; preserve aspect ratio; circle mask at output",
+    "placement": "all scene frames text bounds plus conservative media bounds; side lane fallback",
+    "sound": "unique narration plus previous module SFX; no new BGM or taps",
+    "status": "candidate / sample technical verification pending"
+  },
+  "imageAnnotationStyle": {
+    "extensionLine": false,
+    "endpointRobot": false,
+    "focusCorners": true,
+    "annotationText": true,
+    "imageScaling": "unchanged / uniform",
+    "scope": "image module only; other modules unchanged"
+  },
+  "graphic": "graphic-contracts.json",
+  "defaultProduction": "pacing=short / 3–5 seconds / graphic only"
+}

@@ -1,0 +1,102 @@
+{
+  "duration": 8,
+  "pacing": "short",
+  "scenes": [
+    {
+      "type": "graphic",
+      "id": "food-library-1",
+      "variant": "reveal",
+      "duration": 4,
+      "title": "认识玉米、牛奶和蔬菜",
+      "objects": [
+        {
+          "id": "corn",
+          "label": "玉米",
+          "kind": "corn"
+        },
+        {
+          "id": "milk",
+          "label": "鲜奶",
+          "kind": "milk"
+        },
+        {
+          "id": "carrot",
+          "label": "蔬菜",
+          "kind": "carrot"
+        }
+      ],
+      "sourceRefs": [],
+      "cues": {
+        "corn": {
+          "frame": 12
+        },
+        "milk": {
+          "frame": 24
+        },
+        "carrot": {
+          "frame": 36
+        }
+      }
+    },
+    {
+      "type": "graphic",
+      "id": "food-library-2",
+      "variant": "reveal",
+      "duration": 4,
+      "title": "同系列食物图片资料",
+      "objects": [
+        {
+          "id": "egg",
+          "label": "鸡蛋",
+          "kind": "image",
+          "image": {
+            "scope": "package",
+            "path": "assets/food/openmoji/egg.png"
+          }
+        },
+        {
+          "id": "sweet-potato",
+          "label": "地瓜",
+          "kind": "image",
+          "image": {
+            "scope": "package",
+            "path": "assets/food/openmoji/sweet-potato.png"
+          }
+        },
+        {
+          "id": "cake",
+          "label": "蛋糕",
+          "kind": "image",
+          "image": {
+            "scope": "package",
+            "path": "assets/food/openmoji/cake.png"
+          }
+        },
+        {
+          "id": "drink",
+          "label": "饮料",
+          "kind": "image",
+          "image": {
+            "scope": "package",
+            "path": "assets/food/openmoji/drink.png"
+          }
+        }
+      ],
+      "sourceRefs": [],
+      "cues": {
+        "egg": {
+          "frame": 12
+        },
+        "sweet-potato": {
+          "frame": 24
+        },
+        "cake": {
+          "frame": 36
+        },
+        "drink": {
+          "frame": 48
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://motiongit.com/schema/motion/0.1.json",
+  "format": "motiongit-template",
+  "specVersion": "0.1.0-draft.1",
+  "template": {
+    "id": "deep-stage-product-focus",
+    "version": "1.0.0",
+    "name": "DEEP STAGE · 产品讲解",
+    "status": "candidate"
+  },
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entry": "src/index.html",
+    "dependencyLock": "motion.lock.json"
+  },
+  "parameters": {
+    "schema": "params.schema.json",
+    "defaultPreset": "presets/demo.json"
+  },
+  "assets": {
+    "manifest": "asset-manifest.json"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 30,
+      "den": 1
+    },
+    "durationPolicy": "fixed",
+    "durationSeconds": 12
+  },
+  "license": {
+    "file": "licenses/TEMPLATE-LICENSE.txt"
+  },
+  "permissions": {
+    "network": false
+  },
+  "ai": {
+    "summary": "DEEP STAGE 深境舞台的产品讲解动效：产品主屏从左侧推入并持续推近，屏内是产品名、tagline、正文与抽象产品视觉（纯 CSS/SVG 器件 + 轨道环）；下方 3 个参数切片错峰浮出，数值从 0 滚到终值；右下角是 9:16 人物小画中画（CAM 01 / REC 取景标签）。适合产品发布、卖点讲解、参数对比。可改产品名、tagline、正文、3 组参数、规格行与主色。 随包附带可选音效轨（纯合成、无噪声源，按模板真实时间线对齐；支持音频的宿主可混入）。",
+    "entry": "README.md",
+    "guide": "guide.json",
+    "authoring": {
+      "tool": "deepseek-flash",
+      "client": "dsh"
+    }
+  },
+  "integrity": "integrity.json",
+  "preview": {
+    "video": "previews/preview.mp4",
+    "cover": "previews/cover.jpg"
+  },
+  "extensions": {
+    "motiongit.com:audio": {
+      "contract": "audio.json",
+      "optional": true,
+      "role": "sfx",
+      "file": "audio/sfx-deep-stage-product-focus.wav",
+      "durationSeconds": 12,
+      "design": "tonal-only, no noise sources, smooth transitions"
+    }
+  }
+}

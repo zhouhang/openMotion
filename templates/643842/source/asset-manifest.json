@@ -1,0 +1,196 @@
+{
+  "assets": [
+    {
+      "path": "assets/NotoSansSC.ttf",
+      "source": "Noto Sans SC",
+      "license": "licenses/font-OFL.txt",
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da"
+    },
+    {
+      "path": "assets/annotation-robot.svg",
+      "source": "原创8bit眼镜机器人",
+      "license": "licenses/TEMPLATE-LICENSE.txt",
+      "sha256": "2b32af6b3d26c1290686c18aaad2933f11f376513410f71bc1fa2f0558806c6b"
+    },
+    {
+      "path": "assets/annotation-robot.png",
+      "source": "原创机器人PNG",
+      "license": "licenses/TEMPLATE-LICENSE.txt",
+      "sha256": "a60a0d1c5f92ed54408a2cb63f71977260ae41b818e47f35e68d5a66a6daca8e"
+    },
+    {
+      "path": "assets/face_detection_yunet_2026may.onnx",
+      "source": "https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet",
+      "license": "licenses/YUNET-LICENSE.txt",
+      "sha256": "ebafce4e3c118d6554634be5c27ab333b4c047a9a8c3faf1d7cf93101c22f0f0"
+    },
+    {
+      "path": "assets/example-logo.svg",
+      "source": "Original neutral demo mark; no organization or real-person identity",
+      "license": "licenses/TEMPLATE-LICENSE.txt",
+      "sha256": "0db92350d1d389e82d513c4fc1b987733d58f04a617f28551145f6dc20dd1036"
+    },
+    {
+      "path": "assets/demo-character.mp4",
+      "source": "Original geometric animated demonstration character; not a real person or voice",
+      "license": "licenses/TEMPLATE-LICENSE.txt",
+      "sha256": "638c13f61f198cf098e1d026aa24e9d2b89c92192de1fa03b0823a41d9527716"
+    },
+    {
+      "path": "previews/demo.mp4",
+      "source": "Rendered from bundled original geometric character, original Canvas scene code and generated SFX; Noto Sans SC typography. No real person, private audio or organization mark.",
+      "license": "licenses/TEMPLATE-LICENSE.txt",
+      "additionalLicense": "licenses/font-OFL.txt",
+      "sha256": "8170e1dded0ac83ddad5e3db75a516a857d0e88122bed42c1a54603847ed88e7"
+    },
+    {
+      "path": "previews/cover.png",
+      "source": "Rendered from bundled original geometric character, original Canvas scene code and generated SFX; Noto Sans SC typography. No real person, private audio or organization mark.",
+      "license": "licenses/TEMPLATE-LICENSE.txt",
+      "additionalLicense": "licenses/font-OFL.txt",
+      "sha256": "d0315d8943bad3e590650964fdceb93936f2087826575c2bee309a89781a3b22"
+    },
+    {
+      "path": "assets/food/openmoji/corn.svg",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F33D.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "94300afd0cd3461f8abe76f1c7d40bda15bd53e8629930e2195226cd422a3db2"
+    },
+    {
+      "path": "assets/food/openmoji/corn.png",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F33D.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "dc00bf6599e6b1bac15f37c1452fa1be46b012f7bfca437ac12d6544ad7635c1"
+    },
+    {
+      "path": "assets/food/openmoji/milk.svg",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F95B.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "e936c739fda9c5af52bb6cc946de18dee590dc2dca22dcb3c80c57595ce13f0d"
+    },
+    {
+      "path": "assets/food/openmoji/milk.png",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F95B.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "0295e36cd5cdb416cae460bb7727428c700166caaec9e0795b818bfeacdd69c6"
+    },
+    {
+      "path": "assets/food/openmoji/carrot.svg",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F955.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "53b002c22b5b1d72141a9e5fa92dec82da383a619eab71cfcb1124b8a1e9e4bf"
+    },
+    {
+      "path": "assets/food/openmoji/carrot.png",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F955.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "58dd60f093a9f2f2646f7d9fc5d6186d694ea85a50257a3a00b40a6e670be7c6"
+    },
+    {
+      "path": "assets/food/openmoji/egg.svg",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F95A.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "721a6af9cb4b4d30fc62e19b4ff0dfa6580dcc201487c736bdb4a59f0a9f960c"
+    },
+    {
+      "path": "assets/food/openmoji/egg.png",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F95A.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "54dfae54bcd6e210af10208eebb6c39c20c872602e5b167e331100aad6ed55b0"
+    },
+    {
+      "path": "assets/food/openmoji/sweet-potato.svg",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F360.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "0dd558887d2dc769c6e543b554cc628417e3f3db1a239fa07bf28f1e5978371f"
+    },
+    {
+      "path": "assets/food/openmoji/sweet-potato.png",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F360.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "cc393012f4a1370fd25b34000fe04400e0b2ac0e8cb18c6de272a287c846657c"
+    },
+    {
+      "path": "assets/food/openmoji/cake.svg",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F370.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "55786e57474e4ea3a06c70287be676ac71e49d3d90451538c5aa4552592d4268"
+    },
+    {
+      "path": "assets/food/openmoji/cake.png",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F370.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "1e647bea3d926ba5f2f9c960b6ab7ae1eed3f8a31229504dd5beaa6d1753a5a1"
+    },
+    {
+      "path": "assets/food/openmoji/drink.svg",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F964.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "b0eb895111db788ea77d0c95db3b645d67e8789640526d18071d9a28de10a997"
+    },
+    {
+      "path": "assets/food/openmoji/drink.png",
+      "source": "https://github.com/hfg-gmuend/openmoji/blob/aeb8bb3a59e2de39c754ac79180c8131c906acea/color/svg/1F964.svg",
+      "creator": "OpenMoji contributors",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "modifications": "black outlines changed to #424B50; proportions unchanged",
+      "sha256": "f4cda3febbe2f53abc7dfff2f2ab0dbcb567260be86d2a2032522ef451092173"
+    },
+    {
+      "path": "previews/food-library.png",
+      "source": "Static gallery of the seven bundled OpenMoji icons, original layout and bundled Noto typography; no real person, organization logo or voice",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "additionalLicense": "licenses/font-OFL.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "sha256": "0b50180bb93c14e5c2519c94fc1d49baa61b2e4feb4dce8fb9384a54702129e9"
+    },
+    {
+      "path": "previews/food-library-runtime.png",
+      "source": "Frame 55 from presets/food-library.json through new packaged integer-frame runtime; static preview, no video generated",
+      "license": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "additionalLicense": "licenses/font-OFL.txt",
+      "attribution": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "sha256": "d1c31fffeb709fe1111f07a76f3f4844653f1de825f1212bee21ed7c051388b4"
+    }
+  ]
+}

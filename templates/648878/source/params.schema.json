@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://motiongit.com/templates/deep-stage-product-focus/params.schema.json",
+  "title": "DEEP STAGE 产品讲解 · 参数",
+  "description": "产品主屏推近 + 3 个参数切片（数值滚动）+ 右下角人物小画中画；改产品名、tagline、正文、3 组参数与主色。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["brand", "kicker", "productName", "tagline", "body", "specs", "specLine", "accent"],
+  "properties": {
+    "brand": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "default": "DEEP STAGE",
+      "description": "左上角品牌名，全大写拉丁字母更稳（DIN 字体）。"
+    },
+    "kicker": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 42,
+      "default": "PRODUCT / 产品讲解",
+      "description": "产品主屏顶部的小标签，建议「类别 / 中文说明」。"
+    },
+    "productName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 12,
+      "default": "DEEP ONE",
+      "description": "产品名，产品主屏最大的一行；建议 1–2 个英文词或 2–6 个中文字。"
+    },
+    "tagline": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 28,
+      "default": "把内容生产，装进<em>一块屏幕</em>。",
+      "description": "一句话 tagline，28 字以内；用 <em>…</em> 包住的部分会变成主色。"
+    },
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 56,
+      "default": "深色舞台承接产品视觉，\n参数与卖点从屏幕里浮出，越讲越近。",
+      "description": "正文说明，56 字以内；用 \\n 手动换行，建议两行。"
+    },
+    "specs": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "3 个参数切片，按左→右固定槽位依次浮出；数值会从 0 滚动到终值。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value", "unit"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10,
+            "description": "参数名，建议 4–8 个字，会以字距展开。"
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6,
+            "pattern": "^[0-9]{1,4}(\\.[0-9]{1,2})?$",
+            "description": "数值，只填数字（可带 1–2 位小数），例如 120 / 4.2 / 98.6；滚动动画按小数位补零。"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 4,
+            "description": "单位，显示在数值右下角，例如 万 / × / % / h；可以留空。"
+          }
+        }
+      },
+      "default": [
+        { "label": "日均内容产出", "value": "120", "unit": "万" },
+        { "label": "交付效率", "value": "4.2", "unit": "×" },
+        { "label": "素材复用率", "value": "98.6", "unit": "%" }
+      ]
+    },
+    "specLine": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 48,
+      "default": "1920×1080 / 30FPS / H.264",
+      "description": "产品主屏底部 SPEC 行的一行规格说明，建议用斜杠分隔。"
+    },
+    "accent": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "default": "#4DE3FF",
+      "description": "主色（六位十六进制）。默认冷青，可改暖金 #FFB168 或紫罗兰 #A78BFF。"
+    }
+  }
+}

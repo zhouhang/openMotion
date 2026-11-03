@@ -1,0 +1,63 @@
+{
+  "$schema": "https://motiongit.com/schema/motion/0.1.json",
+  "format": "motiongit-template",
+  "specVersion": "0.1.0-draft.1",
+  "template": {
+    "id": "deep-stage-case-data",
+    "version": "1.0.0",
+    "name": "DEEP STAGE · 案例数据屏",
+    "status": "candidate"
+  },
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entry": "src/index.html",
+    "dependencyLock": "motion.lock.json"
+  },
+  "parameters": {
+    "schema": "params.schema.json",
+    "defaultPreset": "presets/demo.json"
+  },
+  "assets": {
+    "manifest": "asset-manifest.json"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 30,
+      "den": 1
+    },
+    "durationPolicy": "fixed",
+    "durationSeconds": 13
+  },
+  "license": {
+    "file": "licenses/TEMPLATE-LICENSE.txt"
+  },
+  "permissions": {
+    "network": false
+  },
+  "ai": {
+    "summary": "DEEP STAGE 深境舞台的案例数据屏动效：深色立体舞台上，数据仪表盘屏从纵深推入，标题与 3 个 KPI 依次入场且数字从 0 滚动到目标值，6 根柱状图逐根从底部生长（最高一根自动主色高亮），脚注落位；随后右侧「改造前 / 改造后」对比副屏滑入，两卡与箭头依次出现，镜头持续缓慢横移收尾。适合案例复盘、改版前后对比、增长数据汇报。可改标题、三个 KPI、六根柱图、脚注、前后对比三行数据与主色。 随包附带可选音效轨（纯合成、无噪声源，按模板真实时间线对齐；支持音频的宿主可混入）。",
+    "entry": "README.md",
+    "guide": "guide.json",
+    "authoring": {
+      "tool": "deepseek-flash",
+      "client": "dsh"
+    }
+  },
+  "integrity": "integrity.json",
+  "preview": {
+    "video": "previews/preview.mp4",
+    "cover": "previews/cover.jpg"
+  },
+  "extensions": {
+    "motiongit.com:audio": {
+      "contract": "audio.json",
+      "optional": true,
+      "role": "sfx",
+      "file": "audio/sfx-deep-stage-case-data.wav",
+      "durationSeconds": 13,
+      "design": "tonal-only, no noise sources, smooth transitions"
+    }
+  }
+}

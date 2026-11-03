@@ -1,0 +1,17 @@
+{
+  "schema": "openmotion-redacted-delivery-evidence-v1",
+  "template_id": "648878",
+  "publisher_template_id": 881,
+  "publisher_release_id": 493,
+  "version": "1.0.0",
+  "template_slug": "deep-stage-product-focus",
+  "content_protection": "open",
+  "release_archive_sha256": "e592e2f7c7ce5edd211abfcd2fb9b3ab1293714b35790da4b3d929734cb6ef4e",
+  "release_archive_bytes": 7409984,
+  "envelope_manifest_sha256": "643b9943c07d118312d4a7657cc48695ad5bf990dbacc89f23e142cef5944fa8",
+  "delivery_receipt_sha256": "4eabc3a8d1497a7fd4eb44dd449ecd85a095b6e5e14fa6e6bb6c5b4e6e361fca",
+  "personal_envelope_included": false,
+  "source_url": "https://motiongit.com/@thepandaq/deep-stage-product-focus",
+  "official_helper_signature_verified": true,
+  "official_helper_sha256": "7004609ddbc0ccf6451beeb477aff0d3c85bda74f902e5922465c85cd347f6f3"
+}

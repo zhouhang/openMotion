@@ -1,0 +1,18 @@
+{
+  "wallKicker": "MEDIA WALL / 素材墙",
+  "wallTitle": "六个镜头，一面素材墙",
+  "items": [
+    { "label": "金属微距", "tag": "MACRO" },
+    { "label": "城市夜景", "tag": "CITY" },
+    { "label": "光轨", "tag": "TRAILS" },
+    { "label": "丝绸褶皱", "tag": "TEXTURE" },
+    { "label": "星云", "tag": "NEBULA" },
+    { "label": "建筑格栅", "tag": "STRUCTURE" }
+  ],
+  "brand": "DEEP STAGE",
+  "chapter": "05 / 06",
+  "screenLabel": "MEDIA WALL / 媒体素材",
+  "meta": "DEEP STAGE · TEMPLATE V1.0 · 1920×1080",
+  "caption": "讲素材，<em>多屏就是你的素材墙</em>。",
+  "accent": "#4DE3FF"
+}

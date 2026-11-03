@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>DEEP STAGE · 案例数据屏 动效</title>
+<link rel="stylesheet" href="../assets/stage.css" />
+<style>
+  /* ============================================================
+     可读性补光：深色舞台上把小字提亮到 AA（与成片一致）
+     ============================================================ */
+  :root { --ink-2: #B6C2D4; --ink-3: #8593AB; }
+
+  /* ============================================================
+     案例数据屏：设计尺寸 1160×652，显示 1050×590（k = 0.905）
+     ============================================================ */
+  .cd {
+    position: absolute; inset: 0; overflow: hidden;
+    display: flex; flex-direction: column;
+    padding: 30px 44px 24px;
+    color: var(--ink-1);
+    background:
+      radial-gradient(720px 340px at 88% -8%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 62%),
+      radial-gradient(560px 300px at -4% 108%, rgba(167, 139, 255, .06), transparent 60%);
+  }
+  .cd *, .cd *::before, .cd *::after { box-sizing: border-box; }
+  .cd i, .cd em { font-style: normal; }
+
+  /* ---------- 顶部 ---------- */
+  .cd-head { display: flex; align-items: center; justify-content: space-between; height: 20px; flex: none; }
+  .cd-kicker {
+    display: flex; align-items: center;
+    font: 400 16px/1 var(--font-mono); letter-spacing: .18em;
+    text-transform: uppercase; color: var(--ink-2);
+  }
+  .cd-kicker__tick {
+    width: 6px; height: 6px; margin-right: 11px; background: var(--accent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 65%, transparent);
+  }
+  .cd-lock {
+    display: flex; align-items: center;
+    font: 400 12px/1 var(--font-mono); letter-spacing: .2em; color: var(--ink-3);
+  }
+  .cd-lock__dot {
+    width: 5px; height: 5px; border-radius: 50%; margin-right: 9px;
+    background: var(--mint); box-shadow: 0 0 9px rgba(76, 224, 165, .7);
+  }
+
+  /* ---------- 标题 ---------- */
+  .cd-title {
+    flex: none; margin: 13px 0 0;
+    font: 700 46px/1.16 var(--font-cjk);
+    letter-spacing: -.02em; color: var(--ink-0);
+    white-space: nowrap;
+  }
+
+  /* ---------- KPI ---------- */
+  .cd-kpis {
+    flex: none; display: flex; margin-top: 21px;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 5%, transparent), transparent 64%);
+  }
+  .cd-kpi { position: relative; flex: 1 1 0; padding: 17px 30px 15px; }
+  .cd-kpi + .cd-kpi::before {
+    content: ""; position: absolute; left: 0; top: 16%; bottom: 16%; width: 1px;
+    background: linear-gradient(180deg, rgba(126, 168, 255, 0), rgba(126, 168, 255, .26) 22%, rgba(126, 168, 255, .26) 78%, rgba(126, 168, 255, 0));
+  }
+  .cd-kpi__top { display: flex; align-items: center; height: 12px; }
+  .cd-kpi__idx {
+    font: 400 12.5px/1 var(--font-mono); letter-spacing: .16em;
+    color: color-mix(in srgb, var(--accent) 72%, #8E9CB2);
+  }
+  .cd-kpi__rule {
+    flex: 1 1 auto; height: 1px; margin-left: 10px;
+    background: linear-gradient(90deg, rgba(126, 168, 255, .26), rgba(126, 168, 255, .04));
+  }
+  .cd-kpi__val {
+    margin-top: 12px;
+    font-family: var(--font-num); font-weight: 700;
+    font-size: 70px; line-height: .92; letter-spacing: .005em;
+    color: var(--ink-0); font-variant-numeric: tabular-nums;
+  }
+  .cd-kpi__pre, .cd-kpi__suf { display: inline-block; }
+  .cd-kpi__num { display: inline-block; }
+  .cd-kpi__foot {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-top: 12px;
+  }
+  .cd-kpi__zh { font: 500 17px/1 var(--font-cjk); color: var(--ink-1); letter-spacing: .04em; }
+  .cd-kpi__cmp { font: 400 12px/1 var(--font-mono); letter-spacing: .1em; color: #8E9CB2; }
+
+  /* ---------- 柱图 ---------- */
+  .cd-chart { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; margin-top: 22px; }
+  .cd-chart__head { flex: none; display: flex; align-items: center; justify-content: space-between; }
+  .cd-chart__title {
+    display: flex; align-items: center;
+    font: 400 12.5px/1 var(--font-mono); letter-spacing: .16em;
+    text-transform: uppercase; color: var(--ink-2);
+  }
+  .cd-chart__tick {
+    width: 5px; height: 5px; margin-right: 10px; background: var(--accent);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  .cd-chart__range { font: 400 12px/1 var(--font-mono); letter-spacing: .16em; color: var(--ink-3); }
+
+  .cd-chart__body { flex: 1 1 auto; min-height: 0; display: flex; margin-top: 14px; }
+  .cd-yaxis { position: relative; flex: none; width: 38px; margin-right: 12px; }
+  .cd-yaxis span {
+    position: absolute; right: 0; transform: translateY(50%);
+    font: 400 12px/1 var(--font-mono); letter-spacing: .06em; color: #8E9CB2;
+  }
+  .cd-yaxis span:nth-child(1) { bottom: 0; }
+  .cd-yaxis span:nth-child(2) { bottom: 50%; }
+  .cd-yaxis span:nth-child(3) { bottom: 100%; }
+
+  .cd-plot { position: relative; flex: 1 1 auto; min-width: 0; }
+  .cd-grid { position: absolute; left: 0; right: 0; height: 0; border-top: 1px dashed rgba(126, 168, 255, .17); }
+  .cd-grid--mid { bottom: 50%; }
+  .cd-grid--top { bottom: 100%; }
+  .cd-axis { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line-2); }
+
+  .cd-marker { position: absolute; left: 50%; top: -1px; bottom: 0; border-left: 1px dashed color-mix(in srgb, var(--accent) 44%, transparent); }
+  .cd-marker span {
+    position: absolute; top: 5px; left: 9px; white-space: nowrap;
+    font: 400 13px/1.2 var(--font-cjk); letter-spacing: .08em;
+    color: color-mix(in srgb, var(--accent) 94%, #fff);
+  }
+
+  .cd-bars { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: space-between; }
+  .cd-barslot { position: relative; flex: none; width: 56px; height: 100%; }
+  .cd-bar {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: calc(var(--v, 0) * 1%);
+    transform-origin: 50% 100%;
+    background: linear-gradient(180deg, rgba(126, 168, 255, .46) 0%, rgba(126, 168, 255, .32) 46%, rgba(126, 168, 255, .13) 100%);
+    box-shadow: inset 0 1px 0 rgba(126, 168, 255, .62);
+  }
+  .cd-bar--hot {
+    background: linear-gradient(180deg, #CDFBFF 0%, var(--accent) 14%, color-mix(in srgb, var(--accent) 46%, transparent) 74%, color-mix(in srgb, var(--accent) 18%, transparent) 100%);
+    box-shadow: inset 0 1px 0 rgba(244, 247, 252, .85), 0 0 26px color-mix(in srgb, var(--accent) 26%, transparent);
+  }
+  .cd-barval {
+    position: absolute; left: 50%; bottom: calc(var(--v, 0) * 1% + 8px);
+    transform: translateX(-50%);
+    font: 700 15px/1 var(--font-num); letter-spacing: .02em;
+    color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .cd-barval--hot { color: var(--ink-0); }
+
+  .cd-months { flex: none; display: flex; justify-content: space-between; margin-top: 8px; padding-left: 50px; }
+  .cd-months span {
+    width: 56px; text-align: center; white-space: nowrap;
+    font: 400 14px/1 var(--font-cjk); color: var(--ink-2); letter-spacing: .04em;
+  }
+  .cd-months span.is-hot { color: var(--ink-0); }
+
+  /* ---------- 脚注 ---------- */
+  .cd-foot {
+    flex: none; display: flex; align-items: baseline; justify-content: space-between;
+    margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--line);
+  }
+  .cd-foot__src { font: 400 13px/1 var(--font-mono); letter-spacing: .06em; color: #AEBBD0; }
+  .cd-foot__tag { font: 400 12px/1 var(--font-mono); letter-spacing: .16em; color: var(--ink-3); }
+
+  /* ============================================================
+     前后对比副屏：330×460（原尺寸）
+     ============================================================ */
+  .cs {
+    position: absolute; inset: 0; overflow: hidden;
+    display: flex; flex-direction: column;
+    padding: 40px;
+    color: var(--ink-1);
+    background:
+      radial-gradient(120% 60% at 100% 0%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 60%);
+  }
+  .cs *, .cs *::before, .cs *::after { box-sizing: border-box; }
+  .cs i, .cs em { font-style: normal; }
+
+  .cs-head { flex: none; display: flex; align-items: center; justify-content: space-between; }
+  .cs-head__label {
+    display: flex; align-items: center;
+    font: 400 13px/1 var(--font-mono); letter-spacing: .2em; color: var(--ink-2);
+    text-transform: uppercase;
+  }
+  .cs-head__dot {
+    width: 5px; height: 5px; margin-right: 9px; background: var(--accent);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+  .cs-head__step { font: 400 12px/1 var(--font-mono); letter-spacing: .16em; color: var(--ink-3); }
+
+  .cs-card {
+    flex: none; position: relative;
+    padding: 11px 15px 15px;
+    background: linear-gradient(160deg, rgba(18, 27, 44, .72), rgba(8, 12, 20, .92));
+    border: 1px solid var(--line);
+  }
+  .cs-card--before { margin-top: 13px; }
+  .cs-card--before::before {
+    content: ""; position: absolute; left: 15px; right: 15px; top: -1px; height: 1px;
+    background: linear-gradient(90deg, rgba(126, 168, 255, .35), rgba(126, 168, 255, 0));
+  }
+  .cs-card--after {
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+    background:
+      linear-gradient(160deg, color-mix(in srgb, var(--accent) 9%, transparent), color-mix(in srgb, var(--accent) 2%, transparent) 46%, rgba(8, 12, 20, .92) 100%),
+      linear-gradient(160deg, rgba(18, 27, 44, .72), rgba(8, 12, 20, .92));
+    box-shadow: inset 0 0 34px color-mix(in srgb, var(--accent) 6%, transparent);
+  }
+  .cs-card--after::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 12%, transparent));
+    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+  .cs-card__head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-bottom: 8px; border-bottom: 1px solid rgba(126, 168, 255, .10);
+  }
+  .cs-card__title { font: 700 19px/1.1 var(--font-cjk); color: var(--ink-1); letter-spacing: .02em; }
+  .cs-card--after .cs-card__title { color: var(--ink-0); }
+  .cs-card__idx { font: 400 11px/1 var(--font-mono); letter-spacing: .2em; color: var(--ink-3); }
+  .cs-card--after .cs-card__idx { color: color-mix(in srgb, var(--accent) 82%, #fff); }
+
+  .cs-row { display: flex; align-items: baseline; justify-content: space-between; padding-top: 7px; }
+  .cs-row__label {
+    display: flex; align-items: center;
+    font: 400 14px/1 var(--font-cjk); color: var(--ink-2); letter-spacing: .03em;
+  }
+  .cs-card--after .cs-row__label { color: var(--ink-1); }
+  .cs-row__dot {
+    width: 3px; height: 3px; border-radius: 50%; margin-right: 7px;
+    background: color-mix(in srgb, var(--accent) 75%, transparent);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+  .cs-row__value {
+    font-family: var(--font-num); font-weight: 700;
+    font-size: 28px; line-height: .8; letter-spacing: .01em;
+    color: var(--ink-1); font-variant-numeric: tabular-nums;
+  }
+  .cs-card--after .cs-row__value { color: var(--ink-0); }
+
+  .cs-arrow { flex: none; display: flex; align-items: center; justify-content: center; height: 44px; margin: 0 4px; }
+  .cs-arrow__line { flex: 1 1 auto; height: 1px; background: linear-gradient(90deg, rgba(126, 168, 255, 0), rgba(126, 168, 255, .30)); }
+  .cs-arrow__line + .cs-arrow__svg + .cs-arrow__line { background: linear-gradient(90deg, rgba(126, 168, 255, .30), rgba(126, 168, 255, 0)); }
+  .cs-arrow__svg { flex: none; margin: 0 10px; display: block; }
+
+  .cs-foot { flex: 1 1 auto; display: flex; align-items: flex-end; justify-content: center; }
+  .cs-foot i { display: block; width: 46px; height: 1px; background: linear-gradient(90deg, transparent, var(--line-2), transparent); }
+
+  /* ============================================================
+     舞台外层：HUD / 大气 / 字幕
+     ============================================================ */
+  .logo { position: absolute; left: 64px; top: 46px; display: flex; align-items: center; gap: 14px; }
+  .logo-mark { display: block; opacity: .92; }
+  .logo-type b { display: block; font-family: var(--font-num); font-weight: 700; font-size: 21px; letter-spacing: .18em; color: var(--ink-0); }
+
+  .hud-right { position: absolute; right: 64px; top: 44px; text-align: right; }
+  .hud-chapter { display: flex; align-items: baseline; justify-content: flex-end; gap: 10px; font-family: var(--font-num); }
+  .hud-chapter b { font-size: 30px; font-weight: 700; letter-spacing: .04em; color: var(--ink-0); }
+  .hud-chapter i { font-style: normal; font-size: 17px; color: #9AA8BE; }
+  .hud-chapter span { font-size: 17px; letter-spacing: .12em; color: #9AA8BE; }
+  .chapter-name { margin-top: 9px; font: 400 14px/18px var(--font-mono); letter-spacing: .22em; text-transform: uppercase; color: #A3B1C6; }
+  .hud-rail {
+    position: absolute; left: 42px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: 0 0;
+    font: 400 12px/1 var(--font-mono); letter-spacing: .5em; text-transform: uppercase;
+    color: rgba(160, 182, 214, .8); white-space: nowrap;
+  }
+  .atmos { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+  .sweep {
+    position: absolute; left: 0; top: -22%; width: 380px; height: 150%;
+    background: linear-gradient(90deg, rgba(150, 210, 255, 0), rgba(150, 210, 255, .055), rgba(150, 210, 255, 0));
+    filter: blur(28px); opacity: 0;
+  }
+  .veil { position: absolute; inset: 0; z-index: 20; background: #04060B; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="root">
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="bg-base"></div>
+    <div class="bg-haze bg-haze--cold"></div>
+    <div class="bg-haze bg-haze--warm"></div>
+    <div class="bg-haze bg-haze--violet"></div>
+    <div class="bg-vignette"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <!-- 3D 舞台 -->
+  <div class="stage">
+    <div class="world" id="world">
+      <div class="floor"></div>
+      <div class="horizon"></div>
+      <div class="horizon-glow"></div>
+      <div class="beams">
+        <i class="beam" style="--x:6%;--w:22%;--h:980px;--o:.06;--r:-7deg"></i>
+        <i class="beam" style="--x:30%;--w:16%;--h:880px;--o:.045;--r:-3deg"></i>
+        <i class="beam" style="--x:62%;--w:18%;--h:920px;--o:.05;--r:4deg"></i>
+        <i class="beam" style="--x:82%;--w:20%;--h:1000px;--o:.055;--r:9deg"></i>
+      </div>
+      <div class="wall">
+        <i style="left:96px;top:322px;width:150px;height:84px"></i>
+        <i style="left:1860px;top:300px;width:170px;height:96px"></i>
+        <i style="left:120px;top:470px;width:110px;height:62px;opacity:.35"></i>
+        <i style="left:1720px;top:456px;width:126px;height:70px;opacity:.4"></i>
+        <i style="left:838px;top:206px;width:244px;height:138px;opacity:.3"></i>
+      </div>
+
+      <!-- 主屏：案例数据（设计 1160×652 → 显示 1050×590） -->
+      <div class="slot slot--case" style="--x:180px;--y:110px;--w:1050px;--h:590px;--z:20px;--ry:-3deg">
+        <div class="slot-anim" id="slot-case">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:1160px;--dh:652px;--k:0.905">
+                <div class="cd">
+                  <div class="cd-head">
+                    <div class="cd-kicker"><i class="cd-kicker__tick"></i><span id="t-kicker">CASE / 案例复盘</span></div>
+                    <div class="cd-lock" id="t-lock"><i class="cd-lock__dot"></i><span id="t-lock-text">DATA LOCKED · 2026 Q3</span></div>
+                  </div>
+
+                  <h2 class="cd-title" id="t-title">一次改版，三个指标翻面</h2>
+
+                  <div class="cd-kpis" id="cd-kpis">
+                    <div class="cd-kpi" id="cd-kpi-0">
+                      <div class="cd-kpi__top"><span class="cd-kpi__idx">01</span><i class="cd-kpi__rule"></i></div>
+                      <div class="cd-kpi__val"><span class="cd-kpi__pre"></span><span class="cd-kpi__num" id="cd-num-0">0</span><span class="cd-kpi__suf"></span></div>
+                      <div class="cd-kpi__foot"><span class="cd-kpi__zh"></span><span class="cd-kpi__cmp"></span></div>
+                    </div>
+                    <div class="cd-kpi" id="cd-kpi-1">
+                      <div class="cd-kpi__top"><span class="cd-kpi__idx">02</span><i class="cd-kpi__rule"></i></div>
+                      <div class="cd-kpi__val"><span class="cd-kpi__pre"></span><span class="cd-kpi__num" id="cd-num-1">0</span><span class="cd-kpi__suf"></span></div>
+                      <div class="cd-kpi__foot"><span class="cd-kpi__zh"></span><span class="cd-kpi__cmp"></span></div>
+                    </div>
+                    <div class="cd-kpi" id="cd-kpi-2">
+                      <div class="cd-kpi__top"><span class="cd-kpi__idx">03</span><i class="cd-kpi__rule"></i></div>
+                      <div class="cd-kpi__val"><span class="cd-kpi__pre"></span><span class="cd-kpi__num" id="cd-num-2">0</span><span class="cd-kpi__suf"></span></div>
+                      <div class="cd-kpi__foot"><span class="cd-kpi__zh"></span><span class="cd-kpi__cmp"></span></div>
+                    </div>
+                  </div>
+
+                  <div class="cd-chart">
+                    <div class="cd-chart__head">
+                      <div class="cd-chart__title"><i class="cd-chart__tick"></i><span id="t-chart-label">TREND / 月度转化指数</span></div>
+                      <div class="cd-chart__range" id="t-chart-range">INDEX · APR → SEP 2026</div>
+                    </div>
+
+                    <div class="cd-chart__body">
+                      <div class="cd-yaxis"><span>0</span><span>50</span><span>100</span></div>
+                      <div class="cd-plot">
+                        <i class="cd-grid cd-grid--mid"></i>
+                        <i class="cd-grid cd-grid--top"></i>
+                        <i class="cd-axis"></i>
+                        <i class="cd-marker" id="t-marker"><span id="t-marker-text"></span></i>
+                        <div class="cd-bars" id="cd-bars">
+                          <div class="cd-barslot" style="--v:32"><i class="cd-bar"></i><b class="cd-barval">0</b></div>
+                          <div class="cd-barslot" style="--v:44"><i class="cd-bar"></i><b class="cd-barval">0</b></div>
+                          <div class="cd-barslot" style="--v:39"><i class="cd-bar"></i><b class="cd-barval">0</b></div>
+                          <div class="cd-barslot" style="--v:58"><i class="cd-bar"></i><b class="cd-barval">0</b></div>
+                          <div class="cd-barslot" style="--v:71"><i class="cd-bar"></i><b class="cd-barval">0</b></div>
+                          <div class="cd-barslot" style="--v:86"><i class="cd-bar"></i><b class="cd-barval">0</b></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="cd-months" id="cd-months">
+                      <span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span>
+                    </div>
+                  </div>
+
+                  <div class="cd-foot">
+                    <span class="cd-foot__src" id="t-footnote">数据口径 2026 Q1–Q3 · 华东大区 · N=1,284</span>
+                    <span class="cd-foot__tag" id="t-foottag">SOURCE / CRM EXPORT</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 副屏：前后对比（330×460） -->
+      <div class="slot slot--side" style="--x:1290px;--y:300px;--w:330px;--h:460px;--z:120px;--ry:-8deg">
+        <div class="slot-anim" id="slot-side">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:330px;--dh:460px;--k:1">
+                <div class="cs">
+                  <div class="cs-head">
+                    <span class="cs-head__label"><i class="cs-head__dot"></i><span id="t-compare-label">BEFORE / AFTER</span></span>
+                    <span class="cs-head__step">01 → 02</span>
+                  </div>
+
+                  <section class="cs-card cs-card--before">
+                    <header class="cs-card__head">
+                      <span class="cs-card__title" id="t-before-title">改造前</span>
+                      <span class="cs-card__idx">01</span>
+                    </header>
+                    <div class="cs-row"><span class="cs-row__label"></span><span class="cs-row__value"></span></div>
+                    <div class="cs-row"><span class="cs-row__label"></span><span class="cs-row__value"></span></div>
+                    <div class="cs-row"><span class="cs-row__label"></span><span class="cs-row__value"></span></div>
+                  </section>
+
+                  <div class="cs-arrow">
+                    <i class="cs-arrow__line"></i>
+                    <svg class="cs-arrow__svg" width="26" height="42" viewBox="0 0 26 42" fill="none" aria-hidden="true">
+                      <path d="M13 0.5 V32" stroke="var(--accent)" stroke-opacity=".82" stroke-width="1" />
+                      <path d="M6 25.5 L13 34.5 L20 25.5" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                      <circle cx="13" cy="1.8" r="1.8" fill="var(--accent)" />
+                    </svg>
+                    <i class="cs-arrow__line"></i>
+                  </div>
+
+                  <section class="cs-card cs-card--after">
+                    <header class="cs-card__head">
+                      <span class="cs-card__title" id="t-after-title">改造后</span>
+                      <span class="cs-card__idx">02</span>
+                    </header>
+                    <div class="cs-row"><span class="cs-row__label"><i class="cs-row__dot"></i></span><span class="cs-row__value"></span></div>
+                    <div class="cs-row"><span class="cs-row__label"><i class="cs-row__dot"></i></span><span class="cs-row__value"></span></div>
+                    <div class="cs-row"><span class="cs-row__label"><i class="cs-row__dot"></i></span><span class="cs-row__value"></span></div>
+                  </section>
+
+                  <div class="cs-foot"><i></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="atmos"><div class="sweep" id="sweep"></div></div>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hud-tick hud-tick--tl"></div>
+    <div class="hud-tick hud-tick--tr"></div>
+    <div class="hud-tick hud-tick--bl"></div>
+    <div class="hud-tick hud-tick--br"></div>
+    <div class="logo">
+      <svg class="logo-mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="31" height="31" rx="6" fill="none" stroke="var(--accent)" stroke-opacity=".55" />
+        <rect x="8" y="8" width="18" height="18" rx="3" fill="none" stroke="#9FD8EE" stroke-opacity=".38" />
+        <path d="M0 21.5h34" stroke="var(--accent)" stroke-opacity=".75" stroke-width="1" />
+        <circle cx="17" cy="21.5" r="2" fill="var(--accent)" />
+      </svg>
+      <div class="logo-type"><b id="t-brand">DEEP STAGE</b></div>
+    </div>
+    <div class="hud-right">
+      <div class="hud-chapter"><b id="t-chapter">04</b><i id="t-chapter-slash">/</i><span id="t-chapter-total">06</span></div>
+      <div class="chapter-name" id="t-screen-label">CASE / 案例讲解</div>
+      <div class="progress"><i id="t-progress"></i></div>
+    </div>
+    <div class="hud-rail" id="t-rail">DEEP STAGE</div>
+    <div class="hud-foot" id="t-meta">DEEP STAGE · TEMPLATE V1.0 · 1920×1080</div>
+  </div>
+
+  <div class="caption-band" id="caption-band"><div class="caption" id="t-caption"></div></div>
+
+  <div class="veil" id="veil"></div>
+</div>
+
+<script src="../assets/motion.js"></script>
+<script>
+(function () {
+  "use strict";
+  var FPS = 30;
+  var TEMPLATE_ID = "deep-stage-case-data";
+  var DEFAULT_PARAMS = {
+    brand: "DEEP STAGE",
+    kicker: "CASE / 案例复盘",
+    title: "一次改版，三个指标翻面",
+    kpis: [
+      { label: "转化率", value: 38.4, prefix: "+", suffix: "%" },
+      { label: "交付周期", value: 42, prefix: "−", suffix: "%" },
+      { label: "复购率", value: 61.2, prefix: "", suffix: "%" }
+    ],
+    bars: [
+      { label: "4月", value: 32 },
+      { label: "5月", value: 44 },
+      { label: "6月", value: 39 },
+      { label: "7月", value: 58 },
+      { label: "8月", value: 71 },
+      { label: "9月", value: 86 }
+    ],
+    footnote: "数据口径 2026 Q1–Q3 · 华东大区 · N=1,284",
+    before: [
+      { label: "人均查看", value: "12次" },
+      { label: "周期", value: "21天" },
+      { label: "成本", value: "100" }
+    ],
+    after: [
+      { label: "人均查看", value: "3次" },
+      { label: "周期", value: "12天" },
+      { label: "成本", value: "58" }
+    ],
+    beforeTitle: "改造前",
+    afterTitle: "改造后",
+    accent: "#4DE3FF"
+  };
+
+  var tl = null;
+  var lastKey = null;
+  var $ = function (id) { return document.getElementById(id); };
+  var KPI_REFS = [];
+  var BAR_REFS = [];
+
+  /* ---------- 数字格式化（纯函数，不读时钟） ---------- */
+  function group(intPart) {
+    var s = String(intPart), out = "";
+    for (var i = 0; i < s.length; i++) {
+      var p = s.length - i;
+      out += s.charAt(i);
+      if (p > 1 && (p - 1) % 3 === 0) out += ",";
+    }
+    return out;
+  }
+  function fmtNum(v, dec) {
+    var n = Math.abs(v);
+    var s = n.toFixed(dec);
+    var parts = s.split(".");
+    var head = group(parts[0]);
+    return parts.length > 1 ? head + "." + parts[1] : head;
+  }
+  function decimalsOf(v) {
+    if (typeof v !== "number" || !isFinite(v)) return 0;
+    if (Math.round(v) === v) return 0;
+    return Math.abs(v * 10 - Math.round(v * 10)) < 1e-9 ? 1 : 2;
+  }
+  function clamp01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+  function easeOutQuart(x) { var y = 1 - x; return 1 - y * y * y * y; }
+
+  /* ---------- 参数写进 DOM ---------- */
+  function setText(id, text) {
+    var el = $(id);
+    if (el) el.textContent = text == null ? "" : String(text);
+  }
+  function setRows(sceneSel, list, withDot) {
+    var cards = document.querySelectorAll(sceneSel);
+    if (!cards.length) return;
+    var rows = cards[0].querySelectorAll(".cs-row");
+    for (var i = 0; i < rows.length; i++) {
+      var item = (list || [])[i];
+      var labelEl = rows[i].querySelector(".cs-row__label");
+      var valueEl = rows[i].querySelector(".cs-row__value");
+      var dot = labelEl.querySelector(".cs-row__dot");
+      labelEl.textContent = "";
+      if (dot && withDot) labelEl.appendChild(dot);
+      labelEl.appendChild(document.createTextNode(item && item.label ? item.label : ""));
+      valueEl.textContent = item && item.value != null ? String(item.value) : "";
+    }
+  }
+
+  function applyParams(p) {
+    document.documentElement.style.setProperty("--accent", p.accent || "#4DE3FF");
+
+    setText("t-brand", p.brand);
+    setText("t-rail", p.brand);
+    setText("t-kicker", p.kicker);
+    setText("t-title", p.title);
+    setText("t-footnote", p.footnote);
+    setText("t-meta", p.meta != null ? p.meta : "DEEP STAGE · TEMPLATE V1.0 · 1920×1080");
+    setText("t-screen-label", p.screenLabel != null ? p.screenLabel : "CASE / 案例讲解");
+    setText("t-chart-label", p.chartLabel != null ? p.chartLabel : "TREND / 月度转化指数");
+    setText("t-chart-range", p.chartRange != null ? p.chartRange : "INDEX · APR → SEP 2026");
+    setText("t-compare-label", p.compareLabel != null ? p.compareLabel : "BEFORE / AFTER");
+    setText("t-before-title", p.beforeTitle || "改造前");
+    setText("t-after-title", p.afterTitle || "改造后");
+
+    /* 顶部章节号：允许 "04 / 06" 这种写法 */
+    var chapter = p.chapter != null ? String(p.chapter) : "04 / 06";
+    var slash = chapter.indexOf("/");
+    var slashEl = $("t-chapter-slash");
+    var totalEl = $("t-chapter-total");
+    if (slash >= 0) {
+      setText("t-chapter", chapter.slice(0, slash).trim());
+      setText("t-chapter-total", chapter.slice(slash + 1).trim());
+      if (totalEl) totalEl.style.display = "";
+      if (slashEl) slashEl.style.display = "";
+    } else {
+      setText("t-chapter", chapter);
+      setText("t-chapter-total", "");
+      if (totalEl) totalEl.style.display = "none";
+      if (slashEl) slashEl.style.display = "none";
+    }
+
+    /* 数据锁定小标签 */
+    var lock = p.lockLabel != null ? String(p.lockLabel) : "DATA LOCKED · 2026 Q3";
+    var lockEl = $("t-lock");
+    if (lockEl) lockEl.style.display = lock.trim() ? "" : "none";
+    setText("t-lock-text", lock);
+
+    /* 图表标记线 */
+    var marker = p.chartMarker != null ? String(p.chartMarker) : "改版上线";
+    var markerEl = $("t-marker");
+    if (markerEl) markerEl.style.display = marker.trim() ? "" : "none";
+    setText("t-marker-text", marker);
+
+    /* 脚注右侧来源标签 */
+    setText("t-foottag", p.footTag != null ? p.footTag : "SOURCE / CRM EXPORT");
+
+    /* KPI */
+    KPI_REFS = [];
+    var kpis = p.kpis || [];
+    var kpiNote = p.kpiNote != null ? String(p.kpiNote) : "VS 2025 同期";
+    for (var i = 0; i < 3; i++) {
+      var item = kpis[i] || {};
+      var card = $("cd-kpi-" + i);
+      if (!card) continue;
+      card.querySelector(".cd-kpi__pre").textContent = item.prefix != null ? String(item.prefix) : "";
+      card.querySelector(".cd-kpi__suf").textContent = item.suffix != null ? String(item.suffix) : "";
+      card.querySelector(".cd-kpi__zh").textContent = item.label != null ? String(item.label) : "";
+      card.querySelector(".cd-kpi__cmp").textContent = kpiNote;
+      var val = typeof item.value === "number" && isFinite(item.value) ? item.value : 0;
+      KPI_REFS.push({ num: $("cd-num-" + i), value: val, dec: item.decimals != null ? item.decimals : decimalsOf(val) });
+    }
+
+    /* 柱图 */
+    BAR_REFS = [];
+    var bars = p.bars || [];
+    var slots = document.querySelectorAll("#cd-bars .cd-barslot");
+    var months = document.querySelectorAll("#cd-months span");
+    var maxIdx = 0, maxV = -1;
+    for (var b = 0; b < slots.length; b++) {
+      var bar = bars[b] || {};
+      var bv = typeof bar.value === "number" && isFinite(bar.value) ? Math.max(0, Math.min(100, bar.value)) : 0;
+      if (bv > maxV) { maxV = bv; maxIdx = b; }
+      slots[b].style.setProperty("--v", bv);
+      if (months[b]) months[b].textContent = bar.label != null ? String(bar.label) : "";
+      BAR_REFS.push({ bar: slots[b].querySelector(".cd-bar"), val: slots[b].querySelector(".cd-barval"), value: bv, dec: decimalsOf(bv) });
+    }
+    for (var c = 0; c < slots.length; c++) {
+      var hot = c === maxIdx && maxV > 0;
+      slots[c].querySelector(".cd-bar").className = "cd-bar" + (hot ? " cd-bar--hot" : "");
+      slots[c].querySelector(".cd-barval").className = "cd-barval" + (hot ? " cd-barval--hot" : "");
+      if (months[c]) months[c].className = hot ? "is-hot" : "";
+    }
+
+    /* 前后对比 */
+    setRows(".cs-card--before", p.before, false);
+    setRows(".cs-card--after", p.after, true);
+
+    /* 字幕 */
+    var caption = p.caption != null ? String(p.caption) : "";
+    var band = $("caption-band");
+    if (band) {
+      band.style.display = caption.trim() ? "" : "none";
+      $("t-caption").innerHTML = caption;
+    }
+  }
+
+  /* ---------- 数字滚动：按帧纯函数 ---------- */
+  var KPI_T0 = 1.18, KPI_STEP = 0.13, KPI_DUR = 1.75;
+  var BAR_T0 = 2.12, BAR_STEP = 0.14, BAR_DUR = 0.95;
+
+  function updateCounters(t) {
+    for (var i = 0; i < KPI_REFS.length; i++) {
+      var ref = KPI_REFS[i];
+      var p = clamp01((t - (KPI_T0 + i * KPI_STEP)) / KPI_DUR);
+      if (ref.num) ref.num.textContent = fmtNum(ref.value * easeOutQuart(p), ref.dec);
+    }
+    for (var b = 0; b < BAR_REFS.length; b++) {
+      var br = BAR_REFS[b];
+      var pb = clamp01((t - (BAR_T0 + b * BAR_STEP + 0.35)) / (BAR_DUR * 0.63));
+      if (br.val) br.val.textContent = fmtNum(br.value * easeOutQuart(pb), br.dec);
+    }
+  }
+
+  /* ---------- 时间线 ---------- */
+  function build(p) {
+    applyParams(p);
+    var t = Motion.timeline();
+
+    /* 0–0.5 黑场淡入（入场余量） */
+    t.fromTo("#veil", { opacity: 1 }, { opacity: 0 }, { duration: 0.5, ease: "power2.out", at: 0 });
+
+    /* 0.2–2.6 舞台点亮 */
+    t.fromTo(".horizon", { opacity: 0, scaleX: 0.2 }, { opacity: 1, scaleX: 1 }, { duration: 2.2, ease: "power3.out", at: 0.2 });
+    t.fromTo(".horizon-glow", { opacity: 0 }, { opacity: 0.9 }, { duration: 2.0, ease: "power2.out", at: 0.36 });
+    t.fromTo(".floor", { opacity: 0 }, { opacity: 1 }, { duration: 2.0, ease: "power2.out", at: 0.3 });
+    t.fromTo(".beam", { opacity: 0 }, { opacity: 1 }, { duration: 1.5, stagger: 0.09, ease: "power2.out", at: 0.7 });
+    t.fromTo(".wall i", { opacity: 0 }, { opacity: 0.36 }, { duration: 0.6, stagger: 0.06, ease: "power2.out", at: 0.82 });
+    t.fromTo(".bg-grain", { opacity: 0 }, { opacity: 0.055 }, { duration: 1.4, ease: "power2.out", at: 0.5 });
+
+    /* 0.45–1.6 HUD */
+    t.fromTo(".hud-tick", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, stagger: 0.07, ease: "power2.out", at: 0.45 });
+    t.fromTo(".logo", { opacity: 0, x: -16 }, { opacity: 1, x: 0 }, { duration: 0.85, ease: "power3.out", at: 0.6 });
+    t.fromTo(".hud-right", { opacity: 0, x: 16 }, { opacity: 1, x: 0 }, { duration: 0.85, ease: "power3.out", at: 0.72 });
+    t.fromTo(".hud-rail", { opacity: 0 }, { opacity: 1 }, { duration: 1.0, ease: "power2.out", at: 0.9 });
+    t.fromTo(".hud-foot", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, ease: "power2.out", at: 1.5 });
+    t.fromTo("#t-progress", { scaleX: 0.16 }, { scaleX: 0.62 }, { duration: 11.6, ease: "sine.inOut", at: 0.92, transformOrigin: "0 50%" });
+
+    /* 0.24–1.3 主屏推入 */
+    t.fromTo("#slot-case", { opacity: 0, y: 56, scale: 0.962 }, { opacity: 1, y: 0, scale: 1 }, { duration: 1.06, ease: "power3.out", at: 0.24, transformOrigin: "50% 50%" });
+    t.fromTo(".slot--case .frame-glow", { opacity: 0 }, { opacity: 1 }, { duration: 1.3, ease: "power2.out", at: 0.5 });
+
+    /* 0.8–2.2 屏内标题层 */
+    t.fromTo(".cd-head", { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, { duration: 0.85, ease: "power2.out", at: 0.8 });
+    t.fromTo("#t-title", { opacity: 0, y: 26 }, { opacity: 1, y: 0 }, { duration: 1.0, ease: "power3.out", at: 0.9 });
+    t.fromTo("#cd-kpis", { opacity: 0 }, { opacity: 1 }, { duration: 0.8, ease: "power2.out", at: 1.05 });
+    t.fromTo(".cd-kpi", { opacity: 0, y: 20 }, { opacity: 1, y: 0 }, { duration: 0.85, stagger: 0.13, ease: "power2.out", at: 1.15 });
+
+    /* 1.75–2.9 图表骨架 */
+    t.fromTo(".cd-chart__head", { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, { duration: 0.8, ease: "power2.out", at: 1.75 });
+    t.fromTo(".cd-grid, .cd-axis", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, stagger: 0.07, ease: "power2.out", at: 1.85 });
+    t.fromTo(".cd-yaxis span", { opacity: 0, x: -8 }, { opacity: 1, x: 0 }, { duration: 0.7, stagger: 0.1, ease: "power2.out", at: 1.85 });
+    t.fromTo(".cd-marker", { opacity: 0, scaleY: 0.2 }, { opacity: 1, scaleY: 1 }, { duration: 0.95, ease: "power2.out", at: 2.72, transformOrigin: "50% 100%" });
+    t.fromTo(".cd-months span", { opacity: 0 }, { opacity: 1 }, { duration: 0.7, stagger: 0.06, ease: "power2.out", at: 2.42 });
+
+    /* 2.12–4.4 六根柱图逐根生长（scaleY，底边为原点） */
+    t.fromTo(".cd-bar", { scaleY: 0 }, { scaleY: 1 }, { duration: 0.95, stagger: 0.14, ease: "power3.out", at: 2.12, transformOrigin: "50% 100%" });
+    t.fromTo(".cd-barval", { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, { duration: 0.62, stagger: 0.14, ease: "power2.out", at: 2.56 });
+    t.fromTo(".cd-foot", { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, { duration: 0.85, ease: "power2.out", at: 3.12 });
+
+    /* 3.25–5.2 副屏滑入 + 前后对比 */
+    t.fromTo("#slot-side", { opacity: 0, x: 118, scale: 0.97 }, { opacity: 1, x: 0, scale: 1 }, { duration: 1.15, ease: "power3.out", at: 3.25, transformOrigin: "50% 50%" });
+    t.fromTo(".slot--side .frame-glow", { opacity: 0 }, { opacity: 1 }, { duration: 1.2, ease: "power2.out", at: 3.5 });
+    t.fromTo(".cs-head", { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, { duration: 0.8, ease: "power2.out", at: 3.62 });
+    t.fromTo(".cs-card--before", { opacity: 0, y: 22 }, { opacity: 1, y: 0 }, { duration: 0.85, ease: "power2.out", at: 3.76 });
+    t.fromTo(".cs-arrow", { opacity: 0, y: 8 }, { opacity: 1, y: 0 }, { duration: 0.8, ease: "power2.out", at: 4.1 });
+    t.fromTo(".cs-arrow__svg", { opacity: 0, scale: 0.86 }, { opacity: 1, scale: 1 }, { duration: 0.8, ease: "power2.out", at: 4.16, transformOrigin: "50% 50%" });
+    t.fromTo(".cs-card--after", { opacity: 0, y: 22 }, { opacity: 1, y: 0 }, { duration: 0.85, ease: "power2.out", at: 4.32 });
+
+    /* 4.4–5.3 字幕 */
+    t.fromTo("#caption-band", { opacity: 0, y: 14 }, { opacity: 1, y: 0 }, { duration: 0.9, ease: "power2.out", at: 4.4 });
+
+    /* 3.2–13 镜头缓慢横移 + 轻微推近（一条连续运动） */
+    t.fromTo("#world", { x: 18, y: 0, scale: 1 }, { x: -24, y: -8, scale: 1.028 }, { duration: 9.8, ease: "sine.inOut", at: 3.2 });
+
+    /* 5.0–11.4 掠过的高光 */
+    t.fromTo(".sweep", { x: -420, rotation: 18, opacity: 0.9 }, { x: 2100, rotation: 18, opacity: 0.9 }, { duration: 6.4, ease: "sine.inOut", at: 5.0 });
+
+    return t;
+  }
+
+  /* MotionGit html-canvas/1 标准入口：frame 为整数帧 */
+  window.renderFrame = function (frame, inputs) {
+    var p = Object.assign({}, DEFAULT_PARAMS, inputs || {});
+    var key = TEMPLATE_ID + "|" + JSON.stringify(p);
+    if (!tl || key !== lastKey) { tl = build(p); lastKey = key; }
+    var t = Math.max(0, Number(frame) || 0) / FPS;
+    tl.seek(t);
+    updateCounters(t);
+    return true;
+  };
+  /* 兼容旧入口：t 为秒 */
+  window.seek = function (t, inputs) {
+    return window.renderFrame(Math.round((Number(t) || 0) * FPS), inputs);
+  };
+
+  window.renderFrame(0, window.__MOTION_INPUTS__ || null);
+  window.__MOTION_READY__ = true;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://motiongit.com/schema/motion/0.1.json",
+  "format": "motiongit-template",
+  "specVersion": "0.1.0-draft.1",
+  "template": {
+    "id": "deep-stage-host-stage",
+    "version": "1.0.0",
+    "name": "DEEP STAGE · 口播主舞台",
+    "status": "candidate"
+  },
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entry": "src/index.html",
+    "dependencyLock": "motion.lock.json"
+  },
+  "parameters": {
+    "schema": "params.schema.json",
+    "defaultPreset": "presets/demo.json"
+  },
+  "assets": {
+    "manifest": "asset-manifest.json"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 30,
+      "den": 1
+    },
+    "durationPolicy": "fixed",
+    "durationSeconds": 14
+  },
+  "license": {
+    "file": "licenses/TEMPLATE-LICENSE.txt"
+  },
+  "permissions": {
+    "network": false
+  },
+  "ai": {
+    "summary": "DEEP STAGE 深境舞台的口播主舞台动效：深色 3D 舞台上，9:16 人物画面（纯 CSS/SVG 电影感剪影 + CAM 01/REC 取景标签）先入位，主信息屏与竖向章节导航屏分三层错峰展开，章节屏高亮当前章节，下三分之一人名条滑入，镜头全程缓慢横移。适合口播正文、知识讲解、产品发布会。可改品牌、主讲人名、职务、信息屏标题与 3 条编号要点、6 条章节、当前章节与主色。 随包附带可选音效轨（纯合成、无噪声源，按模板真实时间线对齐；支持音频的宿主可混入）。",
+    "entry": "README.md",
+    "guide": "guide.json",
+    "authoring": {
+      "tool": "deepseek-flash",
+      "client": "dsh"
+    }
+  },
+  "integrity": "integrity.json",
+  "preview": {
+    "video": "previews/preview.mp4",
+    "cover": "previews/cover.jpg"
+  },
+  "extensions": {
+    "motiongit.com:audio": {
+      "contract": "audio.json",
+      "optional": true,
+      "role": "sfx",
+      "file": "audio/sfx-deep-stage-host-stage.wav",
+      "durationSeconds": 14,
+      "design": "tonal-only, no noise sources, smooth transitions"
+    }
+  }
+}

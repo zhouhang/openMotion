@@ -1,0 +1,38 @@
+{
+  "lockVersion": "0.1",
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entryContract": "window.renderFrame(frame, inputs) —— 整数帧；另兼容 window.seek(seconds, inputs)",
+    "timeBasis": "frame / fps，不使用墙钟时间",
+    "network": false
+  },
+  "dependencies": [
+    {
+      "name": "motion.mini",
+      "version": "1.3.0",
+      "source": "bundled",
+      "path": "assets/motion.js",
+      "license": "本模板许可"
+    }
+  ],
+  "tested": [
+    {
+      "os": "Windows 11 x64",
+      "node": "26.4.0",
+      "browser": "Chromium 152.0.7977.30（headless shell）",
+      "renderer": "DEEP STAGE 预览渲染器（Puppeteer 逐帧 screenshot + FFmpeg）",
+      "testedAt": "2026-10-18",
+      "durationSeconds": 10,
+      "frames": 300
+    }
+  ],
+  "fonts": {
+    "strategy": "system local() 字体优先，缺失时回退通用 sans-serif；不分发字体文件",
+    "families": [
+      "Noto Sans SC",
+      "DIN Next LT Pro",
+      "Consolas",
+      "Inter"
+    ]
+  }
+}

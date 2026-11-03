@@ -1,0 +1,16 @@
+{
+  "opening": {
+    "count": "去除所有空白后的Unicode字符数，标点计入",
+    "shortMax": 12,
+    "max": 28,
+    "short": "lead-word-zoom-assemble",
+    "long": "title-demote-to-label",
+    "lead": "1–6字、必须为标题中的连续短语，由助手按语义绑定，不截字猜核心词"
+  },
+  "ending": {
+    "withValidLogoAndBrand": "ui-to-brand-morph",
+    "otherwise": "list-reveal",
+    "declaredButMissingLogo": "阻塞，不静默换成列表"
+  },
+  "override": "style可显式指定；默认auto。实际variant和selectionReason写入resolved.json"
+}

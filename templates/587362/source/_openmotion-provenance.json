@@ -1,0 +1,143 @@
+{
+  "schema": "openmotion-source-provenance-v1",
+  "template_id": "587362",
+  "source_kind": "verified_open_author_release",
+  "language": "default",
+  "version": "1.0.0",
+  "template_slug": "deep-stage-case-data",
+  "upstream_commit": null,
+  "package_path": "templates/587362/archives/original-author-release-1.0.0.motion",
+  "package_sha256": "5a22647ba36531c3960f9c2ac65df6dbca33030733308e795379e22db5045c60",
+  "release_archive_sha256": "5a22647ba36531c3960f9c2ac65df6dbca33030733308e795379e22db5045c60",
+  "release_archive_bytes": 6577753,
+  "content_protection": "open",
+  "source_url": "https://motiongit.com/@thepandaq/deep-stage-case-data",
+  "publisher_template_id": 882,
+  "publisher_release_id": 494,
+  "envelope_manifest_sha256": "db55e565a37d786d8726e133ac3a675625a5df29f292adaa56348827e3978002",
+  "delivery_receipt_sha256": "6b8b034426ffcf1a7dd331d51645d22d5509d4017bc2f97a4177ad6c2cae58a2",
+  "delivery_evidence_path": "templates/587362/redacted-delivery-evidence.json",
+  "delivery_evidence_sha256": "76a814f9136b9f9129c8cb5c3c5efd4c675bf9e6297a30cab5b3d373439bbe9b",
+  "source_path": "templates/587362/source",
+  "source_entry": "src/index.html",
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entry": "src/index.html",
+    "dependencyLock": "motion.lock.json"
+  },
+  "license_path": "templates/587362/source/licenses/TEMPLATE-LICENSE.txt",
+  "manifest_sha256": "1c0773682470f4f6194994c90e20f035dcfdefffeeff9a07998bba5a7d75a50c",
+  "original_personal_package_sha256": "4ce3c0d9ed47a73841bf22f44459d8bf39e9888b860b32854a61cf45a36a2940",
+  "original_personal_package_retained_privately": true,
+  "personal_envelope_included": false,
+  "website_authenticated_download": true,
+  "source_delivery_description": "Unchanged readable frozen author release ZIP from content/release.bin. The signed personal delivery remains private and unmodified; this author archive does not claim personal-download-v1 conformance.",
+  "public_format_evidence": "https://motiongit.com/spec/personal.md",
+  "package_license_inspected": true,
+  "credential_screen": {
+    "private_key_blocks": 0,
+    "secret_shaped_literals": 0,
+    "sensitive_file_paths": 0,
+    "method": "Read-only static patterns on open author release; personal envelope not exported."
+  },
+  "safe_zip_checks": {
+    "no_absolute_paths": true,
+    "no_parent_traversal": true,
+    "no_symlinks": true,
+    "no_duplicate_paths": true,
+    "no_control_characters": true,
+    "entry_count": 17
+  },
+  "integrity_file_verified": true,
+  "template_code_executed": false,
+  "dependencies_installed": false,
+  "runtime_render_verified": false,
+  "imported_at": "2026-10-29T03:00:26.502591+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5042,
+      "sha256": "7cf9bc30e4871188923c86fc141f1a3b078ac67fb1a80142189d53a1549a1f5a"
+    },
+    {
+      "path": "asset-manifest.json",
+      "bytes": 1342,
+      "sha256": "3308c40c9f33c4a72a17ceff154c496b86b55e81f646885095275b87bb73815a"
+    },
+    {
+      "path": "assets/grain.png",
+      "bytes": 3237,
+      "sha256": "041438a1452771ce3ab9de5353ba84606eef2888fa7f53501fdae792cdb41b72"
+    },
+    {
+      "path": "assets/motion.js",
+      "bytes": 8238,
+      "sha256": "2c8de4842233e8c3abb17564da74af371fe856508f331f6fab0300e66589fd6a"
+    },
+    {
+      "path": "assets/stage.css",
+      "bytes": 11643,
+      "sha256": "6e1a28356e30ec9fda71e70235cbc6ad4b5c6d5f5b839e4454f0ccf26ed3ade6"
+    },
+    {
+      "path": "audio.json",
+      "bytes": 4149,
+      "sha256": "9bd404d53035c5280407f09424ae83b5d76cff888eb6ca70a63ba5335202ea31"
+    },
+    {
+      "path": "audio/sfx-deep-stage-case-data.wav",
+      "bytes": 2496044,
+      "sha256": "62cd2a995113ffcccbddc5c57134568b292347291945809444990b262428903a"
+    },
+    {
+      "path": "guide.json",
+      "bytes": 8385,
+      "sha256": "c91d35492e39ccfceee3b0d04edb56f7a14d72f3db00db86484867dd1154f6d2"
+    },
+    {
+      "path": "integrity.json",
+      "bytes": 1534,
+      "sha256": "fd29c95340c6dd1c075b26dc0c50926ec761400e326ff92e9f30bc332aeb61ac"
+    },
+    {
+      "path": "licenses/TEMPLATE-LICENSE.txt",
+      "bytes": 1731,
+      "sha256": "05895eecefbdb67e5c45a600dbfe5c829c44bedc3e3679f3f4b3e16e422cafec"
+    },
+    {
+      "path": "motion.json",
+      "bytes": 2080,
+      "sha256": "1c0773682470f4f6194994c90e20f035dcfdefffeeff9a07998bba5a7d75a50c"
+    },
+    {
+      "path": "motion.lock.json",
+      "bytes": 1006,
+      "sha256": "0325411a206714a260f71db6ffee35a2dfff29e44231a81d9ad60c547f661da7"
+    },
+    {
+      "path": "params.schema.json",
+      "bytes": 7240,
+      "sha256": "75af20b324e68fd7f794c9e84d1d12c3bdd79ca943a74bc9d4dbaef5b940ee5d"
+    },
+    {
+      "path": "presets/demo.json",
+      "bytes": 1510,
+      "sha256": "3d9a8f421b5dbdee8a560c289c55b6f50d7127cf0e5155f0d76be083f033f089"
+    },
+    {
+      "path": "previews/cover.jpg",
+      "bytes": 115265,
+      "sha256": "98ee151f8e981c149abd9e7449c238b9d4cf9cd538384f944293b0130f6f232e"
+    },
+    {
+      "path": "previews/preview.mp4",
+      "bytes": 5286828,
+      "sha256": "6275ea93e976a3a95d5d7ef39c564a0565b8640b02880d6140ba1365d0d370bc"
+    },
+    {
+      "path": "src/index.html",
+      "bytes": 38373,
+      "sha256": "481b7e0a594df34384aa48a4cd66291d1d7f3376d7b38dbdf99b79838082e4e4"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://motiongit.com/schema/motion/0.1.json",
+  "format": "motiongit-template",
+  "specVersion": "0.1.0-draft.1",
+  "template": {
+    "id": "deep-stage-outro-lockup",
+    "version": "1.0.0",
+    "name": "DEEP STAGE · 收尾锁版",
+    "status": "candidate"
+  },
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entry": "src/index.html",
+    "dependencyLock": "motion.lock.json"
+  },
+  "parameters": {
+    "schema": "params.schema.json",
+    "defaultPreset": "presets/demo.json"
+  },
+  "assets": {
+    "manifest": "asset-manifest.json"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 30,
+      "den": 1
+    },
+    "durationPolicy": "fixed",
+    "durationSeconds": 8
+  },
+  "license": {
+    "file": "licenses/TEMPLATE-LICENSE.txt"
+  },
+  "permissions": {
+    "network": false
+  },
+  "variants": [
+    {
+      "id": "warm",
+      "name": "暖金",
+      "preset": "presets/warm.json",
+      "swatch": "#FFB168"
+    },
+    {
+      "id": "violet",
+      "name": "紫罗兰",
+      "preset": "presets/violet.json",
+      "swatch": "#A78BFF"
+    }
+  ],
+  "ai": {
+    "summary": "DEEP STAGE 深境舞台的收尾锁版动效：远处虚化屏幕向纵深退场，嵌套圆角方框 logo（含贯穿地平线）逐笔描边锁定，品牌字标、中文副标、规格 mono 行与描边版本胶囊依次落定，一道横扫光掠过画心，最后缓慢呼吸停在稳定的结尾画面。适合片尾、落版、品牌收束。可改品牌名、副标、规格行、版本号与主色。 随包附带可选音效轨（纯合成、无噪声源，按模板真实时间线对齐；支持音频的宿主可混入）。",
+    "entry": "README.md",
+    "guide": "guide.json",
+    "authoring": {
+      "tool": "deepseek-flash",
+      "client": "dsh"
+    }
+  },
+  "integrity": "integrity.json",
+  "preview": {
+    "video": "previews/preview.mp4",
+    "cover": "previews/cover.jpg"
+  },
+  "extensions": {
+    "motiongit.com:audio": {
+      "contract": "audio.json",
+      "optional": true,
+      "role": "sfx",
+      "file": "audio/sfx-deep-stage-outro-lockup.wav",
+      "durationSeconds": 8,
+      "design": "tonal-only, no noise sources, smooth transitions"
+    }
+  }
+}

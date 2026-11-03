@@ -1,0 +1,145 @@
+{
+  "mode": "content",
+  "duration": 72,
+  "brand": "微光工作室",
+  "music": {
+    "mode": "none"
+  },
+  "design": {
+    "brand": "微光工作室",
+    "tagline": "把重要的事情，表达清楚",
+    "opening": "让目标清晰，让证据说话",
+    "summary": "先有明确目标，再用证据完成判断",
+    "slides": [
+      {
+        "title": "明确目标",
+        "subtitle": "先描述希望发生的变化",
+        "prompt": "目标需要可理解、可检查",
+        "bg": "#f0f0f0",
+        "accent": "#63fe13"
+      },
+      {
+        "title": "整理证据",
+        "subtitle": "把已有材料放在合适位置",
+        "prompt": "区分已知事实与待验证问题",
+        "bg": "#f0f0f0",
+        "accent": "#218c00"
+      },
+      {
+        "title": "检查差距",
+        "subtitle": "让每一步变化有据可查",
+        "prompt": "依据实际数据比较，不补造结论",
+        "bg": "#f0f0f0",
+        "accent": "#218c00"
+      },
+      {
+        "title": "形成交付",
+        "subtitle": "用一份清楚的结果结束本轮",
+        "prompt": "以实际完成情况确认下一步",
+        "bg": "#f0f0f0",
+        "accent": "#218c00"
+      }
+    ],
+    "chart": {
+      "title": "逐阶段比较前后变化",
+      "labels": [
+        "准备",
+        "采集",
+        "整理",
+        "核对",
+        "修订",
+        "交付"
+      ],
+      "previous": [
+        25,
+        38,
+        45,
+        56,
+        65,
+        72
+      ],
+      "current": [
+        32,
+        43,
+        57,
+        64,
+        76,
+        86
+      ]
+    },
+    "metrics": [
+      {
+        "name": "资料覆盖率",
+        "unit": "%",
+        "previous": 65,
+        "current": 84
+      },
+      {
+        "name": "核对完成率",
+        "unit": "%",
+        "previous": 72,
+        "current": 90
+      },
+      {
+        "name": "反馈处理率",
+        "unit": "%",
+        "previous": 60,
+        "current": 78
+      }
+    ],
+    "images": [
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "segments": [
+    {
+      "intent": "opening"
+    },
+    {
+      "intent": "demo",
+      "index": 0
+    },
+    {
+      "intent": "demo",
+      "index": 1
+    },
+    {
+      "intent": "demo",
+      "index": 2
+    },
+    {
+      "intent": "demo",
+      "index": 3
+    },
+    {
+      "intent": "recap"
+    },
+    {
+      "intent": "grid"
+    },
+    {
+      "intent": "chart"
+    },
+    {
+      "intent": "metric",
+      "index": 0
+    },
+    {
+      "intent": "metric",
+      "index": 1
+    },
+    {
+      "intent": "metric",
+      "index": 2
+    },
+    {
+      "intent": "overview"
+    },
+    {
+      "intent": "brand"
+    }
+  ]
+}

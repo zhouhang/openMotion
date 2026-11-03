@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://motiongit.com/templates/deep-stage-case-data/params.schema.json",
+  "title": "DEEP STAGE 案例数据屏 · 参数",
+  "description": "深色立体舞台上的案例数据屏：标题 + 3 个 KPI + 6 根柱状图 + 脚注，右侧是改造前 / 改造后对比副屏。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["brand", "kicker", "title", "kpis", "bars", "footnote", "before", "after", "beforeTitle", "afterTitle", "accent"],
+  "properties": {
+    "brand": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "default": "DEEP STAGE",
+      "description": "左上角品牌名（同时作为左侧竖排小字）。"
+    },
+    "kicker": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 42,
+      "default": "CASE / 案例复盘",
+      "description": "数据屏左上角小标签，建议「类别 / 中文说明」。"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "default": "一次改版，三个指标翻面",
+      "description": "案例标题，一行显示，建议 8–16 个中文字。"
+    },
+    "kpis": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "三个关键指标，固定 3 条，按顺序占据三个卡片。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value", "prefix", "suffix"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 12, "description": "指标中文名，如 转化率。" },
+          "value": { "type": "number", "minimum": 0, "maximum": 9999, "description": "指标数值，入场时从 0 滚到这里。" },
+          "prefix": { "type": "string", "minLength": 0, "maxLength": 3, "description": "数值前缀，如 + 或 −（没有就写空字符串）。" },
+          "suffix": { "type": "string", "minLength": 0, "maxLength": 4, "description": "数值后缀，如 % 或 万（没有就写空字符串）。" },
+          "decimals": { "type": "integer", "minimum": 0, "maximum": 2, "description": "小数位数；不写则按数值自动决定。" }
+        }
+      }
+    },
+    "bars": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "description": "柱状图 6 根，固定 6 条；value 是 0–100 的高度比例。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 6, "description": "横轴标签，如 4月。" },
+          "value": { "type": "number", "minimum": 0, "maximum": 100, "description": "柱高（0–100），同时作为柱顶数值。" }
+        }
+      }
+    },
+    "footnote": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "default": "数据口径 2026 Q1–Q3 · 华东大区 · N=1,284",
+      "description": "数据屏底部脚注：口径、样本量与来源说明。"
+    },
+    "before": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "改造前卡片的三行数据。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 8, "description": "行名，如 人均查看。" },
+          "value": { "type": "string", "minLength": 1, "maxLength": 10, "description": "行值，可带单位，如 12次。" }
+        }
+      }
+    },
+    "after": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "改造后卡片的三行数据（与 before 一一对应）。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 8, "description": "行名，如 人均查看。" },
+          "value": { "type": "string", "minLength": 1, "maxLength": 10, "description": "行值，可带单位，如 3次。" }
+        }
+      }
+    },
+    "beforeTitle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10,
+      "default": "改造前",
+      "description": "对比副屏上卡片标题（前）。"
+    },
+    "afterTitle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10,
+      "default": "改造后",
+      "description": "对比副屏下卡片标题（后）。"
+    },
+    "kpiNote": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 20,
+      "default": "VS 2025 同期",
+      "description": "三个 KPI 右下角的小对照说明；留空则只显示指标名。"
+    },
+    "chartLabel": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 36,
+      "default": "TREND / 月度转化指数",
+      "description": "柱图左上角的图表标题。"
+    },
+    "chartRange": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 40,
+      "default": "INDEX · APR → SEP 2026",
+      "description": "柱图右上角的区间 / 口径小字。"
+    },
+    "chartMarker": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 10,
+      "default": "改版上线",
+      "description": "柱图中间的竖虚线标记文案（如改版上线）；留空则隐藏标记线。"
+    },
+    "lockLabel": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 40,
+      "default": "DATA LOCKED · 2026 Q3",
+      "description": "数据屏右上角的数据锁定小标签；留空则隐藏。"
+    },
+    "compareLabel": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 24,
+      "default": "BEFORE / AFTER",
+      "description": "对比副屏顶部的小标题。"
+    },
+    "footTag": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 32,
+      "default": "SOURCE / CRM EXPORT",
+      "description": "脚注右侧的来源标签。"
+    },
+    "chapter": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 16,
+      "default": "04 / 06",
+      "description": "右上角章节号，写法「04 / 06」；只有数字也能显示。"
+    },
+    "screenLabel": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 36,
+      "default": "CASE / 案例讲解",
+      "description": "右上角章节名，出现在章节号下方。"
+    },
+    "meta": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 52,
+      "default": "DEEP STAGE · TEMPLATE V1.0 · 1920×1080",
+      "description": "右下角角标信息，建议日期 / 版本 / 规格。"
+    },
+    "caption": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 34,
+      "default": "",
+      "description": "底部字幕（口播字幕，可留空）；用 <em>…</em> 可让局部变主色。"
+    },
+    "accent": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "default": "#4DE3FF",
+      "description": "主色（六位十六进制）。默认冷青，可改暖金 #FFB168 或紫罗兰 #A78BFF。"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "brand": "DEEP STAGE",
+  "presenter": "林 一",
+  "role": "产品主讲 / HOST",
+  "kicker": "BRIEF / 本期议题",
+  "title": "三步讲清一个产品",
+  "subtitle": "从现场需求到落地结果，一条口播串起全部证据。",
+  "items": [
+    { "title": "需求在现场", "body": "先拍下真实场景，再谈功能。" },
+    { "title": "方案怎样落地", "body": "把复杂流程压成三条主线。" },
+    { "title": "结果如何量化", "body": "用数据替你说完最后一句。" }
+  ],
+  "chapters": [
+    { "name": "开场", "time": "0:00" },
+    { "name": "口播舞台", "time": "0:06" },
+    { "name": "产品", "time": "0:16" },
+    { "name": "案例", "time": "0:25" },
+    { "name": "素材", "time": "0:34" },
+    { "name": "收尾", "time": "0:41" }
+  ],
+  "active": 2,
+  "accent": "#4DE3FF"
+}

@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>DEEP STAGE · 媒体素材墙 动效</title>
+<link rel="stylesheet" href="../assets/stage.css" />
+<style>
+  /* ============================================================
+     可读性补光：深色舞台上把小字提亮到 AA（与成片一致）
+     ============================================================ */
+  :root { --ink-2: #B6C2D4; --ink-3: #8593AB; }
+
+  /* ============================================================
+     素材墙：六宫格（每格设计 420×236，显示 480×270，k=1.14286）
+     ============================================================ */
+  .mslot-anim { transform-origin: 50% 50%; }
+  .mf { position: absolute; inset: 0; }
+  .mslot .slot-tag { left: 2px; top: -28px; font-size: 14px; letter-spacing: .26em; color: rgba(214, 226, 244, .95); }
+
+  /* ---------- 六张抽象静帧的公共层 ---------- */
+  .ma { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: #05070B; }
+  .ma i, .ma em { font-style: normal; }
+  .ma-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(122% 104% at 50% 42%, rgba(4, 6, 11, 0) 32%, rgba(4, 6, 11, .3) 68%, rgba(3, 4, 7, .82) 100%),
+      linear-gradient(180deg, rgba(4, 6, 11, .18) 0%, rgba(4, 6, 11, 0) 30%, rgba(4, 6, 11, .44) 82%, rgba(3, 4, 7, .76) 100%);
+  }
+  .ma-grain { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: soft-light; opacity: .52; pointer-events: none; }
+  .ma-border { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(244, 247, 252, .09), inset 0 1px 0 rgba(244, 247, 252, .05); }
+  .ma-label {
+    position: absolute; left: 16px; right: 16px; bottom: 12px;
+    display: flex; align-items: baseline; gap: 9px;
+    text-shadow: 0 1px 9px rgba(4, 6, 11, .96);
+  }
+  .ma-label-idx { font: 400 11px/1 var(--font-mono); letter-spacing: .14em; color: rgba(150, 168, 194, .95); }
+  .ma-label-name { font: 400 14px/1 var(--font-cjk); letter-spacing: .14em; color: rgba(224, 234, 248, .96); }
+  .ma-label-tag {
+    margin-left: auto;
+    font: 400 10.5px/1 var(--font-mono); letter-spacing: .22em; text-transform: uppercase;
+    color: color-mix(in srgb, var(--accent) 62%, #CFE4F2);
+  }
+
+  /* ---------- 01 金属微距 ---------- */
+  .ma--01 {
+    background:
+      radial-gradient(140% 120% at 70% 28%, #2A3139 0%, #171D24 30%, #0B0F14 58%, #05070B 86%),
+      #05070B;
+  }
+  .ma1-sheen {
+    position: absolute; inset: -12%;
+    background:
+      radial-gradient(44% 54% at 74% 36%, rgba(150, 205, 235, .16), transparent 70%),
+      radial-gradient(32% 42% at 20% 72%, rgba(255, 177, 104, .08), transparent 72%);
+    filter: blur(10px);
+  }
+  .ma1-ring { position: absolute; border-radius: 50%; }
+  .ma1-ring--main {
+    width: 332px; height: 332px; right: -74px; top: 6px;
+    background: conic-gradient(from 206deg,
+      #1B2026 0%, #6E7985 8%, #2A3038 18%, #525B66 30%, #14181D 44%,
+      #39414B 56%, #8E98A2 68%, #1E242B 80%, #1B2026 100%);
+    mask: radial-gradient(circle, #04060B 0 55%, rgba(4, 6, 11, 1) 56%, rgba(4, 6, 11, 1) 79%, rgba(4, 6, 11, 0) 80%);
+    -webkit-mask: radial-gradient(circle, rgba(4, 6, 11, 1) 0 55%, rgba(4, 6, 11, 1) 56%, rgba(4, 6, 11, 1) 79%, rgba(4, 6, 11, 0) 80%);
+    transform: rotate(-16deg);
+    filter: blur(.5px) saturate(.72) contrast(1.05);
+    box-shadow: 0 0 60px rgba(120, 180, 220, .07);
+  }
+  .ma1-ring--main::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background:
+      conic-gradient(from 212deg, transparent 0 9%, rgba(206, 236, 255, .6) 12%, rgba(150, 205, 235, .08) 15.5%, transparent 18% 100%),
+      conic-gradient(from 24deg, transparent 0 5%, rgba(255, 177, 104, .22) 7.5%, transparent 10.5% 100%);
+    mask: radial-gradient(circle, rgba(4, 6, 11, 1) 0 55%, rgba(4, 6, 11, 1) 56%, rgba(4, 6, 11, 1) 79%, rgba(4, 6, 11, 0) 80%);
+    -webkit-mask: radial-gradient(circle, rgba(4, 6, 11, 1) 0 55%, rgba(4, 6, 11, 1) 56%, rgba(4, 6, 11, 1) 79%, rgba(4, 6, 11, 0) 80%);
+    filter: blur(1.6px);
+  }
+  .ma1-ring--inner {
+    width: 206px; height: 206px; right: 16px; top: 68px;
+    background: conic-gradient(from 40deg,
+      #10151A 0%, #3C4753 12%, #161C23 24%, #6C7A88 36%, #10151A 50%,
+      #2A3440 64%, #93A2B0 74%, #141A20 86%, #10151A 100%);
+    mask: radial-gradient(circle, rgba(4, 6, 11, 1) 0 71%, rgba(4, 6, 11, 1) 72%, rgba(4, 6, 11, 1) 88%, rgba(4, 6, 11, 0) 89%);
+    -webkit-mask: radial-gradient(circle, rgba(4, 6, 11, 1) 0 71%, rgba(4, 6, 11, 1) 72%, rgba(4, 6, 11, 1) 88%, rgba(4, 6, 11, 0) 89%);
+    transform: rotate(9deg);
+    filter: blur(.3px) saturate(.6);
+    opacity: .92;
+  }
+  .ma1-ring--far {
+    width: 156px; height: 156px; left: -44px; top: 34px;
+    background: conic-gradient(from 120deg,
+      #232A31 0%, #7A8794 10%, #2A3037 22%, #59636F 34%, #191E24 48%,
+      #414B56 62%, #8C97A3 72%, #20262C 84%, #232A31 100%);
+    mask: radial-gradient(circle, rgba(4, 6, 11, 1) 0 52%, rgba(4, 6, 11, 1) 53%, rgba(4, 6, 11, 1) 80%, rgba(4, 6, 11, 0) 81%);
+    -webkit-mask: radial-gradient(circle, rgba(4, 6, 11, 1) 0 52%, rgba(4, 6, 11, 1) 53%, rgba(4, 6, 11, 1) 80%, rgba(4, 6, 11, 0) 81%);
+    transform: rotate(-34deg);
+    filter: blur(8px) saturate(.55);
+    opacity: .5;
+  }
+  .ma1-hotspot {
+    position: absolute; right: 54px; top: 46px;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(219, 245, 255, .5) 0%, rgba(150, 215, 245, .14) 34%, transparent 68%);
+    filter: blur(2px);
+    mix-blend-mode: screen;
+  }
+  .ma1-sweep {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(103deg, transparent 34%, rgba(196, 230, 255, .1) 44%, rgba(196, 230, 255, .025) 49%, transparent 58%),
+      radial-gradient(60% 70% at 18% 90%, rgba(4, 6, 11, .5), transparent 66%);
+    filter: blur(1.5px);
+  }
+  .ma1-bokeh { position: absolute; inset: 0; pointer-events: none; }
+  .ma1-orb {
+    position: absolute; display: block; border-radius: 50%;
+    background: radial-gradient(circle at 40% 36%, rgba(214, 244, 255, .95) 0%, rgba(120, 205, 240, .5) 34%, rgba(36, 96, 130, .1) 62%, transparent 72%);
+  }
+  .ma1-orb--big { mix-blend-mode: screen; }
+
+  /* ---------- 02 城市夜景 · bokeh ---------- */
+  .ma--02 {
+    background:
+      radial-gradient(120% 92% at 62% 66%, rgba(74, 44, 26, .5) 0%, rgba(20, 22, 30, .5) 44%, rgba(5, 7, 11, .9) 78%),
+      linear-gradient(180deg, #060A12 0%, #0A111D 30%, #121826 54%, #191B22 72%, #0A0C11 100%);
+  }
+  .ma2-sky {
+    position: absolute; left: 0; right: 0; top: 0; height: 70%;
+    background:
+      radial-gradient(66% 70% at 58% 92%, rgba(255, 166, 96, .28) 0%, rgba(180, 92, 40, .14) 40%, rgba(60, 30, 14, 0) 72%),
+      radial-gradient(52% 62% at 18% 40%, rgba(72, 150, 190, .16) 0%, rgba(30, 60, 82, 0) 70%),
+      linear-gradient(180deg, rgba(6, 10, 18, .6) 0%, rgba(10, 15, 24, 0) 46%);
+  }
+  .ma2-horizon {
+    position: absolute; left: 0; right: 0; top: 58%; height: 22%;
+    background: linear-gradient(180deg, rgba(255, 170, 100, 0) 0%, rgba(255, 170, 100, .1) 46%, rgba(255, 177, 104, 0) 100%);
+    filter: blur(6px);
+  }
+  .ma2-skyline { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  .ma2-windows { opacity: .9; }
+  .ma2-bokeh { position: absolute; inset: 0; pointer-events: none; }
+  .ma2-orb {
+    position: absolute; display: block; border-radius: 50%;
+    background: radial-gradient(circle at 42% 38%, rgba(255, 232, 198, .96) 0%, rgba(255, 177, 104, .52) 36%, rgba(140, 72, 30, .1) 64%, transparent 74%);
+  }
+  .ma2-orb--c { background: radial-gradient(circle at 42% 38%, rgba(208, 242, 255, .94) 0%, rgba(122, 202, 240, .46) 36%, rgba(40, 96, 130, .1) 64%, transparent 74%); }
+  .ma2-orb--big { mix-blend-mode: screen; }
+  .ma2-reflection {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(184deg, transparent 60%, rgba(255, 177, 104, .1) 63%, transparent 66%),
+      linear-gradient(176deg, transparent 64%, rgba(255, 196, 140, .06) 67%, transparent 70%),
+      radial-gradient(40% 26% at 74% 78%, rgba(255, 150, 80, .12), transparent 70%);
+    filter: blur(3px);
+    mix-blend-mode: screen;
+  }
+  .ma2-mist {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(5, 7, 11, 0) 52%, rgba(8, 10, 15, .5) 78%, rgba(4, 6, 9, .86) 100%),
+      radial-gradient(70% 30% at 50% 64%, rgba(80, 110, 150, .08), transparent 72%);
+  }
+
+  /* ---------- 03 光轨 ---------- */
+  .ma--03 {
+    background:
+      radial-gradient(120% 96% at 52% 46%, rgba(18, 42, 58, .55) 0%, rgba(10, 20, 30, .5) 42%, rgba(4, 6, 11, .9) 100%),
+      #05070B;
+  }
+  .ma3-base {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(4, 6, 11, .6) 0%, rgba(4, 6, 11, 0) 18%, rgba(4, 6, 11, 0) 82%, rgba(4, 6, 11, .55) 100%),
+      linear-gradient(180deg, rgba(4, 6, 11, .5) 0%, rgba(4, 6, 11, 0) 30%, rgba(4, 6, 11, 0) 62%, rgba(4, 6, 11, .5) 100%);
+  }
+  .ma3-haze {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(46% 40% at 34% 48%, rgba(90, 180, 215, .09), transparent 70%),
+      radial-gradient(44% 34% at 78% 58%, rgba(255, 177, 104, .06), transparent 72%),
+      linear-gradient(174deg, transparent 34%, rgba(120, 200, 230, .05) 46%, transparent 60%);
+    filter: blur(8px);
+  }
+  .ma3-trails { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .ma3-dust i {
+    position: absolute; display: block; width: 2px; height: 2px; border-radius: 50%;
+    background: rgba(206, 240, 255, .8);
+    box-shadow: 0 0 6px rgba(77, 227, 255, .5);
+    opacity: .5;
+  }
+
+  /* ---------- 04 丝绸褶皱 ---------- */
+  .ma--04 {
+    background:
+      radial-gradient(120% 96% at 72% 18%, #232B38 0%, #121821 34%, #080B11 70%, #05070B 100%),
+      #05070B;
+  }
+  .ma4-base {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(52% 40% at 24% 80%, rgba(130, 152, 178, .08), transparent 70%),
+      radial-gradient(40% 34% at 86% 24%, rgba(255, 196, 140, .07), transparent 72%);
+    filter: blur(10px);
+  }
+  .ma4-silk { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .ma4-weave {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(99deg, rgba(200, 222, 246, .05) 0 1px, rgba(4, 6, 11, .028) 1px 4px);
+    filter: blur(.6px); mix-blend-mode: soft-light; opacity: .8;
+  }
+  .ma4-sheen {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(114deg, transparent 24%, rgba(219, 232, 248, .08) 46%, transparent 62%),
+      radial-gradient(38% 30% at 16% 24%, rgba(180, 205, 232, .09), transparent 70%),
+      radial-gradient(34% 26% at 88% 74%, rgba(255, 177, 104, .06), transparent 72%);
+    filter: blur(2px); mix-blend-mode: screen;
+  }
+  .ma4-deep {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(4, 6, 11, .42) 0%, rgba(4, 6, 11, 0) 26%, rgba(4, 6, 11, 0) 64%, rgba(4, 6, 11, .52) 100%),
+      linear-gradient(90deg, rgba(4, 6, 11, .5) 0%, rgba(4, 6, 11, 0) 22%, rgba(4, 6, 11, 0) 82%, rgba(4, 6, 11, .4) 100%);
+  }
+
+  /* ---------- 05 星云 ---------- */
+  .ma--05 {
+    background:
+      radial-gradient(120% 100% at 38% 44%, #151024 0%, #0B0913 42%, #06060C 74%, #05060B 100%),
+      #05070B;
+  }
+  .ma5-cloud { position: absolute; border-radius: 50%; mix-blend-mode: screen; pointer-events: none; }
+  .ma5-cloud--a {
+    width: 380px; height: 330px; left: -6%; top: -14%;
+    background: radial-gradient(circle at 52% 54%, rgba(167, 139, 255, .28) 0%, rgba(110, 92, 196, .16) 38%, rgba(40, 34, 80, 0) 70%);
+    filter: blur(26px);
+  }
+  .ma5-cloud--b {
+    width: 330px; height: 300px; right: -12%; top: 8%;
+    background: radial-gradient(circle at 46% 50%, rgba(108, 126, 232, .22) 0%, rgba(64, 78, 160, .12) 40%, rgba(22, 28, 60, 0) 72%);
+    filter: blur(30px);
+  }
+  .ma5-cloud--c {
+    width: 300px; height: 240px; left: 22%; top: 40%;
+    background: radial-gradient(circle at 50% 50%, rgba(198, 128, 220, .16) 0%, rgba(112, 70, 150, .1) 38%, rgba(30, 22, 44, 0) 70%);
+    filter: blur(30px);
+  }
+  .ma5-cloud--d {
+    width: 250px; height: 200px; right: 4%; top: 56%;
+    background: radial-gradient(circle at 50% 50%, rgba(96, 190, 214, .13) 0%, rgba(44, 96, 120, .08) 42%, rgba(12, 24, 34, 0) 72%);
+    filter: blur(26px);
+  }
+  .ma5-core {
+    position: absolute; left: 20%; top: 16%;
+    width: 220px; height: 160px; border-radius: 50%;
+    background: radial-gradient(ellipse at 46% 52%, rgba(224, 208, 255, .2) 0%, rgba(167, 139, 255, .12) 34%, rgba(80, 70, 140, 0) 70%);
+    filter: blur(18px); mix-blend-mode: screen;
+  }
+  .ma5-dustlane {
+    position: absolute; left: -24%; top: 46%; width: 148%; height: 96px;
+    transform: rotate(-13deg);
+    background:
+      radial-gradient(58% 90% at 46% 50%, rgba(5, 7, 12, .62), rgba(5, 7, 11, .22) 58%, rgba(5, 7, 11, 0) 82%);
+    filter: blur(20px); opacity: .62;
+  }
+  .ma5-stars { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .ma5-veil {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(70% 54% at 42% 40%, rgba(167, 139, 255, .07), transparent 70%),
+      linear-gradient(180deg, rgba(5, 6, 11, .34) 0%, rgba(5, 6, 11, 0) 28%, rgba(5, 6, 11, 0) 66%, rgba(4, 6, 10, .56) 100%);
+  }
+
+  /* ---------- 06 建筑格栅 ---------- */
+  .ma--06 {
+    background:
+      radial-gradient(120% 100% at 78% 30%, #1B242E 0%, #0D131A 38%, #07090E 72%, #05070B 100%),
+      #05070B;
+  }
+  .ma6-air {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(50% 44% at 84% 26%, rgba(196, 222, 244, .13), transparent 70%),
+      radial-gradient(40% 40% at 20% 74%, rgba(44, 66, 88, .22), transparent 72%);
+    filter: blur(12px);
+  }
+  .ma6-wall {
+    position: absolute; left: -34%; top: -14%; width: 182%; height: 130%;
+    transform-origin: 78% 50%;
+    transform: perspective(640px) rotateY(-27deg) rotateX(3deg);
+    background:
+      repeating-linear-gradient(90deg,
+        #090D12 0px, #090D12 12px,
+        #151C26 16px, #3C4A5C 20px, #AFC3D6 22.5px, #E2EEF8 23.5px,
+        #1E2731 25.5px, #0B1017 36px);
+  }
+  .ma6-wall--sharp {
+    mask: linear-gradient(90deg, transparent 0 28%, #04060B 42%, #04060B 100%);
+    -webkit-mask: linear-gradient(90deg, transparent 0 28%, #04060B 42%, #04060B 100%);
+    filter: contrast(1.06) saturate(.8);
+  }
+  .ma6-wall--soft {
+    filter: blur(4.5px) saturate(.72) brightness(.86);
+    mask: linear-gradient(90deg, #04060B 0 26%, transparent 40%);
+    -webkit-mask: linear-gradient(90deg, #04060B 0 26%, transparent 40%);
+  }
+  .ma6-light {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(96deg, rgba(3, 4, 7, .62) 0%, rgba(4, 6, 9, .34) 26%, rgba(4, 6, 9, 0) 54%, rgba(196, 222, 244, .1) 82%, rgba(226, 240, 252, .16) 100%),
+      linear-gradient(180deg, rgba(4, 6, 11, .86) 0%, rgba(4, 6, 11, .12) 26%, rgba(4, 6, 11, .16) 62%, rgba(3, 4, 7, .8) 100%);
+  }
+  .ma6-beam {
+    position: absolute; left: -10%; top: -30%; width: 130%; height: 160%;
+    background: linear-gradient(116deg, transparent 50%, rgba(222, 238, 250, .14) 57%, rgba(222, 238, 250, .02) 60%, transparent 65%);
+    filter: blur(5px); mix-blend-mode: screen;
+  }
+  .ma6-glow {
+    position: absolute; right: -8%; top: 8%;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle at 50% 50%, rgba(214, 236, 252, .14) 0%, rgba(120, 160, 196, .08) 40%, rgba(20, 34, 48, 0) 72%);
+    filter: blur(20px); mix-blend-mode: screen;
+  }
+  .ma6-dust i {
+    position: absolute; display: block; border-radius: 50%;
+    background: rgba(224, 240, 252, .75);
+    box-shadow: 0 0 4px rgba(210, 235, 255, .5);
+    opacity: .5; filter: blur(.5px);
+  }
+
+  /* ============================================================
+     舞台外层：标题 / HUD / 大气 / 字幕
+     ============================================================ */
+  .logo { position: absolute; left: 64px; top: 46px; display: flex; align-items: center; gap: 14px; z-index: 4; }
+  .logo-mark { display: block; opacity: .92; }
+  .logo-type b { display: block; font-family: var(--font-num); font-weight: 700; font-size: 21px; letter-spacing: .18em; color: var(--ink-0); }
+
+  .wall-head { position: absolute; left: 64px; top: 84px; z-index: 4; }
+  .wall-kicker {
+    display: flex; align-items: center; gap: 12px;
+    font: 400 14px/1 var(--font-mono); letter-spacing: .3em;
+    text-transform: uppercase; color: var(--ink-2);
+  }
+  .wall-kicker::before {
+    content: ""; width: 6px; height: 6px; background: var(--accent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 65%, transparent);
+  }
+  .wall-title {
+    margin-top: 12px; font: 700 40px/1.1 var(--font-cjk);
+    letter-spacing: -.015em; color: var(--ink-0); white-space: nowrap;
+  }
+
+  .hud-right { position: absolute; right: 64px; top: 44px; text-align: right; z-index: 4; }
+  .hud-chapter { display: flex; align-items: baseline; justify-content: flex-end; gap: 10px; font-family: var(--font-num); }
+  .hud-chapter b { font-size: 30px; font-weight: 700; letter-spacing: .04em; color: var(--ink-0); }
+  .hud-chapter i { font-style: normal; font-size: 17px; color: #9AA8BE; }
+  .hud-chapter span { font-size: 17px; letter-spacing: .12em; color: #9AA8BE; }
+  .chapter-name { margin-top: 9px; font: 400 14px/18px var(--font-mono); letter-spacing: .22em; text-transform: uppercase; color: #A3B1C6; }
+  .hud-rail {
+    position: absolute; left: 42px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: 0 0;
+    font: 400 12px/1 var(--font-mono); letter-spacing: .5em; text-transform: uppercase;
+    color: rgba(160, 182, 214, .8); white-space: nowrap; z-index: 4;
+  }
+  .atmos { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+  .sweep {
+    position: absolute; left: 0; top: -20%; width: 420px; height: 145%;
+    background: linear-gradient(90deg, rgba(150, 210, 255, 0), rgba(150, 210, 255, .05), rgba(150, 210, 255, 0));
+    filter: blur(30px); opacity: 0;
+  }
+  .veil { position: absolute; inset: 0; z-index: 20; background: #04060B; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="root">
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="bg-base"></div>
+    <div class="bg-haze bg-haze--cold"></div>
+    <div class="bg-haze bg-haze--warm"></div>
+    <div class="bg-haze bg-haze--violet"></div>
+    <div class="bg-vignette"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <!-- 3D 舞台 -->
+  <div class="stage">
+    <div class="world" id="world">
+      <div class="floor"></div>
+      <div class="horizon"></div>
+      <div class="horizon-glow"></div>
+      <div class="beams">
+        <i class="beam" style="--x:6%;--w:22%;--h:980px;--o:.055;--r:-7deg"></i>
+        <i class="beam" style="--x:30%;--w:16%;--h:880px;--o:.042;--r:-3deg"></i>
+        <i class="beam" style="--x:62%;--w:18%;--h:920px;--o:.046;--r:4deg"></i>
+        <i class="beam" style="--x:82%;--w:20%;--h:1000px;--o:.05;--r:9deg"></i>
+      </div>
+      <div class="wall">
+        <i style="left:838px;top:196px;width:244px;height:138px;opacity:.26"></i>
+        <i style="left:520px;top:700px;width:180px;height:100px;opacity:.18"></i>
+      </div>
+
+      <!-- ===== 素材墙 01 ===== -->
+      <div class="slot mslot" style="--x:230px;--y:250px;--w:480px;--h:270px;--z:140px;--ry:11deg">
+        <div class="slot-anim mslot-anim" id="mslot-0">
+          <div class="mf" id="float-0">
+            <div class="frame">
+              <div class="frame-view">
+                <div class="frame-in" style="--dw:420px;--dh:236px;--k:1.142857">
+                  <div class="ma ma--01">
+                    <div class="ma1-sheen"></div>
+                    <div class="ma1-ring ma1-ring--far"></div>
+                    <div class="ma1-ring ma1-ring--main"></div>
+                    <div class="ma1-ring ma1-ring--inner"></div>
+                    <div class="ma1-hotspot"></div>
+                    <div class="ma1-sweep"></div>
+                    <div class="ma1-bokeh">
+                      <i class="ma1-orb" style="left:72%;top:22%;width:26px;height:26px;opacity:.34;filter:blur(4px)"></i>
+                      <i class="ma1-orb" style="left:14%;top:64%;width:12px;height:12px;opacity:.4;filter:blur(2px)"></i>
+                      <i class="ma1-orb" style="left:56%;top:82%;width:8px;height:8px;opacity:.3;filter:blur(1px)"></i>
+                      <i class="ma1-orb ma1-orb--big" style="left:6%;top:20%;width:64px;height:64px;opacity:.12;filter:blur(16px)"></i>
+                    </div>
+                    <div class="ma-vig"></div>
+                    <svg class="ma-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+                      <filter id="ma-g1" x="0" y="0" width="100%" height="100%">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.92" numOctaves="3" stitchTiles="stitch"/>
+                        <feColorMatrix type="saturate" values="0"/>
+                        <feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer>
+                      </filter>
+                      <rect width="420" height="236" filter="url(#ma-g1)"/>
+                    </svg>
+                    <div class="ma-border"></div>
+                    <div class="ma-label">
+                      <span class="ma-label-idx" id="mi-idx-0">01</span>
+                      <span class="ma-label-name" id="mi-label-0">金属微距</span>
+                      <span class="ma-label-tag" id="mi-tag-0">MACRO</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="frame-glow"></div>
+            </div>
+          </div>
+          <div class="slot-tag" id="mst-0">MEDIA 01</div>
+        </div>
+      </div>
+
+      <!-- ===== 素材墙 02 ===== -->
+      <div class="slot mslot" style="--x:780px;--y:250px;--w:480px;--h:270px;--z:-40px;--ry:5deg">
+        <div class="slot-anim mslot-anim" id="mslot-1">
+          <div class="mf" id="float-1">
+            <div class="frame">
+              <div class="frame-view">
+                <div class="frame-in" style="--dw:420px;--dh:236px;--k:1.142857">
+                  <div class="ma ma--02">
+                    <div class="ma2-sky"></div>
+                    <div class="ma2-horizon"></div>
+                    <svg class="ma2-skyline" viewBox="0 0 420 236" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                      <g class="ma2-far" fill="#0A101A" filter="url(#ma2-soft)">
+                        <rect x="-4" y="128" width="38" height="112"/>
+                        <rect x="40" y="112" width="26" height="128"/>
+                        <rect x="72" y="136" width="30" height="104"/>
+                        <rect x="108" y="98" width="22" height="142"/>
+                        <rect x="136" y="124" width="40" height="116"/>
+                        <rect x="182" y="116" width="26" height="124"/>
+                        <rect x="214" y="132" width="34" height="108"/>
+                        <rect x="254" y="106" width="22" height="134"/>
+                        <rect x="282" y="126" width="38" height="114"/>
+                        <rect x="326" y="118" width="24" height="122"/>
+                        <rect x="356" y="134" width="30" height="106"/>
+                        <rect x="392" y="120" width="36" height="120"/>
+                      </g>
+                      <g class="ma2-near" fill="#05070B" filter="url(#ma2-soft2)">
+                        <rect x="-6" y="150" width="48" height="90"/>
+                        <rect x="52" y="140" width="30" height="100"/>
+                        <rect x="88" y="158" width="44" height="82"/>
+                        <rect x="140" y="146" width="34" height="94"/>
+                        <rect x="180" y="164" width="40" height="76"/>
+                        <rect x="226" y="140" width="28" height="100"/>
+                        <rect x="260" y="154" width="46" height="86"/>
+                        <rect x="312" y="146" width="32" height="94"/>
+                        <rect x="350" y="162" width="40" height="78"/>
+                        <rect x="396" y="142" width="30" height="98"/>
+                      </g>
+                      <g class="ma2-windows">
+                        <rect x="44" y="122" width="3" height="3" fill="#FFC792" opacity=".55"/>
+                        <rect x="50" y="130" width="3" height="3" fill="#FFC792" opacity=".3"/>
+                        <rect x="58" y="140" width="3" height="3" fill="#FFD8AE" opacity=".42"/>
+                        <rect x="112" y="108" width="3" height="3" fill="#FFC792" opacity=".5"/>
+                        <rect x="118" y="118" width="3" height="3" fill="#FFC792" opacity=".28"/>
+                        <rect x="114" y="136" width="3" height="3" fill="#FFD8AE" opacity=".34"/>
+                        <rect x="142" y="134" width="3" height="3" fill="#FFC792" opacity=".3"/>
+                        <rect x="156" y="144" width="3" height="3" fill="#FFD8AE" opacity=".24"/>
+                        <rect x="188" y="126" width="3" height="3" fill="#FFC792" opacity=".36"/>
+                        <rect x="196" y="136" width="3" height="3" fill="#FFC792" opacity=".22"/>
+                        <rect x="230" y="150" width="3" height="3" fill="#FFD8AE" opacity=".3"/>
+                        <rect x="258" y="116" width="3" height="3" fill="#FFC792" opacity=".5"/>
+                        <rect x="264" y="128" width="3" height="3" fill="#FFC792" opacity=".26"/>
+                        <rect x="288" y="136" width="3" height="3" fill="#FFD8AE" opacity=".32"/>
+                        <rect x="300" y="148" width="3" height="3" fill="#FFC792" opacity=".22"/>
+                        <rect x="330" y="128" width="3" height="3" fill="#FFC792" opacity=".4"/>
+                        <rect x="338" y="140" width="3" height="3" fill="#FFD8AE" opacity=".26"/>
+                        <rect x="362" y="144" width="3" height="3" fill="#FFC792" opacity=".28"/>
+                        <rect x="372" y="152" width="3" height="3" fill="#FFC792" opacity=".2"/>
+                        <rect x="400" y="130" width="3" height="3" fill="#FFC792" opacity=".34"/>
+                        <rect x="172" y="122" width="3" height="3" fill="#7DDFF5" opacity=".3"/>
+                        <rect x="270" y="112" width="3" height="3" fill="#7DDFF5" opacity=".26"/>
+                      </g>
+                      <defs>
+                        <filter id="ma2-soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.1"/></filter>
+                        <filter id="ma2-soft2" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation=".45"/></filter>
+                      </defs>
+                    </svg>
+                    <div class="ma2-bokeh">
+                      <i class="ma2-orb" style="left:57%;top:26%;width:34px;height:34px;opacity:.5;filter:blur(3px)"></i>
+                      <i class="ma2-orb" style="left:67%;top:13%;width:20px;height:20px;opacity:.44;filter:blur(2px)"></i>
+                      <i class="ma2-orb" style="left:78%;top:34%;width:16px;height:16px;opacity:.4;filter:blur(1.6px)"></i>
+                      <i class="ma2-orb" style="left:88%;top:20%;width:26px;height:26px;opacity:.34;filter:blur(3.4px)"></i>
+                      <i class="ma2-orb" style="left:70%;top:46%;width:9px;height:9px;opacity:.46;filter:blur(1px)"></i>
+                      <i class="ma2-orb" style="left:50%;top:40%;width:12px;height:12px;opacity:.3;filter:blur(1.4px)"></i>
+                      <i class="ma2-orb ma2-orb--big" style="left:74%;top:28%;width:86px;height:86px;opacity:.16;filter:blur(18px)"></i>
+                      <i class="ma2-orb ma2-orb--c" style="left:12%;top:22%;width:22px;height:22px;opacity:.4;filter:blur(2.4px)"></i>
+                      <i class="ma2-orb ma2-orb--c" style="left:24%;top:12%;width:12px;height:12px;opacity:.44;filter:blur(1.4px)"></i>
+                      <i class="ma2-orb ma2-orb--c" style="left:34%;top:32%;width:7px;height:7px;opacity:.46;filter:blur(.9px)"></i>
+                      <i class="ma2-orb ma2-orb--c" style="left:8%;top:44%;width:15px;height:15px;opacity:.3;filter:blur(2px)"></i>
+                      <i class="ma2-orb ma2-orb--c" style="left:44%;top:18%;width:18px;height:18px;opacity:.26;filter:blur(2.8px)"></i>
+                      <i class="ma2-orb ma2-orb--c ma2-orb--big" style="left:2%;top:10%;width:72px;height:72px;opacity:.13;filter:blur(20px)"></i>
+                      <i class="ma2-orb" style="left:40%;top:52%;width:6px;height:6px;opacity:.3;filter:blur(.8px)"></i>
+                      <i class="ma2-orb" style="left:82%;top:54%;width:10px;height:10px;opacity:.24;filter:blur(1.6px)"></i>
+                    </div>
+                    <div class="ma2-reflection"></div>
+                    <div class="ma2-mist"></div>
+                    <div class="ma-vig"></div>
+                    <svg class="ma-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+                      <filter id="ma-g2" x="0" y="0" width="100%" height="100%">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+                        <feColorMatrix type="saturate" values="0"/>
+                        <feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer>
+                      </filter>
+                      <rect width="420" height="236" filter="url(#ma-g2)"/>
+                    </svg>
+                    <div class="ma-border"></div>
+                    <div class="ma-label">
+                      <span class="ma-label-idx" id="mi-idx-1">02</span>
+                      <span class="ma-label-name" id="mi-label-1">城市夜景</span>
+                      <span class="ma-label-tag" id="mi-tag-1">CITY</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="frame-glow"></div>
+            </div>
+          </div>
+          <div class="slot-tag" id="mst-1">MEDIA 02</div>
+        </div>
+      </div>
+
+      <!-- ===== 素材墙 03 ===== -->
+      <div class="slot mslot" style="--x:1370px;--y:250px;--w:480px;--h:270px;--z:-170px;--ry:-7deg">
+        <div class="slot-anim mslot-anim" id="mslot-2">
+          <div class="mf" id="float-2">
+            <div class="frame">
+              <div class="frame-view">
+                <div class="frame-in" style="--dw:420px;--dh:236px;--k:1.142857">
+                  <div class="ma ma--03">
+                    <div class="ma3-base"></div>
+                    <div class="ma3-haze"></div>
+                    <svg class="ma3-trails" viewBox="0 0 420 236" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                      <defs>
+                        <linearGradient id="ma3-tA" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#4DE3FF" stop-opacity="0"/>
+                          <stop offset=".22" stop-color="#7FE9FF" stop-opacity=".55"/>
+                          <stop offset=".52" stop-color="#D6F7FF" stop-opacity=".95"/>
+                          <stop offset=".78" stop-color="#5FD8F5" stop-opacity=".6"/>
+                          <stop offset="1" stop-color="#4DE3FF" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="ma3-tB" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#4DE3FF" stop-opacity="0"/>
+                          <stop offset=".3" stop-color="#9FEFFF" stop-opacity=".7"/>
+                          <stop offset=".66" stop-color="#ECFBFF" stop-opacity=".85"/>
+                          <stop offset=".9" stop-color="#6FDDF6" stop-opacity=".3"/>
+                          <stop offset="1" stop-color="#4DE3FF" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="ma3-tC" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#FFB168" stop-opacity="0"/>
+                          <stop offset=".3" stop-color="#FFC58C" stop-opacity=".7"/>
+                          <stop offset=".64" stop-color="#FFE7C6" stop-opacity=".9"/>
+                          <stop offset=".88" stop-color="#FFB168" stop-opacity=".3"/>
+                          <stop offset="1" stop-color="#FFB168" stop-opacity="0"/>
+                        </linearGradient>
+                        <filter id="ma3-soft" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+                        <filter id="ma3-mid" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="2.4"/></filter>
+                        <filter id="ma3-fine" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur stdDeviation=".7"/></filter>
+                        <radialGradient id="ma3-node" cx="0.5" cy="0.5" r="0.5">
+                          <stop offset="0" stop-color="#EAFBFF" stop-opacity=".95"/>
+                          <stop offset=".35" stop-color="#7FE9FF" stop-opacity=".5"/>
+                          <stop offset="1" stop-color="#4DE3FF" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="ma3-nodew" cx="0.5" cy="0.5" r="0.5">
+                          <stop offset="0" stop-color="#FFF3E0" stop-opacity=".95"/>
+                          <stop offset=".35" stop-color="#FFC58C" stop-opacity=".5"/>
+                          <stop offset="1" stop-color="#FFB168" stop-opacity="0"/>
+                        </radialGradient>
+                      </defs>
+                      <g filter="url(#ma3-soft)" opacity=".5">
+                        <path d="M-24 156 C 46 150 84 118 150 108 C 214 98 250 118 306 104 C 352 92 396 74 444 64" stroke="#4DE3FF" stroke-width="10" fill="none" opacity=".5"/>
+                        <path d="M-24 190 C 70 186 130 160 210 158 C 286 156 350 140 444 124" stroke="#FFB168" stroke-width="6" fill="none" opacity=".3"/>
+                      </g>
+                      <g filter="url(#ma3-mid)">
+                        <path d="M-24 172 C 60 164 96 138 166 128 C 232 118 270 138 324 124 C 368 112 404 96 444 86" stroke="url(#ma3-tB)" stroke-width="2.2" fill="none" opacity=".85"/>
+                        <path d="M-24 96 C 54 88 108 62 176 70 C 240 78 286 52 344 58 C 386 62 416 54 444 48" stroke="url(#ma3-tB)" stroke-width="1.6" fill="none" opacity=".6"/>
+                        <path d="M-24 190 C 70 186 130 160 210 158 C 286 156 350 140 444 124" stroke="url(#ma3-tC)" stroke-width="2" fill="none" opacity=".8"/>
+                      </g>
+                      <g filter="url(#ma3-fine)">
+                        <path d="M-24 156 C 46 150 84 118 150 108 C 214 98 250 118 306 104 C 352 92 396 74 444 64" stroke="url(#ma3-tA)" stroke-width="2.8" fill="none"/>
+                        <path d="M-24 122 C 40 128 96 100 170 96 C 240 92 296 112 360 96 C 396 88 422 84 444 80" stroke="url(#ma3-tA)" stroke-width="1" fill="none" opacity=".55"/>
+                        <path d="M-24 146 C 56 138 108 112 186 108 C 258 104 316 118 374 104 C 402 98 424 94 444 90" stroke="url(#ma3-tA)" stroke-width=".9" fill="none" opacity=".4"/>
+                        <path d="M-24 208 C 78 200 142 178 224 176 C 300 174 362 162 444 150" stroke="url(#ma3-tC)" stroke-width=".9" fill="none" opacity=".34"/>
+                      </g>
+                      <g>
+                        <circle cx="150" cy="108" r="16" fill="url(#ma3-node)" opacity=".5"/>
+                        <circle cx="150" cy="108" r="3.2" fill="#EAFBFF" opacity=".9"/>
+                        <circle cx="306" cy="104" r="12" fill="url(#ma3-node)" opacity=".4"/>
+                        <circle cx="306" cy="104" r="2.4" fill="#DFF7FF" opacity=".85"/>
+                        <circle cx="210" cy="158" r="14" fill="url(#ma3-nodew)" opacity=".42"/>
+                        <circle cx="210" cy="158" r="2.8" fill="#FFF1DC" opacity=".85"/>
+                        <circle cx="360" cy="96" r="8" fill="url(#ma3-node)" opacity=".32"/>
+                        <circle cx="360" cy="96" r="1.8" fill="#DFF7FF" opacity=".7"/>
+                        <circle cx="64" cy="170" r="1.4" fill="#BCEFFF" opacity=".55"/>
+                        <circle cx="398" cy="120" r="1.2" fill="#BCEFFF" opacity=".4"/>
+                      </g>
+                    </svg>
+                    <div class="ma3-dust">
+                      <i style="left:26%;top:38%"></i>
+                      <i style="left:58%;top:64%"></i>
+                      <i style="left:83%;top:26%"></i>
+                      <i style="left:12%;top:22%"></i>
+                    </div>
+                    <div class="ma-vig"></div>
+                    <svg class="ma-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+                      <filter id="ma-g3" x="0" y="0" width="100%" height="100%">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+                        <feColorMatrix type="saturate" values="0"/>
+                        <feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer>
+                      </filter>
+                      <rect width="420" height="236" filter="url(#ma-g3)"/>
+                    </svg>
+                    <div class="ma-border"></div>
+                    <div class="ma-label">
+                      <span class="ma-label-idx" id="mi-idx-2">03</span>
+                      <span class="ma-label-name" id="mi-label-2">光轨</span>
+                      <span class="ma-label-tag" id="mi-tag-2">TRAILS</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="frame-glow"></div>
+            </div>
+          </div>
+          <div class="slot-tag" id="mst-2">MEDIA 03</div>
+        </div>
+      </div>
+
+      <!-- ===== 素材墙 04 ===== -->
+      <div class="slot mslot" style="--x:230px;--y:580px;--w:480px;--h:270px;--z:70px;--ry:8deg">
+        <div class="slot-anim mslot-anim" id="mslot-3">
+          <div class="mf" id="float-3">
+            <div class="frame">
+              <div class="frame-view">
+                <div class="frame-in" style="--dw:420px;--dh:236px;--k:1.142857">
+                  <div class="ma ma--04">
+                    <div class="ma4-base"></div>
+                    <svg class="ma4-silk" viewBox="0 0 420 236" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                      <defs>
+                        <linearGradient id="ma4-satA" x1="0.08" y1="0.05" x2="0.86" y2="0.98">
+                          <stop offset="0" stop-color="#0A0E14"/>
+                          <stop offset=".14" stop-color="#18202C"/>
+                          <stop offset=".29" stop-color="#4C5A70" stop-opacity=".92"/>
+                          <stop offset=".41" stop-color="#212A38"/>
+                          <stop offset=".57" stop-color="#66738A" stop-opacity=".92"/>
+                          <stop offset=".7" stop-color="#28303E"/>
+                          <stop offset=".85" stop-color="#131923"/>
+                          <stop offset="1" stop-color="#080B11"/>
+                        </linearGradient>
+                        <linearGradient id="ma4-satB" x1="0.2" y1="0" x2="0.9" y2="1">
+                          <stop offset="0" stop-color="#070A0F"/>
+                          <stop offset=".22" stop-color="#151C26"/>
+                          <stop offset=".38" stop-color="#3B4658" stop-opacity=".8"/>
+                          <stop offset=".54" stop-color="#161D28"/>
+                          <stop offset=".72" stop-color="#4A566A" stop-opacity=".72"/>
+                          <stop offset=".88" stop-color="#10151E"/>
+                          <stop offset="1" stop-color="#070A0F"/>
+                        </linearGradient>
+                        <linearGradient id="ma4-satC" x1="0" y1="0" x2="1" y2="0.4">
+                          <stop offset="0" stop-color="#080B10"/>
+                          <stop offset=".2" stop-color="#1C2431"/>
+                          <stop offset=".4" stop-color="#5B687D" stop-opacity=".85"/>
+                          <stop offset=".55" stop-color="#2A3240"/>
+                          <stop offset=".74" stop-color="#77849A" stop-opacity=".8"/>
+                          <stop offset=".9" stop-color="#1A212C"/>
+                          <stop offset="1" stop-color="#080B10"/>
+                        </linearGradient>
+                        <linearGradient id="ma4-ridge" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#DFE9F5" stop-opacity="0"/>
+                          <stop offset=".28" stop-color="#D6E4F4" stop-opacity=".55"/>
+                          <stop offset=".52" stop-color="#F4F7FC" stop-opacity=".7"/>
+                          <stop offset=".76" stop-color="#C9D8EA" stop-opacity=".35"/>
+                          <stop offset="1" stop-color="#DFE9F5" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="ma4-ridgew" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#FFE9CE" stop-opacity="0"/>
+                          <stop offset=".34" stop-color="#FFD8AC" stop-opacity=".45"/>
+                          <stop offset=".62" stop-color="#FFF2DF" stop-opacity=".5"/>
+                          <stop offset="1" stop-color="#FFD8AC" stop-opacity="0"/>
+                        </linearGradient>
+                        <filter id="ma4-blur" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="4.5"/></filter>
+                        <filter id="ma4-soft" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter>
+                        <filter id="ma4-hair" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation=".6"/></filter>
+                      </defs>
+                      <rect width="420" height="236" fill="#080B11"/>
+                      <g filter="url(#ma4-blur)" opacity=".7">
+                        <path d="M-10 96 C 54 52 118 118 182 84 C 246 50 312 104 430 56 L430 -10 L-10 -10 Z" fill="url(#ma4-satB)"/>
+                        <path d="M-10 150 C 66 118 128 176 200 146 C 272 116 344 162 430 128 L430 246 L-10 246 Z" fill="url(#ma4-satB)"/>
+                      </g>
+                      <path d="M-10 118 C 58 78 122 142 190 108 C 258 74 328 124 430 84 L430 246 L-10 246 Z" fill="url(#ma4-satA)"/>
+                      <path d="M-10 178 C 62 148 126 196 198 170 C 270 144 342 182 430 152 L430 246 L-10 246 Z" fill="url(#ma4-satC)" opacity=".94"/>
+                      <g filter="url(#ma4-soft)">
+                        <path d="M-10 118 C 58 78 122 142 190 108 C 258 74 328 124 430 84" stroke="url(#ma4-ridge)" stroke-width="2.6" fill="none" opacity=".85"/>
+                        <path d="M-10 178 C 62 148 126 196 198 170 C 270 144 342 182 430 152" stroke="url(#ma4-ridgew)" stroke-width="2.2" fill="none" opacity=".6"/>
+                        <path d="M-10 74 C 62 44 126 92 198 66 C 270 40 342 84 430 54" stroke="url(#ma4-ridge)" stroke-width="1.6" fill="none" opacity=".4"/>
+                      </g>
+                      <g filter="url(#ma4-hair)" opacity=".7">
+                        <path d="M-10 132 C 58 94 122 154 190 122 C 258 90 328 138 430 98" stroke="#B9CBDD" stroke-width=".9" fill="none" opacity=".35"/>
+                        <path d="M-10 148 C 60 112 124 168 194 138 C 264 108 336 152 430 116" stroke="#91A4BA" stroke-width=".8" fill="none" opacity=".28"/>
+                        <path d="M-10 196 C 64 168 128 212 200 188 C 272 164 344 200 430 172" stroke="#B9CBDD" stroke-width=".9" fill="none" opacity=".3"/>
+                        <path d="M-10 214 C 66 190 130 228 202 208 C 274 188 346 220 430 196" stroke="#8698AD" stroke-width=".8" fill="none" opacity=".24"/>
+                        <path d="M-10 92 C 62 64 126 108 198 84 C 270 60 342 100 430 72" stroke="#A9BCCF" stroke-width=".8" fill="none" opacity=".26"/>
+                        <path d="M-10 58 C 60 36 126 76 198 54 C 270 32 342 68 430 44" stroke="#7F92A8" stroke-width=".7" fill="none" opacity=".22"/>
+                      </g>
+                    </svg>
+                    <div class="ma4-weave"></div>
+                    <div class="ma4-sheen"></div>
+                    <div class="ma4-deep"></div>
+                    <div class="ma-vig"></div>
+                    <svg class="ma-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+                      <filter id="ma-g4" x="0" y="0" width="100%" height="100%">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.94" numOctaves="3" stitchTiles="stitch"/>
+                        <feColorMatrix type="saturate" values="0"/>
+                        <feComponentTransfer><feFuncA type="linear" slope=".5"/></feComponentTransfer>
+                      </filter>
+                      <rect width="420" height="236" filter="url(#ma-g4)"/>
+                    </svg>
+                    <div class="ma-border"></div>
+                    <div class="ma-label">
+                      <span class="ma-label-idx" id="mi-idx-3">04</span>
+                      <span class="ma-label-name" id="mi-label-3">丝绸褶皱</span>
+                      <span class="ma-label-tag" id="mi-tag-3">TEXTURE</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="frame-glow"></div>
+            </div>
+          </div>
+          <div class="slot-tag" id="mst-3">MEDIA 04</div>
+        </div>
+      </div>
+
+      <!-- ===== 素材墙 05 ===== -->
+      <div class="slot mslot" style="--x:780px;--y:580px;--w:480px;--h:270px;--z:-120px;--ry:-3deg">
+        <div class="slot-anim mslot-anim" id="mslot-4">
+          <div class="mf" id="float-4">
+            <div class="frame">
+              <div class="frame-view">
+                <div class="frame-in" style="--dw:420px;--dh:236px;--k:1.142857">
+                  <div class="ma ma--05">
+                    <div class="ma5-cloud ma5-cloud--a"></div>
+                    <div class="ma5-cloud ma5-cloud--b"></div>
+                    <div class="ma5-cloud ma5-cloud--c"></div>
+                    <div class="ma5-cloud ma5-cloud--d"></div>
+                    <div class="ma5-core"></div>
+                    <div class="ma5-dustlane"></div>
+                    <svg class="ma5-stars" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+                      <defs>
+                        <radialGradient id="ma5-star" cx="0.5" cy="0.5" r="0.5">
+                          <stop offset="0" stop-color="#F4F7FC" stop-opacity=".95"/>
+                          <stop offset=".45" stop-color="#CFE2FF" stop-opacity=".4"/>
+                          <stop offset="1" stop-color="#A78BFF" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="ma5-starw" cx="0.5" cy="0.5" r="0.5">
+                          <stop offset="0" stop-color="#FFF0DA" stop-opacity=".9"/>
+                          <stop offset=".5" stop-color="#FFC58C" stop-opacity=".32"/>
+                          <stop offset="1" stop-color="#FFB168" stop-opacity="0"/>
+                        </radialGradient>
+                      </defs>
+                      <g fill="#E8F1FF">
+                        <circle cx="42" cy="38" r=".9" opacity=".7"/><circle cx="86" cy="22" r=".7" opacity=".5"/>
+                        <circle cx="128" cy="54" r="1.1" opacity=".8"/><circle cx="164" cy="30" r=".6" opacity=".45"/>
+                        <circle cx="198" cy="62" r=".8" opacity=".6"/><circle cx="236" cy="26" r=".7" opacity=".5"/>
+                        <circle cx="274" cy="48" r="1" opacity=".7"/><circle cx="318" cy="34" r=".6" opacity=".42"/>
+                        <circle cx="356" cy="58" r=".9" opacity=".62"/><circle cx="392" cy="28" r=".7" opacity=".48"/>
+                        <circle cx="24" cy="92" r=".8" opacity=".55"/><circle cx="64" cy="118" r=".6" opacity=".4"/>
+                        <circle cx="102" cy="88" r="1.2" opacity=".75"/><circle cx="146" cy="120" r=".7" opacity=".5"/>
+                        <circle cx="184" cy="96" r=".9" opacity=".62"/><circle cx="222" cy="128" r=".6" opacity=".4"/>
+                        <circle cx="262" cy="102" r="1.1" opacity=".7"/><circle cx="302" cy="132" r=".7" opacity=".48"/>
+                        <circle cx="342" cy="100" r=".9" opacity=".58"/><circle cx="384" cy="126" r=".6" opacity=".4"/>
+                        <circle cx="38" cy="164" r=".7" opacity=".42"/><circle cx="82" cy="192" r="1" opacity=".6"/>
+                        <circle cx="126" cy="158" r=".6" opacity=".38"/><circle cx="170" cy="186" r=".8" opacity=".5"/>
+                        <circle cx="214" cy="160" r=".7" opacity=".44"/><circle cx="258" cy="190" r=".9" opacity=".52"/>
+                        <circle cx="300" cy="164" r=".6" opacity=".36"/><circle cx="344" cy="196" r=".8" opacity=".46"/>
+                        <circle cx="386" cy="170" r=".7" opacity=".4"/><circle cx="118" cy="208" r=".6" opacity=".34"/>
+                        <circle cx="286" cy="212" r=".6" opacity=".3"/>
+                      </g>
+                      <g>
+                        <circle cx="102" cy="88" r="9" fill="url(#ma5-star)" opacity=".55"/>
+                        <circle cx="262" cy="102" r="8" fill="url(#ma5-star)" opacity=".5"/>
+                        <circle cx="128" cy="54" r="6" fill="url(#ma5-star)" opacity=".5"/>
+                        <circle cx="342" cy="100" r="7" fill="url(#ma5-starw)" opacity=".4"/>
+                        <circle cx="214" cy="58" r="14" fill="url(#ma5-star)" opacity=".4"/>
+                        <circle cx="214" cy="58" r="1.6" fill="#F4F7FC" opacity=".9"/>
+                        <circle cx="68" cy="142" r="1.4" fill="#DCEBFF" opacity=".7"/>
+                        <circle cx="374" cy="82" r="1.3" fill="#FFE6C8" opacity=".6"/>
+                      </g>
+                    </svg>
+                    <div class="ma5-veil"></div>
+                    <div class="ma-vig"></div>
+                    <svg class="ma-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+                      <filter id="ma-g5" x="0" y="0" width="100%" height="100%">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+                        <feColorMatrix type="saturate" values="0"/>
+                        <feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer>
+                      </filter>
+                      <rect width="420" height="236" filter="url(#ma-g5)"/>
+                    </svg>
+                    <div class="ma-border"></div>
+                    <div class="ma-label">
+                      <span class="ma-label-idx" id="mi-idx-4">05</span>
+                      <span class="ma-label-name" id="mi-label-4">星云</span>
+                      <span class="ma-label-tag" id="mi-tag-4">NEBULA</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="frame-glow"></div>
+            </div>
+          </div>
+          <div class="slot-tag" id="mst-4">MEDIA 05</div>
+        </div>
+      </div>
+
+      <!-- ===== 素材墙 06 ===== -->
+      <div class="slot mslot" style="--x:1370px;--y:580px;--w:480px;--h:270px;--z:-220px;--ry:-11deg">
+        <div class="slot-anim mslot-anim" id="mslot-5">
+          <div class="mf" id="float-5">
+            <div class="frame">
+              <div class="frame-view">
+                <div class="frame-in" style="--dw:420px;--dh:236px;--k:1.142857">
+                  <div class="ma ma--06">
+                    <div class="ma6-air"></div>
+                    <div class="ma6-wall ma6-wall--soft"></div>
+                    <div class="ma6-wall ma6-wall--sharp"></div>
+                    <div class="ma6-light"></div>
+                    <div class="ma6-beam"></div>
+                    <div class="ma6-glow"></div>
+                    <div class="ma6-dust">
+                      <i style="left:24%;top:32%;width:2px;height:2px"></i>
+                      <i style="left:58%;top:22%;width:1.5px;height:1.5px"></i>
+                      <i style="left:72%;top:58%;width:2px;height:2px"></i>
+                      <i style="left:38%;top:68%;width:1.5px;height:1.5px"></i>
+                      <i style="left:86%;top:38%;width:1px;height:1px"></i>
+                      <i style="left:48%;top:44%;width:1px;height:1px"></i>
+                    </div>
+                    <div class="ma-vig"></div>
+                    <svg class="ma-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+                      <filter id="ma-g6" x="0" y="0" width="100%" height="100%">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+                        <feColorMatrix type="saturate" values="0"/>
+                        <feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer>
+                      </filter>
+                      <rect width="420" height="236" filter="url(#ma-g6)"/>
+                    </svg>
+                    <div class="ma-border"></div>
+                    <div class="ma-label">
+                      <span class="ma-label-idx" id="mi-idx-5">06</span>
+                      <span class="ma-label-name" id="mi-label-5">建筑格栅</span>
+                      <span class="ma-label-tag" id="mi-tag-5">STRUCTURE</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="frame-glow"></div>
+            </div>
+          </div>
+          <div class="slot-tag" id="mst-5">MEDIA 06</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="atmos"><div class="sweep" id="sweep"></div></div>
+
+  <!-- HUD / 标题角标 -->
+  <div class="hud">
+    <div class="hud-tick hud-tick--tl"></div>
+    <div class="hud-tick hud-tick--tr"></div>
+    <div class="hud-tick hud-tick--bl"></div>
+    <div class="hud-tick hud-tick--br"></div>
+    <div class="logo">
+      <svg class="logo-mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="31" height="31" rx="6" fill="none" stroke="var(--accent)" stroke-opacity=".55" />
+        <rect x="8" y="8" width="18" height="18" rx="3" fill="none" stroke="#9FD8EE" stroke-opacity=".38" />
+        <path d="M0 21.5h34" stroke="var(--accent)" stroke-opacity=".75" stroke-width="1" />
+        <circle cx="17" cy="21.5" r="2" fill="var(--accent)" />
+      </svg>
+      <div class="logo-type"><b id="t-brand">DEEP STAGE</b></div>
+    </div>
+    <div class="hud-right">
+      <div class="hud-chapter"><b id="t-chapter">05</b><i id="t-chapter-slash">/</i><span id="t-chapter-total">06</span></div>
+      <div class="chapter-name" id="t-screen-label">MEDIA WALL / 媒体素材</div>
+      <div class="progress"><i id="t-progress"></i></div>
+    </div>
+    <div class="hud-foot" id="t-meta">DEEP STAGE · TEMPLATE V1.0 · 1920×1080</div>
+  </div>
+
+  <div class="wall-head" id="wall-head">
+    <div class="wall-kicker" id="t-wall-kicker">MEDIA WALL / 素材墙</div>
+    <h2 class="wall-title" id="t-wall-title">六个镜头，一面素材墙</h2>
+  </div>
+
+  <div class="caption-band" id="caption-band"><div class="caption" id="t-caption"></div></div>
+
+  <div class="veil" id="veil"></div>
+</div>
+
+<script src="../assets/motion.js"></script>
+<script>
+(function () {
+  "use strict";
+  var FPS = 30;
+  var TEMPLATE_ID = "deep-stage-media-wall";
+  var DEFAULT_PARAMS = {
+    wallKicker: "MEDIA WALL / 素材墙",
+    wallTitle: "六个镜头，一面素材墙",
+    items: [
+      { label: "金属微距", tag: "MACRO" },
+      { label: "城市夜景", tag: "CITY" },
+      { label: "光轨", tag: "TRAILS" },
+      { label: "丝绸褶皱", tag: "TEXTURE" },
+      { label: "星云", tag: "NEBULA" },
+      { label: "建筑格栅", tag: "STRUCTURE" }
+    ],
+    brand: "DEEP STAGE",
+    accent: "#4DE3FF"
+  };
+
+  var tl = null;
+  var lastKey = null;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function setText(id, text) {
+    var el = $(id);
+    if (el) el.textContent = text == null ? "" : String(text);
+  }
+  function pad2(n) { return n < 10 ? "0" + n : String(n); }
+
+  function applyParams(p) {
+    document.documentElement.style.setProperty("--accent", p.accent || "#4DE3FF");
+
+    setText("t-brand", p.brand);
+    setText("t-rail", p.brand);
+    setText("t-wall-kicker", p.wallKicker);
+    setText("t-wall-title", p.wallTitle);
+    setText("t-meta", p.meta != null ? p.meta : "DEEP STAGE · TEMPLATE V1.0 · 1920×1080");
+    setText("t-screen-label", p.screenLabel != null ? p.screenLabel : "MEDIA WALL / 媒体素材");
+
+    var chapter = p.chapter != null ? String(p.chapter) : "05 / 06";
+    var slash = chapter.indexOf("/");
+    var slashEl = $("t-chapter-slash");
+    var totalEl = $("t-chapter-total");
+    if (slash >= 0) {
+      setText("t-chapter", chapter.slice(0, slash).trim());
+      setText("t-chapter-total", chapter.slice(slash + 1).trim());
+      if (totalEl) totalEl.style.display = "";
+      if (slashEl) slashEl.style.display = "";
+    } else {
+      setText("t-chapter", chapter);
+      setText("t-chapter-total", "");
+      if (totalEl) totalEl.style.display = "none";
+      if (slashEl) slashEl.style.display = "none";
+    }
+
+    var items = p.items || [];
+    for (var i = 0; i < 6; i++) {
+      var it = items[i] || {};
+      setText("mi-idx-" + i, pad2(i + 1));
+      setText("mi-label-" + i, it.label);
+      setText("mi-tag-" + i, it.tag);
+      setText("mst-" + i, "MEDIA " + pad2(i + 1));
+    }
+
+    var caption = p.caption != null ? String(p.caption) : "";
+    var band = $("caption-band");
+    if (band) {
+      band.style.display = caption.trim() ? "" : "none";
+      $("t-caption").innerHTML = caption;
+    }
+  }
+
+  function build(p) {
+    applyParams(p);
+    var t = Motion.timeline();
+
+    /* 0–0.45 黑场淡入（入场余量） */
+    t.fromTo("#veil", { opacity: 1 }, { opacity: 0 }, { duration: 0.45, ease: "power2.out", at: 0 });
+
+    /* 0.1–2.2 舞台点亮 */
+    t.fromTo(".horizon", { opacity: 0, scaleX: 0.2 }, { opacity: 1, scaleX: 1 }, { duration: 2.0, ease: "power3.out", at: 0.1 });
+    t.fromTo(".horizon-glow", { opacity: 0 }, { opacity: 0.85 }, { duration: 1.8, ease: "power2.out", at: 0.24 });
+    t.fromTo(".floor", { opacity: 0 }, { opacity: 1 }, { duration: 1.9, ease: "power2.out", at: 0.18 });
+    t.fromTo(".beam", { opacity: 0 }, { opacity: 1 }, { duration: 1.4, stagger: 0.08, ease: "power2.out", at: 0.5 });
+    t.fromTo(".wall i", { opacity: 0 }, { opacity: 0.34 }, { duration: 0.6, stagger: 0.05, ease: "power2.out", at: 0.6 });
+    t.fromTo(".bg-grain", { opacity: 0 }, { opacity: 0.055 }, { duration: 1.2, ease: "power2.out", at: 0.3 });
+
+    /* 0.35–1.35 HUD */
+    t.fromTo(".hud-tick", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, stagger: 0.06, ease: "power2.out", at: 0.35 });
+    t.fromTo(".logo", { opacity: 0, x: -16 }, { opacity: 1, x: 0 }, { duration: 0.85, ease: "power3.out", at: 0.5 });
+    t.fromTo(".hud-right", { opacity: 0, x: 16 }, { opacity: 1, x: 0 }, { duration: 0.85, ease: "power3.out", at: 0.6 });
+    t.fromTo(".hud-foot", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, ease: "power2.out", at: 1.4 });
+    t.fromTo("#t-progress", { scaleX: 0.28 }, { scaleX: 0.56 }, { duration: 8.6, ease: "sine.inOut", at: 0.7, transformOrigin: "0 50%" });
+
+    /* 0.62–1.6 标题角标 */
+    t.fromTo(".wall-head", { opacity: 0, y: 18 }, { opacity: 1, y: 0 }, { duration: 0.95, ease: "power3.out", at: 0.62 });
+
+    /* 0.95–2.45 六张卡从纵深错峰落位（opacity + scale + y stagger） */
+    t.fromTo(".mslot-anim", { opacity: 0, y: -54, scale: 0.78, rotation: -3 }, { opacity: 1, y: 0, scale: 1, rotation: 0 }, { duration: 0.95, stagger: 0.12, ease: "power3.out", at: 0.95, transformOrigin: "50% 50%" });
+    t.fromTo(".mslot .slot-tag", { opacity: 0, y: -6 }, { opacity: 1, y: 0 }, { duration: 0.7, stagger: 0.12, ease: "power2.out", at: 1.25 });
+
+    /* 2.5–9.9 落位后极缓慢浮动（每张卡错峰、幅度很小） */
+    for (var i = 0; i < 6; i++) {
+      var fl = $("float-" + i);
+      if (fl) {
+        t.fromTo(fl, { x: 0, y: 0 }, { x: i % 2 === 0 ? -5 : 5, y: -9 }, { duration: 6.6, ease: "sine.inOut", at: 2.5 + i * 0.16 });
+      }
+    }
+
+    /* 0.8–10 镜头持续后拉（一条连续运动，不停成静止画面） */
+    t.fromTo("#world", { scale: 1.055, x: 8, y: 0 }, { scale: 1, x: -12, y: 4 }, { duration: 9.2, ease: "sine.inOut", at: 0.8 });
+
+    /* 背景薄雾缓慢漂移 */
+    t.fromTo(".bg-haze--cold", { x: 0 }, { x: 26 }, { duration: 9.4, ease: "sine.inOut", at: 0.4 });
+    t.fromTo(".bg-haze--violet", { x: 0 }, { x: -20 }, { duration: 9.4, ease: "sine.inOut", at: 0.4 });
+    t.fromTo(".bg-haze--warm", { y: 0 }, { y: 18 }, { duration: 9.4, ease: "sine.inOut", at: 0.4 });
+
+    /* 2.7–3.5 字幕 */
+    t.fromTo("#caption-band", { opacity: 0, y: 14 }, { opacity: 1, y: 0 }, { duration: 0.9, ease: "power2.out", at: 2.7 });
+
+    /* 4.2–9.6 掠过的高光 */
+    t.fromTo(".sweep", { x: -460, rotation: 16, opacity: 0.85 }, { x: 2200, rotation: 16, opacity: 0.85 }, { duration: 5.4, ease: "sine.inOut", at: 4.2 });
+
+    return t;
+  }
+
+  /* MotionGit html-canvas/1 标准入口：frame 为整数帧 */
+  window.renderFrame = function (frame, inputs) {
+    var p = Object.assign({}, DEFAULT_PARAMS, inputs || {});
+    var key = TEMPLATE_ID + "|" + JSON.stringify(p);
+    if (!tl || key !== lastKey) { tl = build(p); lastKey = key; }
+    tl.seek(Math.max(0, Number(frame) || 0) / FPS);
+    return true;
+  };
+  /* 兼容旧入口：t 为秒 */
+  window.seek = function (t, inputs) {
+    return window.renderFrame(Math.round((Number(t) || 0) * FPS), inputs);
+  };
+
+  window.renderFrame(0, window.__MOTION_INPUTS__ || null);
+  window.__MOTION_READY__ = true;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+{
+  "schema": "openmotion-source-provenance-v1",
+  "template_id": "509099",
+  "source_kind": "verified_open_author_release",
+  "language": "default",
+  "version": "0.4.0-rc.5",
+  "template_slug": "product-update-story",
+  "upstream_commit": null,
+  "package_path": "templates/509099/archives/original-author-release-0.4.0-rc.5.motion",
+  "package_sha256": "99d4a0852741ee52596a8ddd078419fb8ef26c4f3dc23385a33317d7087ba2bd",
+  "release_archive_sha256": "99d4a0852741ee52596a8ddd078419fb8ef26c4f3dc23385a33317d7087ba2bd",
+  "release_archive_bytes": 11366619,
+  "content_protection": "open",
+  "source_url": "https://motiongit.com/@frankye1211/product-update-story",
+  "publisher_template_id": 886,
+  "publisher_release_id": 542,
+  "envelope_manifest_sha256": "65086edc5bfb1c3d2b01bcbe9f878eb740b5ec68c07a5d7562360a3adc5423d6",
+  "delivery_receipt_sha256": "08b7d2a594e69903a212430c5a839a7a50422a34a961d46c55945e6ef73435e3",
+  "delivery_evidence_path": "templates/509099/redacted-delivery-evidence.json",
+  "delivery_evidence_sha256": "edd01b974ef28f3daa41bdbdca90ae67e2cf9d703c9fd5a90a928f188e816020",
+  "source_path": "templates/509099/source",
+  "source_entry": "src/adapter.py",
+  "runtime": {
+    "profile": "native-python-node/1",
+    "entry": "src/adapter.py",
+    "dependencyLock": "motion.lock.json"
+  },
+  "license_path": "templates/509099/source/licenses/TEMPLATE-LICENSE.txt",
+  "manifest_sha256": "5fc6f3961792d2b08bb02d9b7bdb2bc8044f1d7706829e7cf78b688ab0061332",
+  "original_personal_package_sha256": "c08febd2689eeee7c2f0344ace81321149df5934e456b1f336223d270dde8128",
+  "original_personal_package_retained_privately": true,
+  "personal_envelope_included": false,
+  "website_authenticated_download": true,
+  "source_delivery_description": "Unchanged readable frozen author release ZIP from content/release.bin. The signed personal delivery remains private and unmodified; this author archive does not claim personal-download-v1 conformance.",
+  "public_format_evidence": "https://motiongit.com/spec/personal.md",
+  "package_license_inspected": true,
+  "credential_screen": {
+    "private_key_blocks": 0,
+    "secret_shaped_literals": 0,
+    "sensitive_file_paths": 0,
+    "method": "Read-only static patterns on open author release; personal envelope not exported."
+  },
+  "safe_zip_checks": {
+    "no_absolute_paths": true,
+    "no_parent_traversal": true,
+    "no_symlinks": true,
+    "no_duplicate_paths": true,
+    "no_control_characters": true,
+    "entry_count": 30
+  },
+  "integrity_file_verified": true,
+  "template_code_executed": false,
+  "dependencies_installed": false,
+  "runtime_render_verified": false,
+  "imported_at": "2026-10-29T03:00:26.502591+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 4010,
+      "sha256": "392836bd517443baeccd58f97f6960121e846921aa42c57e546de60929aad20b"
+    },
+    {
+      "path": "asset-manifest.json",
+      "bytes": 238,
+      "sha256": "7bc7c3e964ae1c56bf40beda08f545d29801682355ec37abd73e626e3a6bea6d"
+    },
+    {
+      "path": "assets/NotoSansSC.ttf",
+      "bytes": 17772300,
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da"
+    },
+    {
+      "path": "catalog.json",
+      "bytes": 2297,
+      "sha256": "967f68ac700b6c4220b058258b20ee1cab7bb8479fcf6a71691270e067670c29"
+    },
+    {
+      "path": "guide.json",
+      "bytes": 5279,
+      "sha256": "51531f30f00649f97499e04855d69e3634797d74d0b371ee1d5e4cb4853a3cf7"
+    },
+    {
+      "path": "integrity.json",
+      "bytes": 2766,
+      "sha256": "6e5afed993638d8649c446411d6ba538149ac7a44454ecf49f93a32debf83833"
+    },
+    {
+      "path": "licenses/TEMPLATE-LICENSE.txt",
+      "bytes": 1128,
+      "sha256": "069ffd773bad190c9ad374b7d0a999bc2d1dcc562e2f905799637b5e5b7ae1fb"
+    },
+    {
+      "path": "licenses/font-OFL.txt",
+      "bytes": 4388,
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "path": "motion.json",
+      "bytes": 1152,
+      "sha256": "5fc6f3961792d2b08bb02d9b7bdb2bc8044f1d7706829e7cf78b688ab0061332"
+    },
+    {
+      "path": "motion.lock.json",
+      "bytes": 568,
+      "sha256": "cb6b50a5e6b8718261fcf7c2cd40a61675f57cff206c038bf5ec507829186a68"
+    },
+    {
+      "path": "params.schema.json",
+      "bytes": 20801,
+      "sha256": "4016f2f7cea2cf1ef789fc832bc1f7ca3c586f71b355d0d4277467b782d5187c"
+    },
+    {
+      "path": "presets/demo.json",
+      "bytes": 1098,
+      "sha256": "bf9d83d979c0510651e0a355f4babf3147f240a9ab3f52040d0e5f56a5236d3e"
+    },
+    {
+      "path": "presets/design.json",
+      "bytes": 1852,
+      "sha256": "4e25f6f825ae86e0b6d0c6bcc8574dc0f5b7bfd81d039d711ed59d9e32858e90"
+    },
+    {
+      "path": "presets/product-alternate.json",
+      "bytes": 2818,
+      "sha256": "d2cd501486390f01ae30b0ab0c2272359bb70c2408df633de43df4ff789bce5e"
+    },
+    {
+      "path": "presets/product-demo.json",
+      "bytes": 2836,
+      "sha256": "2acdfb0bc280e1ec48062c1d0d9a3c48f466a1b0a0d3bacba22ca998ca5c4a9e"
+    },
+    {
+      "path": "presets/rich-alternate.json",
+      "bytes": 2096,
+      "sha256": "dacff5fca340bd24d2aa111413b01f7fcf654425049eae340a411c907ac938ff"
+    },
+    {
+      "path": "presets/rich-demo.json",
+      "bytes": 1966,
+      "sha256": "f406ba5037d3497427ace6fb3a4b3a45244f132b4c9ee11c7e628fbcb883aef3"
+    },
+    {
+      "path": "references/rewrite-provenance.md",
+      "bytes": 1886,
+      "sha256": "2ad4fc76798bed252b538c2df13d8740c0c926031bda90aebbf8756cd2f8303b"
+    },
+    {
+      "path": "references/rich-effects.md",
+      "bytes": 3699,
+      "sha256": "f604e87ff738acbf61566b30460f17f309f6b75cf9c3a96472e1d194c99672c5"
+    },
+    {
+      "path": "src/adapter.py",
+      "bytes": 2352,
+      "sha256": "c07f3e0a8c830c720956f62701dba86dce236ca87d61a8dde24258129b0a5a9f"
+    },
+    {
+      "path": "src/adaptive.js",
+      "bytes": 4351,
+      "sha256": "dc27308b229dd435739e8bf6696fda258d9754a94c5ab96a2f781a69a0ca2521"
+    },
+    {
+      "path": "src/audio.py",
+      "bytes": 2916,
+      "sha256": "0feeaceef5ef2c2ff3340c7e02f9a40fd078794a4477f85eea9724265c7ae677"
+    },
+    {
+      "path": "src/font-guard.js",
+      "bytes": 7631,
+      "sha256": "1320e3de27b89c6220f8b33ccae029e168911f46f5b11fc3a66960e5ab3bd994"
+    },
+    {
+      "path": "src/foundation.js",
+      "bytes": 924,
+      "sha256": "373df59bf35a332f844795c1666948e897e42334be3dd2fe1e4786a42dfaaa34"
+    },
+    {
+      "path": "src/index.html",
+      "bytes": 582,
+      "sha256": "85b96c75a9b62f30a8575232364498a72ef1ef2737118b7e74d758ce0e8881cb"
+    },
+    {
+      "path": "src/mix.mjs",
+      "bytes": 1323,
+      "sha256": "3d0dc2c8a850bd08ad1ee5b5814c8022c2a0df7e288aa42276797b080b3c5a64"
+    },
+    {
+      "path": "src/planner.py",
+      "bytes": 13239,
+      "sha256": "fe4fef70bd1002f339fedfba095e86de78c323f5cd45761020f1cad8f2e16d11"
+    },
+    {
+      "path": "src/product.js",
+      "bytes": 10232,
+      "sha256": "2ca92fea029c69a9d9843d77063e6015b14e6fd8aa149f49bd1da46fd1572bba"
+    },
+    {
+      "path": "src/render.mjs",
+      "bytes": 3878,
+      "sha256": "c7399ea070a67a084ec6f31c3827c300867f998d3dfd905bf62ad32d12f1562b"
+    },
+    {
+      "path": "src/rich.js",
+      "bytes": 8285,
+      "sha256": "d02794dafb02be4f7900717f74d9578e103c16d3a2bc95dc5708c6b3ca2e4c66"
+    }
+  ]
+}

@@ -1,0 +1,453 @@
+{
+  "schema": "openmotion-source-provenance-v1",
+  "template_id": "643842",
+  "source_kind": "verified_open_author_release",
+  "language": "default",
+  "version": "0.8.1-rc.1",
+  "template_slug": "moonwhite-robot-unified",
+  "upstream_commit": null,
+  "package_path": "templates/643842/archives/original-author-release-0.8.1-rc.1.motion",
+  "package_sha256": "571b9f87d2da76358fbaae515b5ebe1ca556177cab92a8b39b0cbc8d1473f7df",
+  "release_archive_sha256": "571b9f87d2da76358fbaae515b5ebe1ca556177cab92a8b39b0cbc8d1473f7df",
+  "release_archive_bytes": 13955969,
+  "content_protection": "open",
+  "source_url": "https://motiongit.com/@frankye1211/moonwhite-robot-unified",
+  "publisher_template_id": 888,
+  "publisher_release_id": 747,
+  "envelope_manifest_sha256": "016453158812091fe901a24ac114439d84ef5853efa8ab8ab28ad0f915d0c6c7",
+  "delivery_receipt_sha256": "fd249baaa081ddf1239d077a6ae6ef47af1455de87b03988f6d3de1a092ec6eb",
+  "delivery_evidence_path": "templates/643842/redacted-delivery-evidence.json",
+  "delivery_evidence_sha256": "a6e09c4a1577e66cab48ba3dd12d3b50980ce08a71a65a8e00c49f45bfab2b71",
+  "source_path": "templates/643842/source",
+  "source_entry": "src/adapter.py",
+  "runtime": {
+    "profile": "native-python-node/1",
+    "entry": "src/adapter.py",
+    "dependencyLock": "motion.lock.json"
+  },
+  "license_path": "templates/643842/source/licenses/TEMPLATE-LICENSE.txt",
+  "manifest_sha256": "2f6ec6caa65417cccd4d6d12f97c61d7dd964846f57512a864c1d9f9177a2f21",
+  "original_personal_package_sha256": "49624f2205ad352c9d4af329e42f10279196c3fd9d3af26d265971e8cb6d28bc",
+  "original_personal_package_retained_privately": true,
+  "personal_envelope_included": false,
+  "website_authenticated_download": true,
+  "source_delivery_description": "Unchanged readable frozen author release ZIP from content/release.bin. The signed personal delivery remains private and unmodified; this author archive does not claim personal-download-v1 conformance.",
+  "public_format_evidence": "https://motiongit.com/spec/personal.md",
+  "package_license_inspected": true,
+  "credential_screen": {
+    "private_key_blocks": 0,
+    "secret_shaped_literals": 0,
+    "sensitive_file_paths": 0,
+    "method": "Read-only static patterns on open author release; personal envelope not exported."
+  },
+  "safe_zip_checks": {
+    "no_absolute_paths": true,
+    "no_parent_traversal": true,
+    "no_symlinks": true,
+    "no_duplicate_paths": true,
+    "no_control_characters": true,
+    "entry_count": 79
+  },
+  "integrity_file_verified": true,
+  "template_code_executed": false,
+  "dependencies_installed": false,
+  "runtime_render_verified": false,
+  "imported_at": "2026-10-29T03:00:26.502591+00:00",
+  "files": [
+    {
+      "path": "QA.md",
+      "bytes": 3607,
+      "sha256": "d54c9ec8416e7dbe62d0a044ba1d5227eafbb53b16a5c3685ceab404f226422c"
+    },
+    {
+      "path": "README-0.7.md",
+      "bytes": 2224,
+      "sha256": "71178d5b2174a48534cf457f0e5964f2678c29789ada0b690ac1bf3de41854ae"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6686,
+      "sha256": "0276b23fc4e82748aa08d030af13e93bf409fff29c9072ccf9615eeb7cbbba66"
+    },
+    {
+      "path": "asset-manifest.json",
+      "bytes": 10590,
+      "sha256": "694807cf64cd74844dd7bd079ccce05ea844965b9465e277fd6055a37f8d9c0e"
+    },
+    {
+      "path": "assets/NotoSansSC.ttf",
+      "bytes": 17772300,
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da"
+    },
+    {
+      "path": "assets/annotation-robot.png",
+      "bytes": 1162,
+      "sha256": "a60a0d1c5f92ed54408a2cb63f71977260ae41b818e47f35e68d5a66a6daca8e"
+    },
+    {
+      "path": "assets/annotation-robot.svg",
+      "bytes": 7665,
+      "sha256": "2b32af6b3d26c1290686c18aaad2933f11f376513410f71bc1fa2f0558806c6b"
+    },
+    {
+      "path": "assets/demo-character.mp4",
+      "bytes": 53649,
+      "sha256": "638c13f61f198cf098e1d026aa24e9d2b89c92192de1fa03b0823a41d9527716"
+    },
+    {
+      "path": "assets/example-logo.svg",
+      "bytes": 277,
+      "sha256": "0db92350d1d389e82d513c4fc1b987733d58f04a617f28551145f6dc20dd1036"
+    },
+    {
+      "path": "assets/face_detection_yunet_2026may.onnx",
+      "bytes": 229738,
+      "sha256": "ebafce4e3c118d6554634be5c27ab333b4c047a9a8c3faf1d7cf93101c22f0f0"
+    },
+    {
+      "path": "assets/food/openmoji/cake.png",
+      "bytes": 42716,
+      "sha256": "1e647bea3d926ba5f2f9c960b6ab7ae1eed3f8a31229504dd5beaa6d1753a5a1"
+    },
+    {
+      "path": "assets/food/openmoji/cake.svg",
+      "bytes": 2209,
+      "sha256": "55786e57474e4ea3a06c70287be676ac71e49d3d90451538c5aa4552592d4268"
+    },
+    {
+      "path": "assets/food/openmoji/carrot.png",
+      "bytes": 42100,
+      "sha256": "58dd60f093a9f2f2646f7d9fc5d6186d694ea85a50257a3a00b40a6e670be7c6"
+    },
+    {
+      "path": "assets/food/openmoji/carrot.svg",
+      "bytes": 2808,
+      "sha256": "53b002c22b5b1d72141a9e5fa92dec82da383a619eab71cfcb1124b8a1e9e4bf"
+    },
+    {
+      "path": "assets/food/openmoji/corn.png",
+      "bytes": 42083,
+      "sha256": "dc00bf6599e6b1bac15f37c1452fa1be46b012f7bfca437ac12d6544ad7635c1"
+    },
+    {
+      "path": "assets/food/openmoji/corn.svg",
+      "bytes": 2891,
+      "sha256": "94300afd0cd3461f8abe76f1c7d40bda15bd53e8629930e2195226cd422a3db2"
+    },
+    {
+      "path": "assets/food/openmoji/drink.png",
+      "bytes": 23447,
+      "sha256": "f4cda3febbe2f53abc7dfff2f2ab0dbcb567260be86d2a2032522ef451092173"
+    },
+    {
+      "path": "assets/food/openmoji/drink.svg",
+      "bytes": 946,
+      "sha256": "b0eb895111db788ea77d0c95db3b645d67e8789640526d18071d9a28de10a997"
+    },
+    {
+      "path": "assets/food/openmoji/egg.png",
+      "bytes": 39034,
+      "sha256": "54dfae54bcd6e210af10208eebb6c39c20c872602e5b167e331100aad6ed55b0"
+    },
+    {
+      "path": "assets/food/openmoji/egg.svg",
+      "bytes": 827,
+      "sha256": "721a6af9cb4b4d30fc62e19b4ff0dfa6580dcc201487c736bdb4a59f0a9f960c"
+    },
+    {
+      "path": "assets/food/openmoji/milk.png",
+      "bytes": 25329,
+      "sha256": "0295e36cd5cdb416cae460bb7727428c700166caaec9e0795b818bfeacdd69c6"
+    },
+    {
+      "path": "assets/food/openmoji/milk.svg",
+      "bytes": 448,
+      "sha256": "e936c739fda9c5af52bb6cc946de18dee590dc2dca22dcb3c80c57595ce13f0d"
+    },
+    {
+      "path": "assets/food/openmoji/sweet-potato.png",
+      "bytes": 41862,
+      "sha256": "cc393012f4a1370fd25b34000fe04400e0b2ac0e8cb18c6de272a287c846657c"
+    },
+    {
+      "path": "assets/food/openmoji/sweet-potato.svg",
+      "bytes": 2336,
+      "sha256": "0dd558887d2dc769c6e543b554cc628417e3f3db1a239fa07bf28f1e5978371f"
+    },
+    {
+      "path": "bookend-selection.json",
+      "bytes": 599,
+      "sha256": "f45bf2ba1e1a2879080947df18e75e32280d3a5512ca674ce8aa764a739a0219"
+    },
+    {
+      "path": "design.json",
+      "bytes": 4646,
+      "sha256": "253d456bab584c81e06912510e2b257f48c5c77ef1ce2ce7b2a080e9ebf5d636"
+    },
+    {
+      "path": "explainer-contracts.json",
+      "bytes": 2662,
+      "sha256": "929dff1f4ae96b60e637a6f59ff50a97355b7c0cd61d3bef30ab7e19d15c47b0"
+    },
+    {
+      "path": "explainer-params.schema.json",
+      "bytes": 7295,
+      "sha256": "2086ee36d9d2775ddecd6308ed16df742f4c2a19c74d982310c38b925984a145"
+    },
+    {
+      "path": "food-library-validation.json",
+      "bytes": 12862,
+      "sha256": "46400e78097696278d99e97f4bfcc6c30984c6564663d7381177a158ce8829ea"
+    },
+    {
+      "path": "food-library.json",
+      "bytes": 7496,
+      "sha256": "d4a85339a868863ad48db912f744bd343affeccc3dc35307487ebff3555dce20"
+    },
+    {
+      "path": "graphic-contracts.json",
+      "bytes": 8615,
+      "sha256": "08cfa26fa1dd19b0a460633fe87962f9a791f0c9cdda4f265736848a648e195a"
+    },
+    {
+      "path": "guide.json",
+      "bytes": 12972,
+      "sha256": "14bd6df3594b9d5510848f7e9e5fdc64f51dac441f59d04402d26b09b89b9c02"
+    },
+    {
+      "path": "integrity.json",
+      "bytes": 7690,
+      "sha256": "90bef2b4694fc4b74aa4a26c74d60e66b3cd0b4bc33960c28cf536baaaff7d97"
+    },
+    {
+      "path": "licenses/OPENMOJI-ATTRIBUTION.md",
+      "bytes": 750,
+      "sha256": "be88e5f613a5f3341adb10f65d483145aa1bb8ab74c50ab088a795ba80fd9ffd"
+    },
+    {
+      "path": "licenses/OPENMOJI-CC-BY-SA-4.0.txt",
+      "bytes": 20137,
+      "sha256": "5e436ff8ffbb77d8607220e9bce20c8915d860010feeb6c1ebef5a85688e9b39"
+    },
+    {
+      "path": "licenses/TEMPLATE-LICENSE.txt",
+      "bytes": 1128,
+      "sha256": "069ffd773bad190c9ad374b7d0a999bc2d1dcc562e2f905799637b5e5b7ae1fb"
+    },
+    {
+      "path": "licenses/YUNET-LICENSE.txt",
+      "bytes": 1064,
+      "sha256": "699a939430aadd111e492c56d8af0fc4623aceea498218f6764d90db10496815"
+    },
+    {
+      "path": "licenses/font-OFL.txt",
+      "bytes": 4388,
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "path": "merge-provenance.json",
+      "bytes": 1068,
+      "sha256": "d6b08460905a6c269d9ba76d771147e4002716369a5fc3030b8322b19039d3eb"
+    },
+    {
+      "path": "motion.json",
+      "bytes": 1779,
+      "sha256": "2f6ec6caa65417cccd4d6d12f97c61d7dd964846f57512a864c1d9f9177a2f21"
+    },
+    {
+      "path": "motion.lock.json",
+      "bytes": 973,
+      "sha256": "cf966c5a55a5e215f6f6e4fa9473b87bca5451aeed6bd134ff8b65c7bb36ed7c"
+    },
+    {
+      "path": "params.schema.json",
+      "bytes": 52610,
+      "sha256": "b4d8882d610f2e908f82e01b958c4cccadec74c24fc079a9118f0597c91814e5"
+    },
+    {
+      "path": "presentation-contract.json",
+      "bytes": 1196,
+      "sha256": "58d42665b6ff4ddb0190c2daee6d86439592eb09ad14a245767303161890e6d1"
+    },
+    {
+      "path": "presets/bookends-long.json",
+      "bytes": 825,
+      "sha256": "89a797ae1fbc638dccc53b0d1ca12c5a372ad55a1387e3ddd6443c6557ee261b"
+    },
+    {
+      "path": "presets/bookends-short.json",
+      "bytes": 585,
+      "sha256": "c8e4109f3b21f6c036cc48fbf97938ede794e84d9beb40823f42019b2530bca4"
+    },
+    {
+      "path": "presets/demo.json",
+      "bytes": 2089,
+      "sha256": "c625a3c93f38386a19776231655e5e62fa7e3d2a54910acea2c1c2418d2faedd"
+    },
+    {
+      "path": "presets/editorial-card.json",
+      "bytes": 2798,
+      "sha256": "93566462fbc3fe8be7de310f35e5f4867a7d14b14139fa79188203b538fa3007"
+    },
+    {
+      "path": "presets/editorial-demo.json",
+      "bytes": 2697,
+      "sha256": "2afb0654d226c24d752317a8de3871f70353eabd62c6198a78586efa4df1c3fa"
+    },
+    {
+      "path": "presets/explainer.json",
+      "bytes": 1584,
+      "sha256": "b0a14b10399803ceee5155249d1cd7b26859fe573237179637be9173e178bbf1"
+    },
+    {
+      "path": "presets/food-library.json",
+      "bytes": 2192,
+      "sha256": "0874806e431a1ebaf13255da2bdd51ac4c0c3f2f3bbf5c010fd5b1c0258bb244"
+    },
+    {
+      "path": "presets/graphic-demo.json",
+      "bytes": 5357,
+      "sha256": "3767eb23e7c9880d6846ff4d16288087a03c7577e2257daa7184210696269b0f"
+    },
+    {
+      "path": "presets/image-wall.json",
+      "bytes": 1209,
+      "sha256": "11fa8b40ff7ebfca6a9921c9fbd301a2599e5c89fbaa7c4745a201328f07be3f"
+    },
+    {
+      "path": "presets/media-gallery.json",
+      "bytes": 2444,
+      "sha256": "e383e66031dc9a94f74a292fa0cb75c1136395e56ab7ce9773ff117c5218d5c5"
+    },
+    {
+      "path": "previews/cover.png",
+      "bytes": 462813,
+      "sha256": "d0315d8943bad3e590650964fdceb93936f2087826575c2bee309a89781a3b22"
+    },
+    {
+      "path": "previews/demo.mp4",
+      "bytes": 380147,
+      "sha256": "8170e1dded0ac83ddad5e3db75a516a857d0e88122bed42c1a54603847ed88e7"
+    },
+    {
+      "path": "previews/food-library-runtime.png",
+      "bytes": 176954,
+      "sha256": "d1c31fffeb709fe1111f07a76f3f4844653f1de825f1212bee21ed7c051388b4"
+    },
+    {
+      "path": "previews/food-library.png",
+      "bytes": 976065,
+      "sha256": "0b50180bb93c14e5c2519c94fc1d49baa61b2e4feb4dce8fb9384a54702129e9"
+    },
+    {
+      "path": "scene-contracts.json",
+      "bytes": 8419,
+      "sha256": "8e77223ac0549ee918287169dd313b5303ef66759222063ea6226533f969c4ac"
+    },
+    {
+      "path": "src/adapter.py",
+      "bytes": 20395,
+      "sha256": "e65ab5a1a86f37ad51f1d9489ce35769a7a4edb3cdad155d28417f8272c50955"
+    },
+    {
+      "path": "src/audio.py",
+      "bytes": 3286,
+      "sha256": "7f6ad338bd8dc0b253b04793f694203fb3f839c0002abb928c0a4f88cb6a85f3"
+    },
+    {
+      "path": "src/bookends.js",
+      "bytes": 4097,
+      "sha256": "534b96ac4c245da7f3169dd59a689bc7cc093912100e0c12ab6e829bae4ae598"
+    },
+    {
+      "path": "src/editorial.js",
+      "bytes": 4042,
+      "sha256": "2d9a16a0aee2c630f5c08be2881f5fe8ab9ffc0b3265c0d572a091bb5e6c849a"
+    },
+    {
+      "path": "src/explainer.js",
+      "bytes": 6949,
+      "sha256": "10b659a59abd3434dddc6f1b1af19fecbde7aa4ae13d5276683b9ab22fc572c4"
+    },
+    {
+      "path": "src/font-guard.js",
+      "bytes": 7631,
+      "sha256": "1320e3de27b89c6220f8b33ccae029e168911f46f5b11fc3a66960e5ab3bd994"
+    },
+    {
+      "path": "src/food-icons.js",
+      "bytes": 786,
+      "sha256": "941b2774cd03cb8cb78ea3f57724eda647e1c9572e6a464bce81a6196e5a65a0"
+    },
+    {
+      "path": "src/foundation.js",
+      "bytes": 1051,
+      "sha256": "30a87ca1b234c92887ba5e4912253aeb9030006bb919d162071f605d083cc235"
+    },
+    {
+      "path": "src/graphics.js",
+      "bytes": 16612,
+      "sha256": "8350e87fe0f2bb3a6e7382866c51b21f9f0c91a02b0f23daa3d165d9bea10538"
+    },
+    {
+      "path": "src/index.html",
+      "bytes": 766,
+      "sha256": "fb43055c36bc878489266a5b10c56324eb039e0b84a20ebb852979bfe078daf5"
+    },
+    {
+      "path": "src/mix.mjs",
+      "bytes": 1133,
+      "sha256": "e4819f6117c033aafb34077eb1f89a0ecd9ab03c48fc13da510a369acf8dde64"
+    },
+    {
+      "path": "src/palette.js",
+      "bytes": 3170,
+      "sha256": "4466ebf2c583cfef220b67211c2a8e11d1df1781f735a3a31f36337b64adb198"
+    },
+    {
+      "path": "src/presentation.py",
+      "bytes": 8960,
+      "sha256": "51cd3003f7139e79efd614e31753427e475ebc68d259e58c2b1d779eb7035238"
+    },
+    {
+      "path": "src/presenter.js",
+      "bytes": 7386,
+      "sha256": "4950680874b74eaf1caeca4b5e30b6e07cabdae293ae22fdcab542c0701ac861"
+    },
+    {
+      "path": "src/presenter.py",
+      "bytes": 7492,
+      "sha256": "84d0a78ff81a07e38594aa86fdc1dfe33048dca80257e4c5c79f41ab758d7daa"
+    },
+    {
+      "path": "src/quality.py",
+      "bytes": 4304,
+      "sha256": "833c2f323ed715bbfb7162051738f700819ec4fdbb838963a4a169386cd6026e"
+    },
+    {
+      "path": "src/render.mjs",
+      "bytes": 5307,
+      "sha256": "c1dabc95360b567b1f08d29f6b79b4d503ceaa5d3b0e39acbd2e6e639cb8229f"
+    },
+    {
+      "path": "src/scenes.js",
+      "bytes": 11233,
+      "sha256": "1dce4f0a84ddeb4c51e8d4f9d80a4fd3ed57c6a8947294b6673893fd7d59a32d"
+    },
+    {
+      "path": "src/short_scenes.py",
+      "bytes": 13864,
+      "sha256": "99f801982f1c10dee834ee426139d75914d471c77ff1c46c2ade0ed778a9c4a4"
+    },
+    {
+      "path": "src/waterfall.js",
+      "bytes": 4355,
+      "sha256": "51d4e1b95c08ed4f8a7e8e8e1abc0c35e47ea355e27ca8f83c15dcfa501e291f"
+    },
+    {
+      "path": "validation-summary.json",
+      "bytes": 12862,
+      "sha256": "46400e78097696278d99e97f4bfcc6c30984c6564663d7381177a158ce8829ea"
+    }
+  ]
+}

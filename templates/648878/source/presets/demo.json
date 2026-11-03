@@ -1,0 +1,14 @@
+{
+  "brand": "DEEP STAGE",
+  "kicker": "PRODUCT / 产品讲解",
+  "productName": "DEEP ONE",
+  "tagline": "把内容生产，装进<em>一块屏幕</em>。",
+  "body": "深色舞台承接产品视觉，\n参数与卖点从屏幕里浮出，越讲越近。",
+  "specs": [
+    { "label": "日均内容产出", "value": "120", "unit": "万" },
+    { "label": "交付效率", "value": "4.2", "unit": "×" },
+    { "label": "素材复用率", "value": "98.6", "unit": "%" }
+  ],
+  "specLine": "1920×1080 / 30FPS / H.264",
+  "accent": "#4DE3FF"
+}

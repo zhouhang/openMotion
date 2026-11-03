@@ -1,0 +1,241 @@
+{
+  "canvas": [
+    1280,
+    720
+  ],
+  "fps": 24,
+  "pacing": {
+    "default": "short",
+    "minPageSeconds": 3,
+    "maxPageSeconds": 5,
+    "maxScenes": 32,
+    "legacyReplay": "explicit pacing=legacy only; original eight modules unchanged"
+  },
+  "capacity": {
+    "groups": [
+      2,
+      4
+    ],
+    "objects": [
+      3,
+      9
+    ],
+    "maxObjectsPerGroup": 3,
+    "titleCharacters": 16,
+    "labelCharacters": 8,
+    "products": 1
+  },
+  "variants": {
+    "classify": {
+      "intent": "将实际对象按有意义类别归属",
+      "verbs": [
+        "分类",
+        "归属"
+      ],
+      "landing": "每一类独立落点；首类可在第一帧已到位",
+      "entry": "最晚落定前14帧开始",
+      "hold": "最后落定后至少12帧",
+      "avoid": "不可把不存在分类关系的名词随意分组"
+    },
+    "combine": {
+      "intent": "让同一组材料成为一个组合体",
+      "verbs": [
+        "组合",
+        "聚合"
+      ],
+      "landing": "main，至少24帧动作窗",
+      "carryFrom": [
+        "classify"
+      ],
+      "avoid": "不适合仅仅并列、实际没有组合关系的内容"
+    },
+    "transform": {
+      "intent": "组合体形成一个可辨认结果",
+      "verbs": [
+        "形成",
+        "转变"
+      ],
+      "landing": "main，至少24帧动作窗",
+      "carryFrom": [
+        "combine"
+      ],
+      "method": "cookie为原创轮廓变形；其它图形或图片为遮罩显露，不承诺任意位图轮廓变形",
+      "avoid": "需要真实的前后状态含义，不拿无关形状变换替代解释"
+    },
+    "qualify": {
+      "intent": "区分输入条件与结果判断，避免把前提当结论",
+      "verbs": [
+        "比较",
+        "重新判断"
+      ],
+      "landing": "input后至少12帧再到main",
+      "carryFrom": [
+        "transform"
+      ],
+      "limits": "不把问号画成负面检测结果，不制造营养数值",
+      "avoid": "不伪造检测值、负面结论或把输入条件等同于成品保证"
+    },
+    "label-question": {
+      "intent": "开场：拆开包装标签与适用性的疑问；不能把标签当结论",
+      "objects": [
+        3,
+        3
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "document-focus": {
+      "intent": "文档示意与日期，不仿造官方文件或标识",
+      "objects": [
+        1,
+        1
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "spotlight": {
+      "intent": "从资料转向食物、突出一个对象",
+      "objects": [
+        1,
+        4
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "reveal": {
+      "intent": "1–6个对象逐个呈现，标签最多8字",
+      "objects": [
+        1,
+        6
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "inspect": {
+      "intent": "2–4个关注项展开，不制造检测值或定量条形",
+      "objects": [
+        2,
+        4
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "fit": {
+      "intent": "两个对象靠近并提出适配问题，不虚构年龄或建议份量",
+      "objects": [
+        2,
+        2
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "reframe": {
+      "intent": "将视觉重心从一个问题移向更完整的认识；不画错误的负面检测章",
+      "objects": [
+        2,
+        4
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "unpack": {
+      "intent": "拆开一个载体，呈现3–6个对象；示意成分须说明非真实配方",
+      "objects": [
+        3,
+        6
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "routine": {
+      "intent": "2–3个有主次的日常环节，不暗示图形大小是营养份量",
+      "objects": [
+        2,
+        3
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "origin": {
+      "intent": "生长、收获、餐桌等三步来源路径，不把所有食物都解释为同一来源",
+      "objects": [
+        3,
+        3
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "selection": {
+      "intent": "3–5个对象中的认识与选择过程；未选中不等于不健康",
+      "objects": [
+        3,
+        5
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    },
+    "calendar": {
+      "intent": "结尾：单次事件淡出，多次日常选择累积；不虚构打卡记录",
+      "objects": [
+        1,
+        1
+      ],
+      "landing": "reveal/routine按对象id逐个落点；其它使用main，至少16帧动作窗，落定后至少12帧阅读",
+      "carryFrom": [],
+      "status": "candidate; full real narration technically tested, author review pending"
+    }
+  },
+  "cueEvidence": "引用真实SRT编号和start/end；量化误差不超过1帧；没有词轴时只声明句级对齐",
+  "continuity": "相邻兼容动作，稳定对象id、kind、image及分类保持一致；禁止对不同对象伪称连续",
+  "drawing": "图形主导，无机器人、无引出线、无操作提示；单标题和少量类别标签",
+  "regions": "motionRegions / pickMotionObject提供稳定对象与时间定位；尚无互动编辑器",
+  "quality": "src/quality.py输出低运动区间、闪跳、硬切与每秒变化，不能替代语义验收",
+  "transitions": "无carryFrom时，相邻graphic之间12帧确定性叠化；原四场接续保持像素一致。叠化包含在3–5秒页面总长内。",
+  "editorialCapacity": {
+    "titleCharacters": 16,
+    "labelCharacters": 8,
+    "noteCharacters": 24,
+    "objects": "按variant分别校验",
+    "kinds": [
+      "apple",
+      "bar",
+      "bean",
+      "bottle",
+      "calendar",
+      "carrot",
+      "child",
+      "circle",
+      "cookie",
+      "corn",
+      "document",
+      "grain",
+      "image",
+      "loop",
+      "milk",
+      "muffin",
+      "oat",
+      "oil",
+      "package",
+      "plate",
+      "rice",
+      "salt",
+      "seed",
+      "sprout",
+      "square",
+      "sugar"
+    ],
+    "captionCharacters": 12
+  },
+  "editorialCaption": "label-question、selection、calendar必须提供本期caption；不硬编码示例问题或结论"
+}

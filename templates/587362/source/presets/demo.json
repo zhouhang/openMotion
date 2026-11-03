@@ -1,0 +1,43 @@
+{
+  "brand": "DEEP STAGE",
+  "kicker": "CASE / 案例复盘",
+  "title": "一次改版，三个指标翻面",
+  "kpis": [
+    { "label": "转化率", "value": 38.4, "prefix": "+", "suffix": "%" },
+    { "label": "交付周期", "value": 42, "prefix": "−", "suffix": "%" },
+    { "label": "复购率", "value": 61.2, "prefix": "", "suffix": "%" }
+  ],
+  "bars": [
+    { "label": "4月", "value": 32 },
+    { "label": "5月", "value": 44 },
+    { "label": "6月", "value": 39 },
+    { "label": "7月", "value": 58 },
+    { "label": "8月", "value": 71 },
+    { "label": "9月", "value": 86 }
+  ],
+  "footnote": "数据口径 2026 Q1–Q3 · 华东大区 · N=1,284",
+  "before": [
+    { "label": "人均查看", "value": "12次" },
+    { "label": "周期", "value": "21天" },
+    { "label": "成本", "value": "100" }
+  ],
+  "after": [
+    { "label": "人均查看", "value": "3次" },
+    { "label": "周期", "value": "12天" },
+    { "label": "成本", "value": "58" }
+  ],
+  "beforeTitle": "改造前",
+  "afterTitle": "改造后",
+  "kpiNote": "VS 2025 同期",
+  "chartLabel": "TREND / 月度转化指数",
+  "chartRange": "INDEX · APR → SEP 2026",
+  "chartMarker": "改版上线",
+  "lockLabel": "DATA LOCKED · 2026 Q3",
+  "compareLabel": "BEFORE / AFTER",
+  "footTag": "SOURCE / CRM EXPORT",
+  "chapter": "04 / 06",
+  "screenLabel": "CASE / 案例讲解",
+  "meta": "DEEP STAGE · TEMPLATE V1.0 · 1920×1080",
+  "caption": "讲案例，<em>数据自己会说话</em>。",
+  "accent": "#4DE3FF"
+}

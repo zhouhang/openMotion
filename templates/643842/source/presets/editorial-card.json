@@ -1,0 +1,133 @@
+{
+  "pacing": "short",
+  "duration": 12,
+  "scenes": [
+    {
+      "type": "graphic",
+      "id": "example-1",
+      "variant": "label-question",
+      "duration": 4,
+      "title": "资料多，就代表看懂？",
+      "objects": [
+        {
+          "id": "item-0",
+          "label": "资料",
+          "kind": "document"
+        },
+        {
+          "id": "item-1",
+          "label": "理解",
+          "kind": "loop"
+        },
+        {
+          "id": "item-2",
+          "label": "每天",
+          "kind": "calendar"
+        }
+      ],
+      "sourceRefs": [],
+      "cues": {
+        "main": {
+          "frame": 50
+        }
+      },
+      "caption": "数量不等于理解"
+    },
+    {
+      "type": "graphic",
+      "id": "example-2",
+      "variant": "inspect",
+      "duration": 4,
+      "title": "先分清来源、关系与结论",
+      "objects": [
+        {
+          "id": "item-0",
+          "label": "来源",
+          "kind": "document"
+        },
+        {
+          "id": "item-1",
+          "label": "关系",
+          "kind": "loop"
+        },
+        {
+          "id": "item-2",
+          "label": "结论",
+          "kind": "sprout"
+        }
+      ],
+      "sourceRefs": [],
+      "cues": {
+        "main": {
+          "frame": 50
+        }
+      }
+    },
+    {
+      "type": "graphic",
+      "id": "example-3",
+      "variant": "origin",
+      "duration": 4,
+      "title": "从记录，走向可执行的计划",
+      "objects": [
+        {
+          "id": "item-0",
+          "label": "记录",
+          "kind": "document"
+        },
+        {
+          "id": "item-1",
+          "label": "复核",
+          "kind": "loop"
+        },
+        {
+          "id": "item-2",
+          "label": "计划",
+          "kind": "calendar"
+        }
+      ],
+      "sourceRefs": [],
+      "cues": {
+        "main": {
+          "frame": 50
+        }
+      }
+    }
+  ],
+  "presentation": {
+    "mode": "editorial-card",
+    "resolution": "1080p",
+    "heading": "知识观察",
+    "footer": "公开示例 · 原创角色，非真人口播",
+    "roleLabel": "演示 / Demo",
+    "nameLabel": "原创动画，非真人",
+    "portraitSize": [
+      256,
+      356
+    ],
+    "pageLabels": [
+      "提出问题",
+      "梳理关系",
+      "行动计划"
+    ],
+    "logo": {
+      "scope": "package",
+      "path": "assets/example-logo.svg"
+    },
+    "videos": [
+      {
+        "source": {
+          "scope": "package",
+          "path": "assets/demo-character.mp4"
+        },
+        "at": 0,
+        "crop": {
+          "cx": 0.5,
+          "cy": 0.5,
+          "width": 1,
+          "height": 1
+        }
+      }
+    ]
+  }
+}

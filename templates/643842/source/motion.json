@@ -1,0 +1,72 @@
+{
+  "$schema": "https://motiongit.com/schema/motion/0.1.json",
+  "format": "motiongit-template",
+  "specVersion": "0.1.0-draft.1",
+  "template": {
+    "id": "moonwhite-robot-unified",
+    "version": "0.8.1-rc.1",
+    "name": "月白图形表达 · 编辑式讲解与素材场景",
+    "status": "candidate"
+  },
+  "runtime": {
+    "profile": "native-python-node/1",
+    "entry": "src/adapter.py",
+    "dependencyLock": "motion.lock.json"
+  },
+  "parameters": {
+    "schema": "params.schema.json",
+    "defaultPreset": "presets/editorial-card.json"
+  },
+  "assets": {
+    "manifest": "asset-manifest.json"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 24,
+      "den": 1
+    },
+    "durationPolicy": "fit-content"
+  },
+  "license": {
+    "file": "licenses/TEMPLATE-LICENSE.txt"
+  },
+  "permissions": {
+    "network": false,
+    "read": [
+      "package",
+      "instance-inputs"
+    ],
+    "write": [
+      "instance-output"
+    ]
+  },
+  "ai": {
+    "entry": "guide.json",
+    "guide": "guide.json",
+    "authoring": {
+      "tool": "codex",
+      "client": "codex"
+    }
+  },
+  "integrity": "integrity.json",
+  "extensions": {
+    "motiongit.com:packaging": {
+      "tool": "MotionGit helper",
+      "version": "1.0.0-rc.24"
+    },
+    "local:compatibility": {
+      "withoutPresentation": "0.7 route 1280x720 preserved",
+      "editorialCard": "graphic-only 720p/1080p; fixed right presenter seat",
+      "sourceVersion": "0.7.0-rc.2",
+      "humanAcceptance": "pending"
+    },
+    "local:foodLibrary": {
+      "manifest": "food-library.json",
+      "preset": "presets/food-library.json",
+      "license": "CC-BY-SA-4.0",
+      "baseVersion": "0.8.0-rc.2"
+    }
+  }
+}

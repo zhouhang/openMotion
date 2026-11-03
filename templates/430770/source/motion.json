@@ -1,0 +1,63 @@
+{
+  "$schema": "https://motiongit.com/schema/motion/0.1.json",
+  "format": "motiongit-template",
+  "specVersion": "0.1.0-draft.1",
+  "template": {
+    "id": "deep-stage-media-wall",
+    "version": "1.0.0",
+    "name": "DEEP STAGE · 媒体素材墙",
+    "status": "candidate"
+  },
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entry": "src/index.html",
+    "dependencyLock": "motion.lock.json"
+  },
+  "parameters": {
+    "schema": "params.schema.json",
+    "defaultPreset": "presets/demo.json"
+  },
+  "assets": {
+    "manifest": "asset-manifest.json"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 30,
+      "den": 1
+    },
+    "durationPolicy": "fixed",
+    "durationSeconds": 10
+  },
+  "license": {
+    "file": "licenses/TEMPLATE-LICENSE.txt"
+  },
+  "permissions": {
+    "network": false
+  },
+  "ai": {
+    "summary": "DEEP STAGE 深境舞台的媒体素材墙动效：深色立体舞台上，六宫格（2 行 3 列、各自不同纵深与 rotateY）从深处错峰落位，落位后极缓慢浮动，镜头持续后拉。六张缩略图是纯 CSS/SVG 生成的抽象电影感静帧（金属微距 / 城市夜景 bokeh / 光轨 / 丝绸褶皱 / 星云 / 建筑格栅），不引用任何外部图片。适合讲素材、作品集、镜头风格。可改素材墙标题、角标、六个卡名与主色。 随包附带可选音效轨（纯合成、无噪声源，按模板真实时间线对齐；支持音频的宿主可混入）。",
+    "entry": "README.md",
+    "guide": "guide.json",
+    "authoring": {
+      "tool": "deepseek-flash",
+      "client": "dsh"
+    }
+  },
+  "integrity": "integrity.json",
+  "preview": {
+    "video": "previews/preview.mp4",
+    "cover": "previews/cover.jpg"
+  },
+  "extensions": {
+    "motiongit.com:audio": {
+      "contract": "audio.json",
+      "optional": true,
+      "role": "sfx",
+      "file": "audio/sfx-deep-stage-media-wall.wav",
+      "durationSeconds": 10,
+      "design": "tonal-only, no noise sources, smooth transitions"
+    }
+  }
+}

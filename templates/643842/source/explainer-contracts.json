@@ -1,0 +1,118 @@
+{
+  "durationSeconds": 43.541666666666664,
+  "scenes": [
+    {
+      "id": "opening",
+      "start": 0,
+      "end": 2.7,
+      "protectedEntranceSeconds": 0.65,
+      "exitSeconds": 0.3,
+      "readingHolds": "已按本版口播编排，不自动拉长或压缩；变更时序需新版本验证"
+    },
+    {
+      "id": "ingredients",
+      "start": 2.7,
+      "end": 11.266,
+      "protectedEntranceSeconds": 0.65,
+      "exitSeconds": 0.3,
+      "readingHolds": "已按本版口播编排，不自动拉长或压缩；变更时序需新版本验证"
+    },
+    {
+      "id": "nutrition",
+      "start": 11.266,
+      "end": 19.5,
+      "protectedEntranceSeconds": 0.65,
+      "exitSeconds": 0.3,
+      "readingHolds": "已按本版口播编排，不自动拉长或压缩；变更时序需新版本验证"
+    },
+    {
+      "id": "suitability",
+      "start": 19.5,
+      "end": 27.366,
+      "protectedEntranceSeconds": 0.65,
+      "exitSeconds": 0.3,
+      "readingHolds": "已按本版口播编排，不自动拉长或压缩；变更时序需新版本验证"
+    },
+    {
+      "id": "closing",
+      "start": 27.366,
+      "end": 43.541666666666664,
+      "protectedEntranceSeconds": 0.65,
+      "exitSeconds": 0.3,
+      "readingHolds": "已按本版口播编排，不自动拉长或压缩；变更时序需新版本验证"
+    }
+  ],
+  "capacity": {
+    "openingCards": 3,
+    "comparisonCards": 2,
+    "questionRows": 3,
+    "closingRows": 3
+  },
+  "soundEvents": [
+    {
+      "frame": 65,
+      "durationFrames": 12,
+      "kind": "soft"
+    },
+    {
+      "frame": 106,
+      "durationFrames": 10,
+      "kind": "soft"
+    },
+    {
+      "frame": 173,
+      "durationFrames": 10,
+      "kind": "soft"
+    },
+    {
+      "frame": 270,
+      "durationFrames": 14,
+      "kind": "soft"
+    },
+    {
+      "frame": 314,
+      "durationFrames": 12,
+      "kind": "soft"
+    },
+    {
+      "frame": 384,
+      "durationFrames": 10,
+      "kind": "soft"
+    },
+    {
+      "frame": 468,
+      "durationFrames": 14,
+      "kind": "soft"
+    },
+    {
+      "frame": 523,
+      "durationFrames": 10,
+      "kind": "soft"
+    },
+    {
+      "frame": 562,
+      "durationFrames": 10,
+      "kind": "soft"
+    },
+    {
+      "frame": 612,
+      "durationFrames": 10,
+      "kind": "soft"
+    },
+    {
+      "frame": 737,
+      "durationFrames": 12,
+      "kind": "soft"
+    },
+    {
+      "frame": 785,
+      "durationFrames": 12,
+      "kind": "soft"
+    },
+    {
+      "frame": 893,
+      "durationFrames": 12,
+      "kind": "soft"
+    }
+  ]
+}

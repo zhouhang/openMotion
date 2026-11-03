@@ -1,0 +1,211 @@
+{
+  "audioContractVersion": "1.0",
+  "template": "deep-stage-product-focus",
+  "role": "sfx",
+  "optional": true,
+  "design": {
+    "palette": "纯合成音调（正弦 + 泛音 + 平滑 ADSR + 合成调性混响）",
+    "noiseSources": "none",
+    "transitions": "平滑滑音 / 低频涌起；无噪声扫频、无磨砂纹理、无白噪",
+    "alignment": "事件时间取自模板真实时间线（renderFrame 的 tween 起始时间），从 0 秒对齐"
+  },
+  "tracks": [
+    {
+      "path": "audio/sfx-deep-stage-product-focus.wav",
+      "startSeconds": 0,
+      "durationSeconds": 12,
+      "sampleRate": 48000,
+      "channels": 2,
+      "codec": "pcm_s16le",
+      "normalization": "-18 LUFS integrated, true peak <= -2 dBFS",
+      "peakDbfs": -2
+    }
+  ],
+  "events": [
+    {
+      "t": 0.02,
+      "type": "swell",
+      "note": "open"
+    },
+    {
+      "t": 0.3,
+      "type": "air",
+      "note": "camera"
+    },
+    {
+      "t": 0.45,
+      "type": "tick",
+      "freqHz": 1109,
+      "note": "other"
+    },
+    {
+      "t": 0.55,
+      "type": "glass",
+      "rootHz": 220,
+      "note": "title"
+    },
+    {
+      "t": 0.65,
+      "type": "impact",
+      "note": "product screen"
+    },
+    {
+      "t": 0.75,
+      "type": "tick",
+      "freqHz": 1109,
+      "note": "other"
+    },
+    {
+      "t": 0.95,
+      "type": "tick",
+      "freqHz": 1109,
+      "note": "other"
+    },
+    {
+      "t": 1.25,
+      "type": "tick",
+      "freqHz": 1300,
+      "note": "text"
+    },
+    {
+      "t": 1.75,
+      "type": "tick",
+      "freqHz": 1109,
+      "note": "other"
+    },
+    {
+      "t": 1.9,
+      "type": "tick",
+      "freqHz": 1300,
+      "note": "text"
+    },
+    {
+      "t": 2.05,
+      "type": "glass",
+      "rootHz": 246.94,
+      "note": "title"
+    },
+    {
+      "t": 2.2,
+      "type": "air",
+      "note": "ambient"
+    },
+    {
+      "t": 2.4,
+      "type": "tick",
+      "freqHz": 1300,
+      "note": "text"
+    },
+    {
+      "t": 2.6,
+      "type": "impact",
+      "note": "screen"
+    },
+    {
+      "t": 2.85,
+      "type": "tick",
+      "freqHz": 1150,
+      "note": "chip"
+    },
+    {
+      "t": 2.95,
+      "type": "tick",
+      "freqHz": 1300,
+      "note": "text"
+    },
+    {
+      "t": 3.05,
+      "type": "tick",
+      "freqHz": 1220,
+      "note": "chip"
+    },
+    {
+      "t": 3.25,
+      "type": "tick",
+      "freqHz": 1290,
+      "note": "chip"
+    },
+    {
+      "t": 3.5,
+      "type": "tick",
+      "freqHz": 1150,
+      "note": "chip"
+    },
+    {
+      "t": 3.66,
+      "type": "tick",
+      "freqHz": 1220,
+      "note": "chip"
+    },
+    {
+      "t": 3.82,
+      "type": "tick",
+      "freqHz": 1290,
+      "note": "chip"
+    },
+    {
+      "t": 4,
+      "type": "impact",
+      "note": "screen"
+    },
+    {
+      "t": 4.6,
+      "type": "tick",
+      "freqHz": 1300,
+      "note": "text"
+    },
+    {
+      "t": 4.75,
+      "type": "tick",
+      "freqHz": 1300,
+      "note": "text"
+    },
+    {
+      "t": 4.9,
+      "type": "tick",
+      "freqHz": 1109,
+      "note": "other"
+    },
+    {
+      "t": 5,
+      "type": "tick",
+      "freqHz": 1300,
+      "note": "text"
+    },
+    {
+      "t": 5.4,
+      "type": "air",
+      "note": "ambient"
+    },
+    {
+      "t": 6.2,
+      "type": "tick",
+      "freqHz": 1150,
+      "note": "chip"
+    },
+    {
+      "t": 6.32,
+      "type": "tick",
+      "freqHz": 1220,
+      "note": "chip"
+    },
+    {
+      "t": 6.44,
+      "type": "tick",
+      "freqHz": 1290,
+      "note": "chip"
+    },
+    {
+      "t": 11.1,
+      "type": "pad",
+      "rootHz": 220,
+      "note": "end"
+    }
+  ],
+  "hostInstructions": "支持音频的宿主在完成逐帧渲染后，把该 WAV 从 0 秒与画面混合再编码；不支持的宿主输出静音视频，不得声称包含声音。音频为可选层，不改变画面渲染确定性。",
+  "muxExample": "ffmpeg -i rendered.mp4 -i audio/sfx-deep-stage-product-focus.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 192k -shortest out.mp4",
+  "measurements": {
+    "spectralFlatness": 0.0006,
+    "note": "白噪 ≈ 1.0；本音轨为纯音调型，不含噪声源"
+  }
+}

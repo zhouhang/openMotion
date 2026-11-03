@@ -1,0 +1,24 @@
+{
+  "version": "0.8.0-rc.1",
+  "fields": [
+    "mode",
+    "resolution",
+    "heading",
+    "footer",
+    "roleLabel",
+    "nameLabel",
+    "portraitSize",
+    "logo",
+    "pageLabels",
+    "videos"
+  ],
+  "layout": "fixed right portrait card + left graphic stage; not content-aware floating placement",
+  "frameClock": "24fps target global clock; no loop or rate change; max uncovered pause 0.25s",
+  "autoAlignment": "waveform correlation >=0.95 using separately supplied narration; explicit at also supported",
+  "faceCrop": "median localization per segment, coverage >=80%; explicit normalized crop accepted; no identity recognition",
+  "output": "1080p default when presentation configured; 720p selectable; no-presentation route retains 720p",
+  "scope": "presentation applies to graphic short scenes only; existing media/legacy scenes remain available without presentation",
+  "subtitles": "none for this editorial route; SRT can supply content evidence without display",
+  "audio": "unique narration with existing SFX; no automatic BGM; role/name may be empty strings",
+  "logo": "optional; omitted does not block render; no organization logo supplied by default"
+}

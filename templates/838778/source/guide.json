@@ -1,0 +1,190 @@
+{
+  "guideVersion": "0.1",
+  "fit": {
+    "summary": "DEEP STAGE 完整版：46 秒整条口播包装视频——深色 3D 舞台开场、口播主舞台、产品讲解、案例数据、媒体素材墙、收尾锁版六个镜头连续镜头运动；适合把一段口播直接包装成成片。",
+    "goodFor": [
+      "整条口播视频包装",
+      "产品讲解成片",
+      "案例复盘/汇报成片",
+      "媒体素材解读成片",
+      "课程/知识讲解成片"
+    ],
+    "notFor": [
+      "只需要 8–14 秒单个镜头的拼接（请用同系列片段模板）",
+      "浅色/留白品牌片",
+      "真人实拍素材本身（模板只提供画面包装，不提供真人画面）"
+    ],
+    "placement": "whole",
+    "genres": [
+      "talking-head",
+      "knowledge",
+      "product",
+      "showcase"
+    ]
+  },
+  "duration": {
+    "policy": "fixed",
+    "min": 46,
+    "max": 46,
+    "default": 46
+  },
+  "materials": [
+    {
+      "role": "audio.music",
+      "use": "可选：整条视频的音乐床；模板音效轨可单独静音或替换",
+      "ask": "需要我按这条视频的节奏推荐一段授权音乐吗？还是你自带音乐/完全静音？",
+      "required": false,
+      "ifMissing": "模板不内置音乐；可选音效轨已随包提供。"
+    },
+    {
+      "role": "audio.voiceover",
+      "use": "可选：你的口播原声，按 46 秒时间线贴入",
+      "ask": "有口播原声吗？有就按 46 秒对齐贴入，字幕文案也可一起换。",
+      "required": false,
+      "ifMissing": "没有配音时输出纯画面+音效，字幕仍可读。"
+    },
+    {
+      "role": "text.facts",
+      "use": "全部文案：标题、副标题、人名、三个要点、产品/案例说明、10 句字幕",
+      "ask": "把品牌名、标题、副标题、人名职务、三个要点、产品与案例文案、10 句口播字幕发我。",
+      "required": true,
+      "maps": [
+        "brand",
+        "title",
+        "subtitle",
+        "presenter",
+        "briefTitle",
+        "productName",
+        "caseTitle",
+        "captions"
+      ]
+    }
+  ],
+  "copy": [
+    {
+      "param": "brand",
+      "label": "品牌名",
+      "rule": "1–3 个英文词或中文短语，24 字内",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "kicker",
+      "label": "片头小标签",
+      "rule": "建议「类别 / 中文说明」",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "title",
+      "label": "主标题第一段",
+      "rule": "2–8 个中文字或 1 个英文词",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "titleAccent",
+      "label": "主标题第二段",
+      "rule": "与第一段合计 ≤14 字符，可留空",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "subtitle",
+      "label": "片头副标题",
+      "rule": "38 字内；**…** 标出强调",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "presenter",
+      "label": "口播人名",
+      "rule": "12 字内",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "presenterRole",
+      "label": "口播职务",
+      "rule": "24 字内",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "briefTitle",
+      "label": "主信息屏标题",
+      "rule": "20 字内，最多两行",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "productName",
+      "label": "产品名",
+      "rule": "12 字内，全大写拉丁更稳",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "caseTitle",
+      "label": "案例屏标题",
+      "rule": "22 字内",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "captions",
+      "label": "10 句口播字幕",
+      "rule": "每句 30 字内，顺序对应六个镜头；**…** 标出青色强调",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    },
+    {
+      "param": "accent",
+      "label": "主色",
+      "rule": "六位十六进制；默认冷青 #4DE3FF，暖金 #FFB168，紫罗兰 #A78BFF",
+      "from": [
+        "conversation"
+      ]
+    },
+    {
+      "param": "outroTagline",
+      "label": "片尾副标",
+      "rule": "28 字内；建议「产品定位 · 模板类型」；可用 **…** 标出强调",
+      "from": [
+        "conversation",
+        "text.facts"
+      ]
+    }
+  ],
+  "hostWithoutTools": [
+    "如果你只能聊天：把品牌、标题、副标题、人名职务、三个要点、产品/案例文案与 10 句字幕发我，我返回可粘贴的参数 JSON；出片交给能运行模板的客户端。"
+  ],
+  "conversation": [
+    "先确认这是整条口播包装（46 秒），还是只要 8–14 秒片段；再收集文案。",
+    "字幕 10 句与六个镜头一一对应，改文案时保持句数，避免错拍。",
+    "默认冷青主色；整条视频的主色会统一影响舞台光、屏幕焦点与字幕强调。",
+    "需要配音时先定口播长度，再按 46 秒时间线对齐；模板画面节奏固定。"
+  ]
+}

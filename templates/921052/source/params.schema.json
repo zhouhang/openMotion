@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://motiongit.com/templates/deep-stage-title-ignition/params.schema.json",
+  "title": "DEEP STAGE 开场点火标题 · 参数",
+  "description": "深色立体舞台上的开场标题动效：改品牌、两段主标题、副标题、角标与主色。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["brand", "kicker", "title", "titleAccent", "subtitle", "meta", "accent"],
+  "properties": {
+    "brand": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "default": "DEEP STAGE",
+      "description": "左上角品牌名，全大写拉丁字母更稳（DIN 字体）。"
+    },
+    "kicker": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 42,
+      "default": "AIGC TEMPLATE / 口播视频模板",
+      "description": "标题上方的小标签，建议「类别 / 中文说明」。"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 14,
+      "default": "DEEP",
+      "description": "主标题第一段，建议 2–8 个中文字或 1 个英文词。"
+    },
+    "titleAccent": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 14,
+      "default": "STAGE",
+      "description": "主标题第二段（金属渐变）。留空则只显示第一段。"
+    },
+    "subtitle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 38,
+      "default": "深色立体舞台 · 多屏空间层次 · 为口播而生",
+      "description": "副标题，一行显示；可用 <b>…</b> 让局部变成主色。"
+    },
+    "meta": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 48,
+      "default": "2026 / TEMPLATE 01 / 1920×1080 · 30FPS",
+      "description": "底部角标信息，建议日期 / 编号 / 规格。"
+    },
+    "accent": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "default": "#4DE3FF",
+      "description": "主色（六位十六进制）。默认冷青，可改暖金 #FFB168 或紫罗兰 #A78BFF。"
+    }
+  }
+}

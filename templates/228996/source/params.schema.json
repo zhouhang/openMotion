@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://motiongit.com/templates/deep-stage-host-stage/params.schema.json",
+  "title": "DEEP STAGE 口播主舞台 · 参数",
+  "description": "9:16 人物画面 + 主信息屏 + 章节导航屏 + 下三分之一人名条；改品牌、主讲人、标题、3 条要点、6 条章节与主色。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["brand", "presenter", "role", "kicker", "title", "subtitle", "items", "chapters", "active", "accent"],
+  "properties": {
+    "brand": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "default": "DEEP STAGE",
+      "description": "左上角品牌名，全大写拉丁字母更稳（DIN 字体）。"
+    },
+    "presenter": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 12,
+      "default": "林 一",
+      "description": "下三分之一人名条上的姓名，建议 2–4 个字。"
+    },
+    "role": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "default": "产品主讲 / HOST",
+      "description": "人名条下方的职务，建议写成「中文职务 / 英文关键词」。"
+    },
+    "kicker": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 42,
+      "default": "BRIEF / 本期议题",
+      "description": "主信息屏顶部的小标签，建议「类别 / 中文说明」。"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 14,
+      "default": "三步讲清一个产品",
+      "description": "主信息屏标题，可折两行；建议 6–12 个字。"
+    },
+    "subtitle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 42,
+      "default": "从现场需求到落地结果，一条口播串起全部证据。",
+      "description": "主信息屏副标题，最多两行，42 字以内。"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "主信息屏的 3 条编号要点，按 01/02/03 固定槽位依次入场。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "body"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12,
+            "description": "要点标题，一行显示，12 字以内。"
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 24,
+            "description": "要点说明，一行显示，24 字以内。"
+          }
+        }
+      },
+      "default": [
+        { "title": "需求在现场", "body": "先拍下真实场景，再谈功能。" },
+        { "title": "方案怎样落地", "body": "把复杂流程压成三条主线。" },
+        { "title": "结果如何量化", "body": "用数据替你说完最后一句。" }
+      ]
+    },
+    "chapters": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "description": "章节导航屏的 6 条章节，按 01–06 固定槽位依次出现；当前章由 active 决定高亮。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "time"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 5,
+            "description": "章节名，建议 2–4 个中文字。"
+          },
+          "time": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 6,
+            "pattern": "^[0-9]{1,2}:[0-9]{2}$",
+            "description": "章节时间码，格式 分:秒，例如 0:06。"
+          }
+        }
+      },
+      "default": [
+        { "name": "开场", "time": "0:00" },
+        { "name": "口播舞台", "time": "0:06" },
+        { "name": "产品", "time": "0:16" },
+        { "name": "案例", "time": "0:25" },
+        { "name": "素材", "time": "0:34" },
+        { "name": "收尾", "time": "0:41" }
+      ]
+    },
+    "active": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6,
+      "default": 2,
+      "description": "当前高亮的章节序号 1–6，章节屏与右上角章节号同步。"
+    },
+    "accent": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "default": "#4DE3FF",
+      "description": "主色（六位十六进制）。默认冷青，可改暖金 #FFB168 或紫罗兰 #A78BFF。"
+    }
+  }
+}

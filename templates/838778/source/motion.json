@@ -1,0 +1,64 @@
+{
+  "$schema": "https://motiongit.com/schema/motion/0.1.json",
+  "format": "motiongit-template",
+  "specVersion": "0.1.0-draft.1",
+  "template": {
+    "id": "deep-stage-full-video",
+    "version": "1.0.0",
+    "name": "DEEP STAGE · 深境舞台完整版",
+    "status": "candidate",
+    "contentType": "full-template"
+  },
+  "runtime": {
+    "profile": "html-canvas/1",
+    "entry": "src/index.html",
+    "dependencyLock": "motion.lock.json"
+  },
+  "parameters": {
+    "schema": "params.schema.json",
+    "defaultPreset": "presets/demo.json"
+  },
+  "assets": {
+    "manifest": "asset-manifest.json"
+  },
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 30,
+      "den": 1
+    },
+    "durationPolicy": "fixed",
+    "durationSeconds": 46
+  },
+  "preview": {
+    "video": "previews/preview.mp4",
+    "cover": "previews/cover.jpg"
+  },
+  "license": {
+    "file": "licenses/TEMPLATE-LICENSE.txt"
+  },
+  "permissions": {
+    "network": false
+  },
+  "extensions": {
+    "motiongit.com:audio": {
+      "contract": "audio.json",
+      "optional": true,
+      "role": "sfx",
+      "file": "audio/sfx-deep-stage-full.wav",
+      "durationSeconds": 46,
+      "design": "tonal-only, no noise sources, smooth transitions"
+    }
+  },
+  "ai": {
+    "summary": "DEEP STAGE 深境舞台完整版：46 秒整条口播包装视频模板。深色 3D 舞台开场点火 → 口播主舞台（人物画面+信息屏+章节屏）→ 产品讲解（参数切片与数字滚动）→ 案例数据（KPI+柱图+前后对比）→ 媒体素材墙 → 收尾锁版；全片一条连续镜头运动。可替换品牌、标题、人名职务、三屏文案、产品/案例文案、10 句口播字幕与主色。随包可选音效轨（纯合成，无噪声源）。",
+    "entry": "README.md",
+    "guide": "guide.json",
+    "authoring": {
+      "tool": "deepseek-flash",
+      "client": "dsh"
+    }
+  },
+  "integrity": "integrity.json"
+}

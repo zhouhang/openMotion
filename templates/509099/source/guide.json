@@ -1,0 +1,144 @@
+{
+  "guideVersion": "0.1",
+  "fit": {
+    "summary": "以目标、证据、差值与关系组织产品表达；保留9类语义动作，真实口播依SRT句级时钟编排",
+    "genres": [
+      "talking-head",
+      "knowledge",
+      "product"
+    ],
+    "goodFor": [
+      "观点与问题分析",
+      "两项对比",
+      "2至5步流程",
+      "已有产品演示与数据",
+      "2–6节点扩张",
+      "两条路线选择并收拢",
+      "2–5站对象传递",
+      "整字坍塌与图形碎片炸裂"
+    ],
+    "notFor": [
+      "任意口播自动无损套用",
+      "把提问做成已完成清单",
+      "没有真实数据仍强行套数值图表",
+      "声明未实现的自动语义识别",
+      "只按崩塌或炸裂关键词触发而忽略否定、条件与比喻",
+      "声称模拟真实材料破坏或通用物理引擎"
+    ]
+  },
+  "duration": {
+    "policy": "fit-voiceover",
+    "min": 12,
+    "max": 180,
+    "default": 72,
+    "param": "duration",
+    "rules": [
+      "voiceover模式从完整原声元数据与实际字幕确定时长；duration不能改短口播",
+      "按实际SRT句级边界分段，sourceRefs完整覆盖每条字幕一次；不猜词级时间",
+      "动作保护窗原速，延长只进入可读停留区；短段冲突需合并/改选场，长段超容量需拆分",
+      "无口播时可显式content模式给duration；默认72秒仅为无口播技术样例",
+      "12–180秒是声明范围，不代表所有选场组合都能承载整个范围"
+    ]
+  },
+  "materials": [
+    {
+      "role": "audio.voiceover",
+      "required": false,
+      "ask": "提供已有音频或带原声的视频",
+      "use": "保留完整原声，不变速不裁短；每个输出使用同一全局时钟",
+      "maps": [
+        "voiceover"
+      ],
+      "ifMissing": "只执行显式content模式，不能冒充真实口播验证"
+    },
+    {
+      "role": "text.subtitles",
+      "required": false,
+      "ask": "提供对应原视频的SRT字幕",
+      "use": "句级对齐、全文归属和步骤触发依据，不猜句内词时间",
+      "maps": [
+        "captions"
+      ],
+      "ifMissing": "voiceover模式阻塞，补齐真实时间；content模式不需要字幕"
+    },
+    {
+      "role": "video.presenter",
+      "required": false,
+      "ask": "是否保留原视频人物窗口",
+      "use": "与口播同源等比显示，不裁人脸、不变速、不循环；仅帧网格允许最多一个输出帧尾补",
+      "maps": [
+        "presenter"
+      ],
+      "ifMissing": "不显示人物窗口，原声处理独立"
+    },
+    {
+      "role": "audio.music",
+      "required": false,
+      "ask": "沿用用户指定音乐；明确不另加时设none",
+      "use": "track需完整覆盖输出，offset显式；不足不循环；独立动作音效按计划生成",
+      "maps": [
+        "music"
+      ],
+      "ifMissing": "pending状态仅允许诊断输出，不冒充最终混音"
+    }
+  ],
+  "copy": [
+    {
+      "param": "mode",
+      "label": "时长来源",
+      "from": [
+        "conversation"
+      ],
+      "rule": "实际口播用voiceover；无口播技术样例才用content"
+    },
+    {
+      "param": "brand",
+      "label": "项目名称",
+      "from": [
+        "conversation"
+      ],
+      "rule": "来自用户内容，最多24字"
+    },
+    {
+      "param": "duration",
+      "label": "内容样例时长",
+      "from": [
+        "conversation"
+      ],
+      "rule": "仅无口播时显式填写；有口播从原声推导"
+    },
+    {
+      "param": "segments",
+      "label": "镜头方案",
+      "from": [
+        "conversation"
+      ],
+      "rule": "助手先理解全文和语义再选择catalog；保留否定条件数量和实体，填写真实sourceRefs与cueRefs"
+    },
+    {
+      "param": "design",
+      "label": "产品演示内容",
+      "from": [
+        "conversation"
+      ],
+      "rule": "新产品表达合同：固定4张证据、六阶段前后值、三项百分比；不用时不填design。0.4动作窗不同，不重放旧38秒固定片。"
+    }
+  ],
+  "conversation": [
+    "先检查完整口播、SRT、用户用途与实际素材，不让用户填技术表",
+    "先由助手拟语义分镜，程序只验证容量与来源，不伪称程序理解了台词",
+    "术语或ASR疑似错误保留原文并记录，不擅自改源字幕",
+    "完整导出后分开记录自动检查、抽帧、实际看听与用户验收"
+  ],
+  "hostWithoutTools": [
+    "交付镜头方案、素材需求与输入草稿，不声称已导出视频",
+    "由具备Python、Node、Playwright、浏览器和FFmpeg的本地环境运行README公开入口"
+  ],
+  "workflow": [
+    "理解语义→填写segments与sourceRefs",
+    "新增五种场景按references/rich-effects.md填写可替换内容、cueRefs与triggerRef；无口播才用cueSeconds和triggerSeconds",
+    "plan校验归属、容量、动作窗、接缝与全局帧数",
+    "检查计划后render；保留原声和源字幕",
+    "检查实际输出中的字幕、嘴部、转场与声音；所有者连续看听确认"
+  ]
+}

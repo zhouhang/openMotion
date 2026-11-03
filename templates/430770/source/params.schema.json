@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://motiongit.com/templates/deep-stage-media-wall/params.schema.json",
+  "title": "DEEP STAGE 媒体素材墙 · 参数",
+  "description": "深色立体舞台上的素材墙：六宫格（2 行 3 列）在 3D 空间里逐张落位，六张抽象静帧由 CSS/SVG 生成，落位后极缓慢浮动、镜头后拉。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["wallTitle", "items", "accent"],
+  "properties": {
+    "wallTitle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 18,
+      "default": "六个镜头，一面素材墙",
+      "description": "素材墙标题（左上角角标），一行显示，建议 8–14 个中文字。"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "description": "六张卡的文案，固定 6 条，按顺序填进六个格子；卡片画面本身是模板内置的抽象静帧。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "tag"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 8, "description": "卡片中文名，如 金属微距。" },
+          "tag": { "type": "string", "minLength": 1, "maxLength": 10, "description": "卡片英文标签，建议全大写，如 MACRO。" }
+        }
+      }
+    },
+    "wallKicker": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 36,
+      "default": "MEDIA WALL / 素材墙",
+      "description": "标题上方的小标签，建议「类别 / 中文说明」。"
+    },
+    "brand": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "default": "DEEP STAGE",
+      "description": "左上角品牌名（同时作为左侧竖排小字）。"
+    },
+    "chapter": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 16,
+      "default": "05 / 06",
+      "description": "右上角章节号，写法「05 / 06」；只写一个数字也能显示。"
+    },
+    "screenLabel": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 36,
+      "default": "MEDIA WALL / 媒体素材",
+      "description": "右上角章节名，出现在章节号下方。"
+    },
+    "meta": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 52,
+      "default": "DEEP STAGE · TEMPLATE V1.0 · 1920×1080",
+      "description": "右下角角标信息，建议日期 / 版本 / 规格。"
+    },
+    "caption": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 34,
+      "default": "",
+      "description": "底部字幕（口播字幕，可留空）；用 <em>…</em> 可让局部变主色。"
+    },
+    "accent": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "default": "#4DE3FF",
+      "description": "主色（六位十六进制）。默认冷青，可改暖金 #FFB168 或紫罗兰 #A78BFF。"
+    }
+  }
+}

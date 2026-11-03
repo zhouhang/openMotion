@@ -1,0 +1,17 @@
+{
+  "schema": "openmotion-redacted-delivery-evidence-v1",
+  "template_id": "643842",
+  "publisher_template_id": 888,
+  "publisher_release_id": 747,
+  "version": "0.8.1-rc.1",
+  "template_slug": "moonwhite-robot-unified",
+  "content_protection": "open",
+  "release_archive_sha256": "571b9f87d2da76358fbaae515b5ebe1ca556177cab92a8b39b0cbc8d1473f7df",
+  "release_archive_bytes": 13955969,
+  "envelope_manifest_sha256": "016453158812091fe901a24ac114439d84ef5853efa8ab8ab28ad0f915d0c6c7",
+  "delivery_receipt_sha256": "fd249baaa081ddf1239d077a6ae6ef47af1455de87b03988f6d3de1a092ec6eb",
+  "personal_envelope_included": false,
+  "source_url": "https://motiongit.com/@frankye1211/moonwhite-robot-unified",
+  "official_helper_signature_verified": true,
+  "official_helper_sha256": "7004609ddbc0ccf6451beeb477aff0d3c85bda74f902e5922465c85cd347f6f3"
+}

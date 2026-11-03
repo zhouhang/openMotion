@@ -1,0 +1,133 @@
+{
+  "profile": "semantic-scene-catalog/1",
+  "note": "8类产品表达重新设计，时长合同较0.3版本有变化；9类既有表达保留。",
+  "scenes": {
+    "opening": {
+      "min": 4,
+      "max": 12,
+      "protected": 3,
+      "exit": 0.25
+    },
+    "demo": {
+      "min": 4,
+      "max": 18,
+      "protected": 2.6,
+      "exit": 0.25
+    },
+    "recap": {
+      "min": 3,
+      "max": 12,
+      "protected": 2.4,
+      "exit": 0.25
+    },
+    "grid": {
+      "min": 4,
+      "max": 15,
+      "protected": 3,
+      "exit": 0.25
+    },
+    "chart": {
+      "min": 5,
+      "max": 20,
+      "protected": 4,
+      "exit": 0.25
+    },
+    "metric": {
+      "min": 4,
+      "max": 15,
+      "protected": 2.6,
+      "exit": 0.25
+    },
+    "overview": {
+      "min": 4,
+      "max": 15,
+      "protected": 3,
+      "exit": 0.25
+    },
+    "brand": {
+      "min": 4,
+      "max": 15,
+      "protected": 2.6,
+      "exit": 0.25
+    },
+    "statement": {
+      "min": 2,
+      "max": 20,
+      "protected": 0.8,
+      "exit": 0.25
+    },
+    "comparison": {
+      "min": 3.2,
+      "max": 22,
+      "protected": 1.0,
+      "exit": 0.25,
+      "items": [
+        2,
+        2
+      ]
+    },
+    "steps": {
+      "min": 3,
+      "max": 25,
+      "protected": 1.2,
+      "exit": 0.25,
+      "items": [
+        2,
+        5
+      ]
+    },
+    "questions": {
+      "min": 3,
+      "max": 25,
+      "protected": 1.2,
+      "exit": 0.25,
+      "items": [
+        2,
+        5
+      ]
+    },
+    "expansion": {
+      "min": 5,
+      "max": 25,
+      "protected": 1,
+      "exit": 0.25,
+      "items": [
+        2,
+        6
+      ]
+    },
+    "route-choice": {
+      "min": 5,
+      "max": 25,
+      "protected": 1,
+      "exit": 0.25,
+      "items": [
+        2,
+        2
+      ]
+    },
+    "object-flow": {
+      "min": 5,
+      "max": 25,
+      "protected": 1,
+      "exit": 0.25,
+      "items": [
+        2,
+        5
+      ]
+    },
+    "collapse": {
+      "min": 5,
+      "max": 20,
+      "protected": 1,
+      "exit": 0.25
+    },
+    "explode": {
+      "min": 5,
+      "max": 20,
+      "protected": 1,
+      "exit": 0.25
+    }
+  },
+  "version": "0.4.0-rc.5"
+}

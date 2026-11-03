@@ -1,0 +1,21 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "asset-manifest.json": "df1ac10c630dfd4a8509666ea1df89491edba4c3a51f4efd6ae330c94bcc73d0",
+    "assets/grain.png": "041438a1452771ce3ab9de5353ba84606eef2888fa7f53501fdae792cdb41b72",
+    "assets/motion.js": "2c8de4842233e8c3abb17564da74af371fe856508f331f6fab0300e66589fd6a",
+    "assets/stage.css": "6e1a28356e30ec9fda71e70235cbc6ad4b5c6d5f5b839e4454f0ccf26ed3ade6",
+    "audio.json": "d343b71ca49cf08cb19bf942849d6cf08da2aa4dec679382b0bd8e5fa16c5089",
+    "audio/sfx-deep-stage-host-stage.wav": "4243552c666bb88e378a4de9d0f1c560cd516b8ab022a224c5de31d7a2acf5db",
+    "guide.json": "07d85eae0fd2c92450019e08a569040427cbcc78a68791cf4e65da18fef84230",
+    "licenses/TEMPLATE-LICENSE.txt": "05895eecefbdb67e5c45a600dbfe5c829c44bedc3e3679f3f4b3e16e422cafec",
+    "motion.json": "497c5782dad47a0cc801d4e4953d23880e45beb05be7c79494385ef958fbda69",
+    "motion.lock.json": "9e0e846e315f6cdf08ad923be88c941ad80863e4bf0874e0c4e814e213f0c1cd",
+    "params.schema.json": "d91fedaae71201868d6c83cfca7d02a104f5c2c59f2e843fd934ae8762a50f01",
+    "presets/demo.json": "b61ef336742c079dcdf17bcb8aeac8656d1168d24633d55d1ff3531e8a5a8cf4",
+    "previews/cover.jpg": "db445fc479921e26ead3a73bf94da56e438a05e13f582aeddff91444ce3fb0e8",
+    "previews/preview.mp4": "32132173e8e6ec66aae198318c83cdf6332d59ae984358ff1265850825cd1c57",
+    "README.md": "f8d606855026f1eee598d65c09771cba80361d78378890d709b52edf5aa21324",
+    "src/index.html": "accdc795cfdf9e3d6bc2de576ac5c84ba4497e8e1db56b9d17d20384d617119a"
+  }
+}

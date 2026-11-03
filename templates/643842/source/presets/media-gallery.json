@@ -1,0 +1,93 @@
+{
+  "duration": 16,
+  "scenes": [
+    {
+      "type": "page-waterfall-wall",
+      "duration": 16,
+      "images": [
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-12181303.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-4110503.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-6331113.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-6368793.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-7937483.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-8063448.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-10999009.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-5945603.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-4832406.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-4601975.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-32055276.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-5946056.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-15048304.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-37414432.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-3758121.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-31472330.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-33731505.jpg"
+        },
+        {
+          "scope": "instance",
+          "path": "user-assets/pexels-7474101.jpg"
+        }
+      ],
+      "columns": 5,
+      "speed": 1,
+      "heading": [
+        "让更多图片",
+        "形成整体印象"
+      ],
+      "description": "多列错速，让素材持续进入视野",
+      "annotation": "把素材汇成一片风景",
+      "credit": "Photos: Pexels · 18张实例素材 / 作者与来源见本期素材清单"
+    }
+  ],
+  "pacing": "legacy"
+}

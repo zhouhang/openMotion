@@ -1,0 +1,56 @@
+{
+  "assetManifestVersion": "0.1",
+  "template": "deep-stage-full-video",
+  "files": [
+    {
+      "path": "assets/gsap.min.js",
+      "role": "animation-runtime",
+      "origin": "GreenSock GSAP 3.14.2，本地打包",
+      "license": "GSAP Standard License",
+      "distributed": true,
+      "purpose": "46 秒时间线引擎（seek 驱动）"
+    },
+    {
+      "path": "assets/grain.png",
+      "role": "texture",
+      "origin": "程序生成中性灰噪点纹理",
+      "license": "本模板许可",
+      "distributed": true,
+      "purpose": "画面颗粒质感"
+    },
+    {
+      "path": "audio/sfx-deep-stage-full.wav",
+      "role": "audio-sfx",
+      "origin": "DEEP STAGE 原创合成音效",
+      "license": "本模板许可",
+      "distributed": true,
+      "purpose": "可选音效轨（纯合成、无噪声源）"
+    },
+    {
+      "path": "src/index.source.html",
+      "role": "source-archive",
+      "origin": "HyperFrames 原合成（未含 shim）",
+      "license": "本模板许可",
+      "distributed": true,
+      "purpose": "画面源留档，便于维护"
+    }
+  ],
+  "systemFonts": [
+    {
+      "family": "Noto Sans SC",
+      "role": "中文标题/正文",
+      "distributed": false
+    },
+    {
+      "family": "DIN Next LT Pro",
+      "role": "英文与数字",
+      "distributed": false
+    },
+    {
+      "family": "Consolas",
+      "role": "等宽小标签",
+      "distributed": false
+    }
+  ],
+  "userMedia": []
+}

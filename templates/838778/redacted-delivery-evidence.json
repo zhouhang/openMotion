@@ -1,0 +1,17 @@
+{
+  "schema": "openmotion-redacted-delivery-evidence-v1",
+  "template_id": "838778",
+  "publisher_template_id": 885,
+  "publisher_release_id": 510,
+  "version": "1.0.0",
+  "template_slug": "deep-stage-full-video",
+  "content_protection": "open",
+  "release_archive_sha256": "9fe1e32e028557cf8d9aee8a67b9e03a571dd3f89877278d9de77b5b0de8022a",
+  "release_archive_bytes": 49243123,
+  "envelope_manifest_sha256": "8b0837f8a2d42b0ee65dd72a27300de7c5c6fb05ba890fb92af68f03ae74fa21",
+  "delivery_receipt_sha256": "a664cf0f93c2bcad314f9741f8aed32882d080252556b80d96dbcde19af7e7ed",
+  "personal_envelope_included": false,
+  "source_url": "https://motiongit.com/@thepandaq/deep-stage-full-video",
+  "official_helper_signature_verified": true,
+  "official_helper_sha256": "7004609ddbc0ccf6451beeb477aff0d3c85bda74f902e5922465c85cd347f6f3"
+}

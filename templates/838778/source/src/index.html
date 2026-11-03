@@ -1,0 +1,3374 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>DEEP STAGE · 深境舞台 — 口播包装模板</title>
+<script src="../assets/gsap.min.js"></script>
+<style>
+/* ============================================================
+   DEEP STAGE 深境舞台 · 口播视频包装模板
+   1920×1080 · 30fps · 46s
+   单文件合成。改文案搜 data-slot，换肤改 :root 变量。
+   ============================================================ */
+
+/* ---------- Fonts（全部本机 local()，离线可渲染） ---------- */
+@font-face { font-family: "Noto Sans SC"; src: local("Noto Sans SC"), local("NotoSansSC-VF"), local("Noto Sans SC Regular"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "DIN Next LT Pro"; src: local("DINNextLTPro-Light"), local("DIN Next LT Pro Light"); font-weight: 300; font-display: block; }
+@font-face { font-family: "DIN Next LT Pro"; src: local("DINNextLTPro-Regular"), local("DIN Next LT Pro Regular"), local("DIN Next LT Pro"); font-weight: 400; font-display: block; }
+@font-face { font-family: "DIN Next LT Pro"; src: local("DINNextLTPro-Medium"), local("DIN Next LT Pro Medium"); font-weight: 500; font-display: block; }
+@font-face { font-family: "DIN Next LT Pro"; src: local("DINNextLTPro-Bold"), local("DIN Next LT Pro Bold"); font-weight: 700; font-display: block; }
+@font-face { font-family: "Consolas"; src: local("Consolas"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Inter"; src: local("Inter"), local("Inter-Regular"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "PingFang SC"; src: local("PingFang SC"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Microsoft YaHei"; src: local("Microsoft YaHei"), local("MicrosoftYaHei"); font-weight: 100 900; font-display: block; }
+
+/* ---------- Tokens ---------- */
+:root {
+  --bg-0: #04060B; --bg-1: #070B13; --bg-2: #0C1220; --bg-3: #111A2B;
+  --ink-0: #F4F7FC; --ink-1: #C3CEDF; --ink-2: #8593AB; --ink-3: #586581;
+  --cyan: #4DE3FF; --cyan-deep: #1F8FB8; --gold: #FFB168; --violet: #A78BFF; --mint: #4CE0A5;
+  --line: rgba(126, 168, 255, .16); --line-2: rgba(126, 168, 255, .32);
+  --glass: rgba(14, 21, 34, .62); --glass-2: rgba(20, 30, 48, .78);
+  --font-cjk: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font-num: "DIN Next LT Pro", "Bahnschrift", "Inter", sans-serif;
+  --font-mono: "Consolas", monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg-0); }
+body { font-family: var(--font-cjk); color: var(--ink-0); -webkit-font-smoothing: antialiased; }
+
+#root {
+  position: relative; width: 100%; height: 100%; overflow: hidden;
+  background: var(--bg-0); isolation: isolate;
+}
+
+/* ============================================================
+   1. 背景层（静止，提供深夜舞台的基底光）
+   ============================================================ */
+.bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.bg-base {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% 8%, #0E1828 0%, rgba(9, 14, 24, .9) 38%, rgba(4, 6, 11, 1) 78%),
+    linear-gradient(180deg, #060A12 0%, #04060B 58%, #03050A 100%);
+}
+.bg-haze {
+  position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55; will-change: opacity;
+}
+.bg-haze--cold { left: -8%; top: 24%; width: 62%; height: 58%; background: radial-gradient(closest-side, rgba(31, 143, 184, .30), rgba(31, 143, 184, 0) 70%); }
+.bg-haze--warm { right: -10%; top: 30%; width: 56%; height: 55%; background: radial-gradient(closest-side, rgba(255, 177, 104, .16), rgba(255, 177, 104, 0) 72%); }
+.bg-haze--violet { left: 28%; top: 8%; width: 46%; height: 42%; background: radial-gradient(closest-side, rgba(167, 139, 255, .16), rgba(167, 139, 255, 0) 72%); }
+.bg-vignette {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(115% 90% at 50% 46%, rgba(4, 6, 11, 0) 30%, rgba(4, 6, 11, .38) 68%, rgba(2, 3, 6, .82) 100%),
+    linear-gradient(180deg, rgba(2, 3, 6, .55) 0%, rgba(2, 3, 6, 0) 18%, rgba(2, 3, 6, 0) 74%, rgba(2, 3, 6, .66) 100%);
+}
+.bg-grain {
+  position: absolute; inset: -80px; opacity: .055; mix-blend-mode: overlay;
+  background-image: url("../assets/grain.png"); background-size: 320px 320px; background-repeat: repeat;
+}
+
+/* ============================================================
+   2. 3D 舞台 / 世界（唯一镜头容器）
+   ============================================================ */
+.stage { position: absolute; inset: 0; z-index: 1; perspective: 1600px; perspective-origin: 50% 42%; }
+.world {
+  position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: 50% 46%;
+  will-change: transform;
+}
+
+/* 地面透视网格 + 地平线 */
+.floor {
+  position: absolute; left: -46%; top: 646px; width: 192%; height: 1500px;
+  transform-origin: 50% 0; transform: rotateX(77deg);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(126, 168, 255, .16) 0 1px, transparent 1px 122px),
+    repeating-linear-gradient(0deg, rgba(126, 168, 255, .12) 0 1px, transparent 1px 122px);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .9) 12%, rgba(0, 0, 0, .55) 46%, rgba(0, 0, 0, 0) 88%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .9) 12%, rgba(0, 0, 0, .55) 46%, rgba(0, 0, 0, 0) 88%);
+}
+.floor::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(46% 30% at 50% 6%, rgba(77, 227, 255, .24), rgba(77, 227, 255, 0) 76%);
+}
+.horizon {
+  position: absolute; left: 4%; top: 644px; width: 92%; height: 1px;
+  background: linear-gradient(90deg, rgba(77, 227, 255, 0) 0%, rgba(77, 227, 255, .55) 22%, rgba(180, 230, 255, .9) 50%, rgba(77, 227, 255, .55) 78%, rgba(77, 227, 255, 0) 100%);
+  box-shadow: 0 0 26px 2px rgba(77, 227, 255, .30);
+}
+.horizon-glow {
+  position: absolute; left: 12%; top: 596px; width: 76%; height: 100px;
+  background: radial-gradient(50% 100% at 50% 100%, rgba(77, 227, 255, .20), rgba(77, 227, 255, 0) 72%);
+  filter: blur(14px);
+}
+
+/* 体积光束 */
+.beams { position: absolute; inset: 0; }
+.beam {
+  position: absolute; top: 0; left: var(--x); width: var(--w); height: var(--h);
+  transform-origin: 50% 0; transform: rotate(var(--r, 0deg));
+  background: linear-gradient(180deg, rgba(190, 225, 255, var(--o, .07)) 0%, rgba(120, 190, 255, calc(var(--o, .07) * .45)) 42%, rgba(120, 190, 255, 0) 100%);
+  filter: blur(22px);
+}
+
+/* 远景屏幕墙（虚化的多屏纵深） */
+.wall { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform: translateZ(-460px) scale(1.16); }
+.wall i {
+  position: absolute; display: block; border: 1px solid rgba(126, 168, 255, .22); border-radius: 6px;
+  background: linear-gradient(160deg, rgba(18, 28, 46, .55), rgba(6, 10, 18, .7));
+  box-shadow: inset 0 0 40px rgba(77, 227, 255, .08);
+  filter: blur(1.2px); opacity: .55;
+}
+
+/* ============================================================
+   3. 屏幕框 / 槽位
+   ============================================================ */
+.slot {
+  position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h);
+  transform: translateZ(var(--z, 0px)) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
+  transform-style: preserve-3d;
+}
+.slot-anim { position: absolute; inset: 0; transform-origin: 0 0; will-change: transform, opacity; }
+
+.frame {
+  position: absolute; inset: 0; border-radius: 12px;
+  background:
+    radial-gradient(120% 90% at 22% -10%, rgba(120, 190, 255, .13), rgba(120, 190, 255, 0) 52%),
+    linear-gradient(158deg, rgba(24, 36, 58, .97) 0%, rgba(12, 18, 31, .985) 46%, rgba(6, 10, 17, .99) 100%);
+  border: 1px solid var(--line-2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .09),
+    inset 0 0 70px rgba(31, 143, 184, .13),
+    0 34px 100px -24px rgba(0, 0, 0, .92),
+    0 0 92px -8px rgba(77, 227, 255, .26);
+}
+.frame::after {
+  content: ""; position: absolute; left: 8%; right: 8%; top: 0; height: 1px;
+  background: linear-gradient(90deg, rgba(77, 227, 255, 0), rgba(180, 235, 255, .55) 50%, rgba(77, 227, 255, 0));
+  opacity: .7;
+}
+.frame-view { position: absolute; inset: 0; border-radius: 11px; overflow: hidden; }
+.frame-in {
+  position: absolute; left: 0; top: 0; width: var(--dw); height: var(--dh);
+  transform-origin: 0 0; transform: scale(var(--k, 1));
+}
+.frame-glow {
+  position: absolute; left: 6%; right: 6%; bottom: -18px; height: 30px; border-radius: 50%;
+  background: radial-gradient(50% 100% at 50% 0%, rgba(77, 227, 255, .34), rgba(77, 227, 255, 0) 72%);
+  filter: blur(12px);
+}
+/* 屏幕挂签（框外 mono 小标签） */
+.slot-tag {
+  position: absolute; left: 0; top: -30px;
+  font: 400 15px/1 var(--font-mono); letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(140, 175, 220, .62); white-space: nowrap;
+}
+.slot--far .frame { opacity: .82; }
+.slot--far .frame-in { filter: saturate(.9); }
+.slot--host .slot-tag { display: none; }
+.slot--product .slot-tag { left: auto; right: 0; }
+.slot--case .slot-tag { left: auto; right: 0; }
+
+/* ============================================================
+   4. 大气层：尘埃 / 暗角 / 颗粒
+   ============================================================ */
+.atmos { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.dust { position: absolute; inset: 0; opacity: .6; }
+.mote {
+  position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s);
+  border-radius: 50%; background: rgba(190, 225, 255, var(--o, .5)); filter: blur(.4px);
+  box-shadow: 0 0 10px rgba(120, 200, 255, .5);
+}
+.atmos-grain {
+  position: absolute; inset: -60px; opacity: .04; mix-blend-mode: overlay;
+  background-image: url("../assets/grain.png"); background-size: 260px 260px;
+}
+.sweep-wrap { position: absolute; inset: 0; will-change: transform; }
+.sweep { position: absolute; left: -30%; top: -20%; width: 40%; height: 140%; transform: rotate(18deg); background: linear-gradient(90deg, rgba(150, 210, 255, 0), rgba(150, 210, 255, .05), rgba(150, 210, 255, 0)); filter: blur(28px); opacity: .7; }
+
+/* ============================================================
+   5. HUD（常驻信息层）
+   ============================================================ */
+.hud { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.logo { position: absolute; left: 64px; top: 46px; display: flex; align-items: center; gap: 14px; }
+.logo-mark { display: block; opacity: .92; }
+.logo-type b { display: block; font-family: var(--font-num); font-weight: 700; font-size: 21px; letter-spacing: .18em; color: var(--ink-0); }
+.logo-type span { display: block; margin-top: 5px; font-size: 13px; letter-spacing: .34em; color: var(--ink-3); }
+
+.hud-right { position: absolute; right: 64px; top: 44px; text-align: right; }
+.hud-chapter { display: flex; align-items: baseline; justify-content: flex-end; gap: 10px; font-family: var(--font-num); }
+.ch-nums { position: relative; display: block; width: 64px; height: 34px; }
+.ch-nums b { position: absolute; right: 0; top: 0; font-size: 30px; font-weight: 700; letter-spacing: .04em; color: var(--ink-0); opacity: 0; }
+.hud-chapter i { font-style: normal; font-size: 17px; color: var(--ink-3); }
+.hud-chapter > span.hud-total { font-size: 17px; letter-spacing: .12em; color: var(--ink-3); }
+.chapter-names { position: relative; height: 18px; margin-top: 9px; font: 400 14px/18px var(--font-mono); letter-spacing: .22em; text-transform: uppercase; color: var(--ink-2); }
+.chapter-names span { position: absolute; right: 0; top: 0; white-space: nowrap; opacity: 0; }
+.progress { position: relative; width: 210px; height: 2px; margin: 14px 0 0 auto; background: rgba(126, 168, 255, .18); overflow: hidden; }
+.progress i { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(77, 227, 255, .35), var(--cyan)); transform-origin: 0 50%; box-shadow: 0 0 12px rgba(77, 227, 255, .6); }
+
+.hud-foot { position: absolute; right: 64px; bottom: 42px; font: 400 13px/1 var(--font-mono); letter-spacing: .24em; color: rgba(120, 150, 190, .55); }
+.hud-rail {
+  position: absolute; left: 42px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: 0 0;
+  font: 400 12px/1 var(--font-mono); letter-spacing: .5em; text-transform: uppercase; color: rgba(120, 150, 190, .38); white-space: nowrap;
+}
+.hud-tick { position: absolute; width: 26px; height: 1px; background: rgba(126, 168, 255, .35); }
+.hud-tick--tl { left: 64px; top: 34px; }
+.hud-tick--tr { right: 64px; top: 34px; }
+.hud-tick--bl { left: 64px; bottom: 34px; }
+.hud-tick--br { right: 64px; bottom: 34px; }
+
+/* ============================================================
+   6. 字幕（口播字幕带）
+   ============================================================ */
+.captions { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
+.caption {
+  position: absolute; left: 0; right: 0; bottom: 84px; height: 96px; display: flex; align-items: flex-end; justify-content: center;
+}
+.caption__in {
+  position: relative; display: block; padding: 0 40px; text-align: center;
+  font-family: var(--font-cjk); font-weight: 500; font-size: 45px; line-height: 1.42; letter-spacing: .012em; color: #F2F6FD;
+  text-shadow: 0 2px 26px rgba(0, 0, 0, .9), 0 0 60px rgba(4, 6, 11, .9); white-space: nowrap;
+}
+.caption__in em { font-style: normal; color: var(--cyan); text-shadow: 0 0 30px rgba(77, 227, 255, .55), 0 2px 24px rgba(0, 0, 0, .9); }
+.caption__in::before {
+  content: ""; position: absolute; left: 50%; top: -24px; width: 1px; height: 13px; transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(77, 227, 255, 0), rgba(77, 227, 255, .7));
+}
+
+/* ============================================================
+   7. 场景局部元素
+   ============================================================ */
+.scenes { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+
+/* S1 开场标题 */
+.title-scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ts-kicker { display: flex; align-items: center; gap: 16px; font: 400 16px/1 var(--font-mono); letter-spacing: .42em; text-transform: uppercase; color: var(--ink-2); }
+.ts-kicker::before, .ts-kicker::after { content: ""; width: 54px; height: 1px; background: linear-gradient(90deg, rgba(77, 227, 255, 0), rgba(77, 227, 255, .6)); }
+.ts-kicker::after { background: linear-gradient(90deg, rgba(77, 227, 255, .6), rgba(77, 227, 255, 0)); }
+.ts-title { display: flex; margin-top: 30px; font-family: var(--font-num); font-weight: 700; font-size: 196px; line-height: .92; letter-spacing: .015em; color: #F7FAFF; }
+.ts-title span { display: block; text-shadow: 0 0 90px rgba(77, 227, 255, .28), 0 20px 70px rgba(0, 0, 0, .55); }
+.ts-title span + span { margin-left: .16em; color: transparent; background: linear-gradient(180deg, #EAF6FF 8%, #9CC6E6 58%, #4E7E9C 100%); -webkit-background-clip: text; background-clip: text; }
+.ts-line { width: 760px; height: 1px; margin: 40px 0 30px; background: linear-gradient(90deg, rgba(77, 227, 255, 0), rgba(77, 227, 255, .75) 35%, rgba(255, 177, 104, .7) 68%, rgba(255, 177, 104, 0)); }
+.ts-sub { font-size: 30px; font-weight: 400; letter-spacing: .2em; color: var(--ink-1); }
+.ts-sub b { color: var(--cyan); font-weight: 500; }
+.ts-meta { margin-top: 22px; font: 400 14px/1 var(--font-mono); letter-spacing: .3em; color: var(--ink-3); }
+
+/* 下三分之一（人名条） */
+.lower-third { position: absolute; left: 760px; top: 694px; width: 640px; }
+.lt-bar { position: absolute; left: 0; top: 0; width: 3px; height: 66px; background: linear-gradient(180deg, var(--cyan), rgba(77, 227, 255, .1)); box-shadow: 0 0 18px rgba(77, 227, 255, .55); }
+.lt-name { padding-left: 22px; font-size: 34px; font-weight: 700; letter-spacing: .06em; color: var(--ink-0); }
+.lt-role { margin-top: 8px; padding-left: 22px; font: 400 15px/1 var(--font-mono); letter-spacing: .26em; text-transform: uppercase; color: var(--ink-2); }
+.lt-rule { margin-top: 16px; height: 1px; background: linear-gradient(90deg, rgba(126, 168, 255, .34), rgba(126, 168, 255, 0)); }
+
+/* 参数切片（S3 浮出的数据卡） */
+.chips { position: absolute; inset: 0; transform-style: preserve-3d; }
+.chip {
+  position: absolute; left: var(--x); top: var(--y); width: 340px; height: 104px;
+  transform: translateZ(var(--z, 90px)) rotateY(var(--ry, 0deg));
+  padding: 18px 22px; border-radius: 10px;
+  background: linear-gradient(152deg, rgba(20, 31, 49, .86), rgba(7, 11, 19, .92));
+  border: 1px solid var(--line-2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 26px 60px -24px rgba(0, 0, 0, .9), 0 0 50px -16px rgba(77, 227, 255, .28);
+}
+.chip__k { font: 400 12px/1 var(--font-mono); letter-spacing: .24em; text-transform: uppercase; color: var(--ink-3); }
+.chip__v { display: flex; align-items: baseline; gap: 6px; margin-top: 9px; font-family: var(--font-num); font-weight: 700; font-size: 42px; line-height: 1; color: var(--ink-0); }
+.chip__v i { font-style: normal; font-size: 20px; font-weight: 500; color: var(--cyan); }
+.chip__bar { position: absolute; left: 22px; right: 22px; bottom: 12px; height: 2px; background: rgba(126, 168, 255, .16); }
+.chip__bar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, rgba(77, 227, 255, .1), var(--cyan)); transform-origin: 0 50%; }
+
+/* 收尾锁版 */
+.outro-wrap { position: absolute; left: 510px; top: 250px; width: 900px; height: 420px; }
+#outro-anim { position: absolute; inset: 0; }
+.outro-foot { position: absolute; left: 0; right: 0; bottom: 208px; text-align: center; font: 400 14px/1 var(--font-mono); letter-spacing: .42em; text-transform: uppercase; color: rgba(140, 170, 210, .6); }
+</style>
+<style id="part-styles">/* ---- part: host ---- */
+
+  .dp-host {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    isolation: isolate;
+    background: #04060B;
+    --dp-host-ink: #C3CEDF;
+    --dp-host-cyan: #4DE3FF;
+    --dp-host-gold: #FFB168;
+  }
+  .dp-host-set {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(118% 82% at 42% 22%, rgba(34,62,90,.55) 0%, rgba(15,25,41,.5) 34%, rgba(6,10,17,0) 64%),
+      radial-gradient(86% 62% at 88% 46%, rgba(96,58,30,.28) 0%, rgba(26,18,14,0) 64%),
+      linear-gradient(180deg, #05080E 0%, #070B14 34%, #0A0F19 56%, #06090F 76%, #04060B 100%);
+  }
+  .dp-host-glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+  .dp-host-glow--cool {
+    width: 560px; height: 540px; left: -32%; top: 0%;
+    background: radial-gradient(circle at 50% 50%, rgba(77,227,255,.2) 0%, rgba(52,150,190,.1) 34%, rgba(20,60,80,0) 68%);
+    filter: blur(26px);
+  }
+  .dp-host-glow--warm {
+    width: 460px; height: 460px; right: -30%; top: 18%;
+    background: radial-gradient(circle at 50% 50%, rgba(255,177,104,.14) 0%, rgba(190,110,50,.07) 38%, rgba(60,30,12,0) 70%);
+    filter: blur(28px);
+  }
+  .dp-host-softbox {
+    position: absolute;
+    left: -14%; top: 2%; width: 360px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 46% 44%, rgba(176,222,244,.17) 0%, rgba(120,180,214,.09) 40%, rgba(40,80,110,0) 72%);
+    filter: blur(34px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  .dp-host-softbox--w {
+    left: auto; right: -18%; top: 26%; width: 340px; height: 300px;
+    background: radial-gradient(ellipse at 52% 48%, rgba(255,206,156,.12) 0%, rgba(210,140,80,.06) 42%, rgba(90,50,24,0) 74%);
+    filter: blur(38px);
+  }
+  .dp-host-ambient {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(42% 30% at 8% 76%, rgba(84,126,166,.17) 0%, rgba(34,56,80,0) 70%),
+      radial-gradient(38% 26% at 94% 72%, rgba(128,86,48,.11) 0%, rgba(52,32,18,0) 72%);
+    filter: blur(18px);
+    pointer-events: none;
+  }
+  .dp-host-bokeh { position: absolute; inset: 0; pointer-events: none; }
+  .dp-host-orb {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+      rgba(150,220,245,.26) 0%,
+      rgba(150,220,245,.34) 52%,
+      rgba(196,238,255,.48) 77%,
+      rgba(132,208,242,.3) 89%,
+      rgba(80,150,190,0) 100%);
+  }
+  .dp-host-orb--w {
+    background: radial-gradient(circle at 50% 50%,
+      rgba(255,196,130,.24) 0%,
+      rgba(255,196,130,.32) 52%,
+      rgba(255,226,190,.46) 77%,
+      rgba(255,196,130,.28) 89%,
+      rgba(150,90,40,0) 100%);
+  }
+  .dp-host-orb--big { mix-blend-mode: screen; }
+  .dp-host-figure { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .dp-host-slot { position: absolute; inset: 0; }
+  .dp-host-spill {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(118deg, rgba(77,227,255,.07) 0%, rgba(77,227,255,0) 26%),
+      linear-gradient(296deg, rgba(255,177,104,.05) 0%, rgba(255,177,104,0) 30%);
+  }
+  .dp-host-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(116% 84% at 50% 40%, rgba(4,6,11,0) 30%, rgba(4,6,11,.22) 58%, rgba(3,4,7,.62) 84%, rgba(3,4,7,.86) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.52) 0%, rgba(4,6,11,0) 14%, rgba(4,6,11,0) 72%, rgba(4,6,11,.3) 100%);
+  }
+  .dp-host-fade {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(4,6,11,.34) 0%, rgba(4,6,11,0) 12%, rgba(4,6,11,0) 74%, rgba(4,6,11,.5) 100%);
+  }
+  .dp-host-grain {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    mix-blend-mode: soft-light; opacity: .55; pointer-events: none;
+  }
+  .dp-host-crops { position: absolute; inset: 0; pointer-events: none; }
+  .dp-host-crop {
+    position: absolute; width: 24px; height: 24px;
+    border: 0 solid rgba(203,216,235,.38);
+  }
+  .dp-host-crop--tl { left: 12px; top: 12px; border-left-width: 1px; border-top-width: 1px; }
+  .dp-host-crop--tr { right: 12px; top: 12px; border-right-width: 1px; border-top-width: 1px; }
+  .dp-host-crop--bl { left: 12px; bottom: 12px; border-left-width: 1px; border-bottom-width: 1px; }
+  .dp-host-crop--br { right: 12px; bottom: 12px; border-right-width: 1px; border-bottom-width: 1px; }
+  .dp-host-cam {
+    position: absolute; left: 21px; top: 20px;
+    font: 400 32px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .2em; color: rgba(203,216,235,.82);
+    text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+  .dp-host-rec {
+    position: absolute; right: 21px; top: 20px;
+    display: flex; align-items: center; gap: 10px;
+    font: 400 32px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .2em; color: rgba(244,247,252,.88);
+    text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+  .dp-host-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: radial-gradient(circle at 38% 34%, #FF9C8C 0%, #E0443C 68%, #B3322C 100%);
+    box-shadow: 0 0 12px rgba(255,84,70,.5), 0 0 3px rgba(255,120,100,.85);
+  }
+  .dp-host-tag { position: absolute; left: 21px; bottom: 20px; display: flex; align-items: baseline; gap: 9px; }
+  .dp-host-tag-name {
+    font: 700 32px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .2em; color: rgba(150,230,248,.92);
+    text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+  .dp-host-tag-slash {
+    font: 400 26px/1 Consolas, "Consolas", monospace;
+    color: rgba(89,104,129,.9);
+  }
+  .dp-host-tag-cn {
+    font: 500 32px/1 "Noto Sans SC", "Noto Sans SC", sans-serif;
+    letter-spacing: .07em; color: rgba(226,235,247,.9);
+    text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+  .dp-host-ratio {
+    position: absolute; right: 21px; bottom: 82px;
+    font: 400 32px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .18em; color: rgba(195,206,223,.62);
+    text-shadow: 0 1px 10px rgba(4,6,11,.85);
+  }
+
+
+/* ---- part: brief ---- */
+
+  .dp-brief {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: transparent;
+    color: var(--ink-0, #F4F7FC);
+    font-family: "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- right-side abstract graphic ---- */
+  .dp-brief__viz {
+    position: absolute;
+    top: -40px;
+    right: -70px;
+    width: 620px;
+    height: 700px;
+    opacity: .95;
+    -webkit-mask-image: linear-gradient(90deg, rgba(4, 6, 11, 0) 0%, rgba(4, 6, 11, .28) 19%, rgba(4, 6, 11, .92) 44%, rgba(4, 6, 11, 1) 62%);
+    mask-image: linear-gradient(90deg, rgba(4, 6, 11, 0) 0%, rgba(4, 6, 11, .28) 19%, rgba(4, 6, 11, .92) 44%, rgba(4, 6, 11, 1) 62%);
+  }
+  .dp-brief__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---- left content column ---- */
+  .dp-brief__main {
+    position: absolute;
+    left: 64px;
+    top: 54px;
+    bottom: 42px;
+    width: 596px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dp-brief__kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font: 400 16px/1.2 Consolas, monospace;
+    letter-spacing: .20em;
+    text-transform: uppercase;
+    color: var(--ink-2, #8593AB);
+  }
+  .dp-brief__kicker::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--cyan, #4DE3FF);
+    opacity: .9;
+  }
+
+  .dp-brief__title {
+    margin: 30px 0 0;
+    font-size: 74px;
+    line-height: 1.06;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--ink-0, #F4F7FC);
+  }
+
+  .dp-brief__sub {
+    margin: 18px 0 0;
+    font-size: 23px;
+    line-height: 1.55;
+    font-weight: 400;
+    letter-spacing: .01em;
+    color: var(--ink-1, #C3CEDF);
+  }
+
+  /* ---- numbered rows ---- */
+  .dp-brief__items {
+    width: 100%;
+    margin-top: auto;
+  }
+  .dp-brief__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    min-height: 88px;
+    padding-left: 24px;
+    border-top: 1px solid var(--line, rgba(126, 168, 255, .16));
+  }
+  .dp-brief__item:last-child {
+    border-bottom: 1px solid var(--line, rgba(126, 168, 255, .16));
+  }
+  .dp-brief__item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 2px;
+    height: 30px;
+    margin-top: -15px;
+    background: linear-gradient(180deg, rgba(77, 227, 255, .10), var(--cyan, #4DE3FF), rgba(77, 227, 255, .10));
+    opacity: .5;
+  }
+
+  .dp-brief__num {
+    flex: 0 0 auto;
+    width: 52px;
+    font-family: "DIN Next LT Pro", "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: .02em;
+    color: var(--ink-2, #8593AB);
+    opacity: .8;
+  }
+  .dp-brief__item-body {
+    padding: 15px 0;
+  }
+  .dp-brief__item-title {
+    margin: 0;
+    font-size: 25px;
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: var(--ink-0, #F4F7FC);
+  }
+  .dp-brief__item-desc {
+    margin: 5px 0 0;
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: .02em;
+    color: var(--ink-2, #8593AB);
+  }
+
+
+/* ---- part: chapters ---- */
+
+  .dp-chapters {
+    --bg-0: #04060B; --bg-1: #070B13; --bg-2: #0C1220; --bg-3: #111A2B;
+    --ink-0: #F4F7FC; --ink-1: #C3CEDF; --ink-2: #8593AB; --ink-3: #586581;
+    --cyan: #4DE3FF; --cyan-deep: #1F8FB8; --gold: #FFB168; --violet: #A78BFF; --mint: #4CE0A5;
+    --line: rgba(126,168,255,.16); --line-2: rgba(126,168,255,.32);
+    position: absolute; inset: 0; overflow: hidden;
+    display: flex; flex-direction: column;
+    padding: 40px 40px 34px;
+    font-family: "Noto Sans SC", "Inter", sans-serif;
+    color: var(--ink-1);
+    background: transparent;
+  }
+  .dp-chapters *, .dp-chapters *::before, .dp-chapters *::after { box-sizing: border-box; }
+  .dp-chapters i, .dp-chapters em, .dp-chapters b { font-style: normal; font-weight: inherit; }
+
+  /* ---------- 顶部 ---------- */
+  .dp-chapters-head { flex: none; height: 14px; display: flex; align-items: center; }
+  .dp-chapters-head__label {
+    display: flex; align-items: center;
+    font: 400 12px/1 Consolas, monospace; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--ink-2);
+  }
+  .dp-chapters-head__dot {
+    width: 5px; height: 5px; margin-right: 9px; background: var(--cyan);
+    box-shadow: 0 0 10px rgba(77,227,255,.6);
+  }
+
+  /* ---------- 章节列表 ---------- */
+  .dp-chapters-nav {
+    position: relative; flex: 1 1 auto; display: flex; flex-direction: column;
+    margin-top: 26px; min-height: 0;
+  }
+  /* 左侧竖向进度线：上 30% cyan */
+  .dp-chapters-rail {
+    position: absolute; left: -24px; top: 4px; bottom: 2px; width: 1px;
+    background: var(--line);
+  }
+  .dp-chapters-rail__on {
+    position: absolute; left: -1px; top: 0; width: 3px; height: 30%;
+    background: linear-gradient(180deg, rgba(77,227,255,.95), rgba(77,227,255,.45));
+    box-shadow: 0 0 12px rgba(77,227,255,.45);
+  }
+
+  .dp-chapters-row {
+    position: relative; flex: 1 1 0;
+    display: flex; align-items: center;
+    padding-left: 16px;
+  }
+  .dp-chapters-row + .dp-chapters-row { border-top: 1px solid rgba(126,168,255,.07); }
+  .dp-chapters-row__idx {
+    flex: none; width: 28px;
+    font: 700 19px/1 "DIN Next LT Pro", "Inter", sans-serif;
+    letter-spacing: .04em; color: var(--ink-3); font-variant-numeric: tabular-nums;
+  }
+  .dp-chapters-row__name {
+    flex: 1 1 auto;
+    font: 500 19px/1 "Noto Sans SC", sans-serif;
+    letter-spacing: .04em; color: var(--ink-2);
+  }
+  .dp-chapters-row__time {
+    flex: none; padding-right: 2px;
+    font: 400 10px/1 Consolas, monospace; letter-spacing: .04em; color: rgba(133,147,171,.72);
+  }
+
+  .dp-chapters-row--on {
+    background: linear-gradient(90deg, rgba(77,227,255,.10), rgba(77,227,255,0) 92%);
+  }
+  .dp-chapters-row--on .dp-chapters-row__idx { color: var(--cyan); }
+  .dp-chapters-row--on .dp-chapters-row__name { font-weight: 700; color: var(--ink-0); }
+  .dp-chapters-row--on .dp-chapters-row__time { color: rgba(77,227,255,.8); }
+  .dp-chapters-row__bar {
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 2px; height: 22px;
+    background: var(--cyan); box-shadow: 0 0 12px rgba(77,227,255,.75);
+  }
+
+  /* ---------- 底部 ---------- */
+  .dp-chapters-foot {
+    flex: none; display: flex; justify-content: center;
+    padding-top: 18px;
+  }
+  .dp-chapters-foot span {
+    position: relative;
+    font: 400 11px/1 Consolas, monospace; letter-spacing: .14em; color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .dp-chapters-foot span::before {
+    content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 1px;
+    background: linear-gradient(90deg, rgba(126,168,255,.02), rgba(126,168,255,.26), rgba(126,168,255,.02));
+  }
+
+
+/* ---- part: product ---- */
+
+  .dp-product {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: transparent;
+    color: var(--ink-0, #F4F7FC);
+    font-family: "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- copy ---- */
+  .dp-product__copy {
+    position: absolute;
+    left: 64px;
+    top: 56px;
+    width: 440px;
+  }
+  .dp-product__kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font: 400 16px/1.2 Consolas, monospace;
+    letter-spacing: .20em;
+    text-transform: uppercase;
+    color: var(--ink-2, #8593AB);
+  }
+  .dp-product__kicker::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--cyan, #4DE3FF);
+    opacity: .9;
+  }
+
+  .dp-product__name {
+    margin: 28px 0 0;
+    font-family: "DIN Next LT Pro", "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 82px;
+    line-height: .95;
+    letter-spacing: .025em;
+    white-space: nowrap;
+    background: linear-gradient(178deg, #F4F7FC 8%, #D3DEEE 64%, #AFC0D7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .dp-product__tagline {
+    margin: 22px 0 0;
+    font-size: 29px;
+    line-height: 1.45;
+    font-weight: 500;
+    letter-spacing: .01em;
+    color: var(--ink-1, #C3CEDF);
+  }
+  .dp-product__tagline em {
+    font-style: normal;
+    color: var(--cyan, #4DE3FF);
+  }
+
+  .dp-product__body {
+    margin: 36px 0 0;
+    width: 430px;
+    font-size: 20px;
+    line-height: 1.8;
+    font-weight: 400;
+    letter-spacing: .02em;
+    color: var(--ink-2, #8593AB);
+  }
+
+  /* ---- bottom spec row ---- */
+  .dp-product__foot {
+    position: absolute;
+    left: 64px;
+    bottom: 46px;
+    width: 440px;
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    padding-top: 15px;
+    border-top: 1px solid var(--line, rgba(126, 168, 255, .16));
+  }
+  .dp-product__foot-key {
+    font: 400 12px/1 Consolas, monospace;
+    letter-spacing: .22em;
+    color: var(--ink-3, #586581);
+  }
+  .dp-product__foot-val {
+    font: 400 16px/1 Consolas, monospace;
+    letter-spacing: .14em;
+    color: var(--ink-1, #C3CEDF);
+    white-space: nowrap;
+  }
+
+  /* ---- product visual stage ---- */
+  .dp-product__visual {
+    position: absolute;
+    left: 512px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .dp-product__glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 660px;
+    height: 660px;
+    margin: -330px 0 0 -330px;
+    background: radial-gradient(circle at 50% 50%, rgba(77, 227, 255, .13) 0%, rgba(77, 227, 255, .04) 40%, rgba(77, 227, 255, 0) 68%);
+  }
+
+  .dp-product__halo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 660px;
+    height: 660px;
+    margin: -330px 0 0 -330px;
+  }
+
+  /* ---- floor ---- */
+  .dp-product__contact {
+    position: absolute;
+    left: 50%;
+    bottom: 70px;
+    width: 600px;
+    height: 150px;
+    margin-left: -300px;
+    background: radial-gradient(ellipse at 50% 50%, rgba(2, 5, 9, .82) 0%, rgba(2, 5, 9, .32) 46%, rgba(2, 5, 9, 0) 74%);
+    filter: blur(12px);
+  }
+  .dp-product__pool {
+    position: absolute;
+    left: 50%;
+    bottom: 38px;
+    width: 700px;
+    height: 200px;
+    margin-left: -350px;
+    background: radial-gradient(ellipse at 50% 52%, rgba(77, 227, 255, .26) 0%, rgba(77, 227, 255, .09) 40%, rgba(77, 227, 255, 0) 72%);
+    filter: blur(10px);
+  }
+
+  /* ---- the device ---- */
+  .dp-product__device {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 520px;
+    height: 334px;
+    margin: -167px 0 0 -260px;
+    border-radius: 26px;
+    background:
+      radial-gradient(120% 100% at 14% -8%, rgba(96, 132, 186, .48) 0%, rgba(46, 67, 100, .24) 34%, rgba(10, 16, 27, 0) 64%),
+      radial-gradient(70% 60% at 100% 104%, rgba(255, 177, 104, .14) 0%, rgba(255, 177, 104, 0) 58%),
+      linear-gradient(152deg, #2a3f5e 0%, #172338 34%, #0c1320 64%, #070b12 100%);
+    border: 1px solid rgba(126, 168, 255, .44);
+    box-shadow:
+      inset 0 1px 0 rgba(244, 247, 252, .46),
+      inset 2px 0 0 rgba(77, 227, 255, .30),
+      inset -1px 0 0 rgba(255, 177, 104, .24),
+      inset 0 -2px 0 rgba(77, 227, 255, .22),
+      inset 0 -80px 110px -60px rgba(77, 227, 255, .28),
+      inset 0 0 0 1px rgba(4, 6, 11, .30),
+      0 0 90px -8px rgba(77, 227, 255, .22),
+      0 70px 110px -40px rgba(2, 4, 8, .96);
+    transform: perspective(1200px) rotateY(-16deg) rotateX(8deg);
+    transform-style: preserve-3d;
+  }
+
+  /* display bezel inside the glass body */
+  .dp-product__bezel {
+    position: absolute;
+    inset: 14px;
+    border-radius: 17px;
+    border: 1px solid rgba(126, 168, 255, .15);
+    background:
+      radial-gradient(110% 120% at 16% 0%, rgba(96, 132, 186, .10) 0%, rgba(8, 12, 20, 0) 62%),
+      linear-gradient(160deg, rgba(12, 19, 31, .12), rgba(5, 8, 14, .28));
+    box-shadow: inset 0 1px 0 rgba(244, 247, 252, .06);
+  }
+
+  /* internal structure hairlines */
+  .dp-product__lines {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    background-image: linear-gradient(180deg, rgba(126, 168, 255, 0), rgba(126, 168, 255, .15) 34%, rgba(126, 168, 255, .02) 76%, rgba(126, 168, 255, 0));
+    background-repeat: no-repeat;
+    background-position: 23% 9%;
+    background-size: 1px 82%;
+  }
+  .dp-product__lines::before,
+  .dp-product__lines::after {
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    height: 1px;
+  }
+  .dp-product__lines::before {
+    top: 26%;
+    background: linear-gradient(90deg, rgba(126, 168, 255, 0), rgba(126, 168, 255, .20) 18%, rgba(126, 168, 255, .05) 62%, rgba(126, 168, 255, 0));
+  }
+  .dp-product__lines::after {
+    top: 75%;
+    background: linear-gradient(90deg, rgba(126, 168, 255, 0), rgba(126, 168, 255, .14) 26%, rgba(126, 168, 255, .03) 72%, rgba(126, 168, 255, 0));
+  }
+
+  /* glass: soft diagonal specular band + cool corner bounce */
+  .dp-product__glass {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    background:
+      linear-gradient(112deg, rgba(244, 247, 252, 0) 34%, rgba(244, 247, 252, .045) 43%, rgba(244, 247, 252, .13) 47.4%, rgba(244, 247, 252, .035) 51.6%, rgba(244, 247, 252, 0) 60%),
+      linear-gradient(112deg, rgba(244, 247, 252, .10) 0%, rgba(244, 247, 252, .025) 17%, rgba(244, 247, 252, 0) 30%),
+      radial-gradient(90% 80% at 88% 100%, rgba(77, 227, 255, .10) 0%, rgba(77, 227, 255, 0) 56%);
+  }
+
+  /* center brand lock-up on the display */
+  .dp-product__core {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  .dp-product__mark {
+    width: 96px;
+    height: 96px;
+    opacity: .95;
+    filter: drop-shadow(0 0 16px rgba(77, 227, 255, .22));
+  }
+  .dp-product__mark-label {
+    font: 400 10px/1 Consolas, monospace;
+    letter-spacing: .34em;
+    text-indent: .34em;
+    color: rgba(195, 206, 223, .58);
+    white-space: nowrap;
+  }
+
+  /* light reflection on the stage floor, in front of the device base */
+  .dp-product__reflection {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + 158px);
+    width: 470px;
+    height: 100px;
+    margin-left: -235px;
+    background: radial-gradient(ellipse 64% 100% at 50% 0%, rgba(120, 227, 255, .22) 0%, rgba(77, 227, 255, .08) 42%, rgba(77, 227, 255, 0) 74%);
+    filter: blur(10px);
+  }
+
+  .dp-product__anno {
+    position: absolute;
+    right: 58px;
+    bottom: 46px;
+    font: 400 11px/1 Consolas, monospace;
+    letter-spacing: .24em;
+    color: var(--ink-3, #586581);
+  }
+
+
+/* ---- part: case ---- */
+
+  .dp-case {
+    --bg-0: #04060B; --bg-1: #070B13; --bg-2: #0C1220; --bg-3: #111A2B;
+    --ink-0: #F4F7FC; --ink-1: #C3CEDF; --ink-2: #8593AB; --ink-3: #586581;
+    --cyan: #4DE3FF; --cyan-deep: #1F8FB8; --gold: #FFB168; --violet: #A78BFF; --mint: #4CE0A5;
+    --line: rgba(126,168,255,.16); --line-2: rgba(126,168,255,.32);
+    position: absolute; inset: 0; overflow: hidden;
+    display: flex; flex-direction: column;
+    padding: 30px 44px 24px;
+    font-family: "Noto Sans SC", "Inter", sans-serif;
+    color: var(--ink-1);
+    background: transparent;
+  }
+  .dp-case *, .dp-case *::before, .dp-case *::after { box-sizing: border-box; }
+  .dp-case i, .dp-case em, .dp-case b { font-style: normal; font-weight: inherit; }
+
+  /* 极轻的舞台光与数据底纹，不画任何边框/圆角 */
+  .dp-case-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(720px 340px at 88% -8%, rgba(77,227,255,.075), transparent 62%),
+      radial-gradient(560px 300px at -4% 108%, rgba(167,139,255,.055), transparent 60%);
+  }
+
+  /* ---------- 顶部 ---------- */
+  .dp-case-head {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 20px; flex: none;
+  }
+  .dp-case-kicker {
+    display: flex; align-items: center;
+    font: 400 16px/1 Consolas, monospace; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--ink-2);
+  }
+  .dp-case-kicker__tick {
+    width: 6px; height: 6px; margin-right: 11px; background: var(--cyan);
+    box-shadow: 0 0 12px rgba(77,227,255,.65);
+  }
+  .dp-case-lock {
+    display: flex; align-items: center;
+    font: 400 11px/1 Consolas, monospace; letter-spacing: .2em; color: var(--ink-3);
+  }
+  .dp-case-lock__dot {
+    width: 5px; height: 5px; border-radius: 50%; margin-right: 9px;
+    background: var(--mint); box-shadow: 0 0 9px rgba(76,224,165,.7);
+  }
+
+  /* ---------- 标题 ---------- */
+  .dp-case-title {
+    flex: none; margin: 13px 0 0;
+    font: 700 46px/1.16 "Noto Sans SC", sans-serif;
+    letter-spacing: -.02em; color: var(--ink-0);
+  }
+
+  /* ---------- KPI ---------- */
+  .dp-case-kpis {
+    flex: none; display: flex; margin-top: 21px;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    background: linear-gradient(90deg, rgba(77,227,255,.035), rgba(77,227,255,0) 64%);
+  }
+  .dp-case-kpi { position: relative; flex: 1 1 0; padding: 17px 30px 15px; }
+  .dp-case-kpi + .dp-case-kpi::before {
+    content: ""; position: absolute; left: 0; top: 16%; bottom: 16%; width: 1px;
+    background: linear-gradient(180deg, rgba(126,168,255,0), rgba(126,168,255,.26) 22%, rgba(126,168,255,.26) 78%, rgba(126,168,255,0));
+  }
+  .dp-case-kpi__code {
+    font: 400 12.5px/1 Consolas, monospace; letter-spacing: .16em;
+    color: var(--ink-2); text-transform: uppercase;
+  }
+  .dp-case-kpi__idx { color: rgba(77,227,255,.66); }
+  .dp-case-kpi__val {
+    margin-top: 11px;
+    font-family: "DIN Next LT Pro", "Inter", sans-serif; font-weight: 700;
+    font-size: 70px; line-height: .92; letter-spacing: .005em;
+    color: var(--ink-0); font-variant-numeric: tabular-nums;
+  }
+  .dp-case-kpi__val .kpi-num { display: inline-block; }
+  .dp-case-kpi__foot {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-top: 12px;
+  }
+  .dp-case-kpi__zh { font: 500 17px/1 "Noto Sans SC", sans-serif; color: var(--ink-1); letter-spacing: .04em; }
+  .dp-case-kpi__cmp { font: 400 11px/1 Consolas, monospace; letter-spacing: .1em; color: rgba(133,147,171,.78); }
+
+  /* ---------- 柱图 ---------- */
+  .dp-case-chart { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; margin-top: 22px; }
+  .dp-case-chart__head {
+    flex: none; display: flex; align-items: center; justify-content: space-between;
+  }
+  .dp-case-chart__title {
+    display: flex; align-items: center;
+    font: 400 12.5px/1 Consolas, monospace; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--ink-2);
+  }
+  .dp-case-chart__tick { width: 5px; height: 5px; margin-right: 10px; background: var(--cyan); box-shadow: 0 0 10px rgba(77,227,255,.55); }
+  .dp-case-chart__range { font: 400 11px/1 Consolas, monospace; letter-spacing: .16em; color: var(--ink-3); }
+
+  .dp-case-chart__body {
+    flex: 1 1 auto; min-height: 0; display: flex;
+    margin-top: 14px;
+  }
+  .dp-case-yaxis {
+    position: relative; flex: none; width: 38px; margin-right: 12px;
+  }
+  .dp-case-yaxis span {
+    position: absolute; right: 0; transform: translateY(50%);
+    font: 400 11.5px/1 Consolas, monospace; letter-spacing: .06em; color: rgba(133,147,171,.82);
+  }
+  .dp-case-yaxis span:nth-child(1) { bottom: 0; }
+  .dp-case-yaxis span:nth-child(2) { bottom: 50%; }
+  .dp-case-yaxis span:nth-child(3) { bottom: 100%; }
+
+  .dp-case-plot { position: relative; flex: 1 1 auto; min-width: 0; }
+  .dp-case-grid { position: absolute; left: 0; right: 0; height: 0; border-top: 1px dashed rgba(126,168,255,.17); }
+  .dp-case-grid--mid { bottom: 50%; }
+  .dp-case-grid--top { bottom: 100%; }
+  .dp-case-axis { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line-2); }
+
+  .dp-case-marker { position: absolute; left: 50%; top: -1px; bottom: 0; border-left: 1px dashed rgba(77,227,255,.42); }
+  .dp-case-marker span {
+    position: absolute; top: 5px; left: 9px; white-space: nowrap;
+    font: 400 12px/1.2 "Noto Sans SC", sans-serif; letter-spacing: .08em;
+    color: rgba(77,227,255,.94);
+  }
+
+  .chart-bars {
+    position: absolute; inset: 0;
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .chart-bar {
+    position: relative; display: block; flex: none;
+    width: 56px; height: calc(var(--h, 0) * 1%);
+    background: linear-gradient(180deg, rgba(126,168,255,.46) 0%, rgba(126,168,255,.32) 46%, rgba(126,168,255,.13) 100%);
+    box-shadow: inset 0 1px 0 rgba(126,168,255,.62);
+  }
+  .chart-bar.dp-case-bar--hot {
+    background: linear-gradient(180deg, #A6F6FF 0%, #4DE3FF 18%, rgba(77,227,255,.46) 74%, rgba(77,227,255,.18) 100%);
+    box-shadow: inset 0 1px 0 rgba(244,247,252,.85), 0 0 26px rgba(77,227,255,.20);
+  }
+  .dp-case-barval {
+    position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%);
+    margin-bottom: 7px;
+    font: 700 15px/1 "DIN Next LT Pro", "Inter", sans-serif;
+    letter-spacing: .02em; color: var(--ink-2); font-variant-numeric: tabular-nums;
+  }
+  .dp-case-barval--hot { color: var(--ink-0); }
+
+  .dp-case-months {
+    flex: none; display: flex; justify-content: space-between;
+    margin-top: 8px; padding-left: 50px;
+  }
+  .dp-case-months span {
+    width: 56px; text-align: center;
+    font: 400 14px/1 "Noto Sans SC", sans-serif; color: var(--ink-2); letter-spacing: .04em;
+  }
+  .dp-case-months span:last-child { color: var(--ink-1); }
+
+  /* ---------- 脚注 ---------- */
+  .dp-case-foot {
+    flex: none; display: flex; align-items: baseline; justify-content: space-between;
+    margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--line);
+  }
+  .dp-case-foot__src { font: 400 13px/1 Consolas, monospace; letter-spacing: .06em; color: rgba(133,147,171,.85); }
+  .dp-case-foot__tag { font: 400 11px/1 Consolas, monospace; letter-spacing: .16em; color: rgba(133,147,171,.62); }
+
+
+/* ---- part: case-side ---- */
+
+  .dp-caseside {
+    --bg-0: #04060B; --bg-1: #070B13; --bg-2: #0C1220; --bg-3: #111A2B;
+    --ink-0: #F4F7FC; --ink-1: #C3CEDF; --ink-2: #8593AB; --ink-3: #586581;
+    --cyan: #4DE3FF; --cyan-deep: #1F8FB8; --gold: #FFB168; --violet: #A78BFF; --mint: #4CE0A5;
+    --line: rgba(126,168,255,.16); --line-2: rgba(126,168,255,.32);
+    position: absolute; inset: 0; overflow: hidden;
+    display: flex; flex-direction: column;
+    padding: 40px;
+    font-family: "Noto Sans SC", "Inter", sans-serif;
+    color: var(--ink-1);
+    background: transparent;
+  }
+  .dp-caseside *, .dp-caseside *::before, .dp-caseside *::after { box-sizing: border-box; }
+  .dp-caseside i, .dp-caseside em, .dp-caseside b { font-style: normal; font-weight: inherit; }
+
+  /* ---------- 顶部 mono ---------- */
+  .dp-caseside-head { flex: none; display: flex; align-items: center; justify-content: space-between; }
+  .dp-caseside-head__label {
+    display: flex; align-items: center;
+    font: 400 12.5px/1 Consolas, monospace; letter-spacing: .2em; color: var(--ink-2);
+    text-transform: uppercase;
+  }
+  .dp-caseside-head__dot {
+    width: 5px; height: 5px; margin-right: 9px; background: var(--cyan);
+    box-shadow: 0 0 10px rgba(77,227,255,.6);
+  }
+  .dp-caseside-head__step { font: 400 11px/1 Consolas, monospace; letter-spacing: .16em; color: var(--ink-3); }
+
+  /* ---------- 对比卡 ---------- */
+  .dp-caseside-card {
+    flex: none; position: relative;
+    padding: 11px 15px 15px;
+    background: linear-gradient(160deg, rgba(18,27,44,.72), rgba(8,12,20,.92));
+    border: 1px solid var(--line);
+  }
+  .dp-caseside-card--before { margin-top: 13px; }
+  .dp-caseside-card--before::before {
+    content: ""; position: absolute; left: 15px; right: 15px; top: -1px; height: 1px;
+    background: linear-gradient(90deg, rgba(126,168,255,.35), rgba(126,168,255,0));
+  }
+  .dp-caseside-card--after {
+    border-color: rgba(77,227,255,.42);
+    background:
+      linear-gradient(160deg, rgba(77,227,255,.085), rgba(77,227,255,.015) 46%, rgba(8,12,20,.92) 100%),
+      linear-gradient(160deg, rgba(18,27,44,.72), rgba(8,12,20,.92));
+    box-shadow: inset 0 0 34px rgba(77,227,255,.05);
+  }
+  .dp-caseside-card--after::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), rgba(77,227,255,.12));
+    box-shadow: 0 0 14px rgba(77,227,255,.5);
+  }
+
+  .dp-caseside-card__head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-bottom: 8px; border-bottom: 1px solid rgba(126,168,255,.10);
+  }
+  .dp-caseside-card__title { font: 700 19px/1.1 "Noto Sans SC", sans-serif; color: var(--ink-1); letter-spacing: .02em; }
+  .dp-caseside-card--after .dp-caseside-card__title { color: var(--ink-0); }
+  .dp-caseside-card__tag { font: 400 10px/1 Consolas, monospace; letter-spacing: .2em; color: var(--ink-3); }
+  .dp-caseside-card--after .dp-caseside-card__tag { color: rgba(77,227,255,.82); }
+
+  .dp-caseside-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-top: 7px;
+  }
+  .dp-caseside-row__label {
+    display: flex; align-items: center;
+    font: 400 14px/1 "Noto Sans SC", sans-serif; color: var(--ink-2); letter-spacing: .03em;
+  }
+  .dp-caseside-card--after .dp-caseside-row__label { color: var(--ink-1); }
+  .dp-caseside-row__dot {
+    width: 3px; height: 3px; border-radius: 50%; margin-right: 7px;
+    background: rgba(77,227,255,.75); box-shadow: 0 0 6px rgba(77,227,255,.5);
+  }
+  .dp-caseside-row__value {
+    font-family: "DIN Next LT Pro", "Inter", sans-serif; font-weight: 700;
+    font-size: 28px; line-height: .8; letter-spacing: .01em;
+    color: var(--ink-1); font-variant-numeric: tabular-nums;
+  }
+  .dp-caseside-card--after .dp-caseside-row__value { color: var(--ink-0); }
+  .dp-caseside-row__value em {
+    margin-left: 3px;
+    font: 400 12px/1 "Noto Sans SC", sans-serif; color: var(--ink-3); letter-spacing: .06em;
+  }
+  .dp-caseside-card--after .dp-caseside-row__value em { color: rgba(77,227,255,.72); }
+
+  /* ---------- 中间箭头 ---------- */
+  .dp-caseside-arrow {
+    flex: none; display: flex; align-items: center; justify-content: center;
+    height: 44px; margin: 0 4px;
+  }
+  .dp-caseside-arrow__line {
+    flex: 1 1 auto; height: 1px;
+    background: linear-gradient(90deg, rgba(126,168,255,0), rgba(126,168,255,.30));
+  }
+  .dp-caseside-arrow__line + .dp-caseside-arrow__svg + .dp-caseside-arrow__line {
+    background: linear-gradient(90deg, rgba(126,168,255,.30), rgba(126,168,255,0));
+  }
+  .dp-caseside-arrow__svg { flex: none; margin: 0 10px; display: block; }
+
+  /* ---------- 底部 ---------- */
+  .dp-caseside-foot {
+    flex: 1 1 auto; display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 1px;
+  }
+  .dp-caseside-foot span {
+    font: 400 11.5px/1 Consolas, monospace; letter-spacing: .13em; color: rgba(133,147,171,.8);
+    position: relative; padding-top: 10px;
+  }
+  .dp-caseside-foot span::before {
+    content: ""; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    width: 20px; height: 1px; background: var(--line-2);
+  }
+
+
+/* ---- part: media-01 ---- */
+
+  .dp-media { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: #05070B; }
+  .dp-media--01 {
+    background:
+      radial-gradient(140% 120% at 70% 28%, #2A3139 0%, #171D24 30%, #0B0F14 58%, #05070B 86%),
+      #05070B;
+  }
+  .dp-media-sheen {
+    position: absolute; inset: -12%;
+    background:
+      radial-gradient(44% 54% at 74% 36%, rgba(150,205,235,.16), transparent 70%),
+      radial-gradient(32% 42% at 20% 72%, rgba(255,177,104,.08), transparent 72%);
+    filter: blur(10px);
+  }
+  .dp-media-ring { position: absolute; border-radius: 50%; }
+  .dp-media-ring--main {
+    width: 332px; height: 332px; right: -74px; top: 6px;
+    background: conic-gradient(from 206deg,
+      #1B2026 0%, #6E7985 8%, #2A3038 18%, #525B66 30%, #14181D 44%,
+      #39414B 56%, #8E98A2 68%, #1E242B 80%, #1B2026 100%);
+    mask: radial-gradient(circle, #04060B 0 55%, rgba(4,6,11,1) 56%, rgba(4,6,11,1) 79%, rgba(4,6,11,0) 80%);
+    -webkit-mask: radial-gradient(circle, rgba(4,6,11,1) 0 55%, rgba(4,6,11,1) 56%, rgba(4,6,11,1) 79%, rgba(4,6,11,0) 80%);
+    transform: rotate(-16deg);
+    filter: blur(.5px) saturate(.72) contrast(1.05);
+    box-shadow: 0 0 60px rgba(120,180,220,.07);
+  }
+  .dp-media-ring--main::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background:
+      conic-gradient(from 212deg, transparent 0 9%, rgba(206,236,255,.6) 12%, rgba(150,205,235,.08) 15.5%, transparent 18% 100%),
+      conic-gradient(from 24deg, transparent 0 5%, rgba(255,177,104,.22) 7.5%, transparent 10.5% 100%);
+    mask: radial-gradient(circle, rgba(4,6,11,1) 0 55%, rgba(4,6,11,1) 56%, rgba(4,6,11,1) 79%, rgba(4,6,11,0) 80%);
+    -webkit-mask: radial-gradient(circle, rgba(4,6,11,1) 0 55%, rgba(4,6,11,1) 56%, rgba(4,6,11,1) 79%, rgba(4,6,11,0) 80%);
+    filter: blur(1.6px);
+  }
+  .dp-media-ring--inner {
+    width: 206px; height: 206px; right: 16px; top: 68px;
+    background: conic-gradient(from 40deg,
+      #10151A 0%, #3C4753 12%, #161C23 24%, #6C7A88 36%, #10151A 50%,
+      #2A3440 64%, #93A2B0 74%, #141A20 86%, #10151A 100%);
+    mask: radial-gradient(circle, rgba(4,6,11,1) 0 71%, rgba(4,6,11,1) 72%, rgba(4,6,11,1) 88%, rgba(4,6,11,0) 89%);
+    -webkit-mask: radial-gradient(circle, rgba(4,6,11,1) 0 71%, rgba(4,6,11,1) 72%, rgba(4,6,11,1) 88%, rgba(4,6,11,0) 89%);
+    transform: rotate(9deg);
+    filter: blur(.3px) saturate(.6);
+    opacity: .92;
+  }
+  .dp-media-ring--far {
+    width: 156px; height: 156px; left: -44px; top: 34px;
+    background: conic-gradient(from 120deg,
+      #232A31 0%, #7A8794 10%, #2A3037 22%, #59636F 34%, #191E24 48%,
+      #414B56 62%, #8C97A3 72%, #20262C 84%, #232A31 100%);
+    mask: radial-gradient(circle, rgba(4,6,11,1) 0 52%, rgba(4,6,11,1) 53%, rgba(4,6,11,1) 80%, rgba(4,6,11,0) 81%);
+    -webkit-mask: radial-gradient(circle, rgba(4,6,11,1) 0 52%, rgba(4,6,11,1) 53%, rgba(4,6,11,1) 80%, rgba(4,6,11,0) 81%);
+    transform: rotate(-34deg);
+    filter: blur(8px) saturate(.55);
+    opacity: .5;
+  }
+  .dp-media-hotspot {
+    position: absolute; right: 54px; top: 46px;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(219,245,255,.5) 0%, rgba(150,215,245,.14) 34%, transparent 68%);
+    filter: blur(2px);
+    mix-blend-mode: screen;
+  }
+  .dp-media-sweep {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(103deg, transparent 34%, rgba(196,230,255,.1) 44%, rgba(196,230,255,.025) 49%, transparent 58%),
+      radial-gradient(60% 70% at 18% 90%, rgba(4,6,11,.5), transparent 66%);
+    filter: blur(1.5px);
+  }
+  .dp-media-bokeh { position: absolute; inset: 0; pointer-events: none; }
+  .dp-media-orb {
+    position: absolute; display: block; border-radius: 50%;
+    background: radial-gradient(circle at 40% 36%, rgba(214,244,255,.95) 0%, rgba(120,205,240,.5) 34%, rgba(36,96,130,.1) 62%, transparent 72%);
+  }
+  .dp-media-orb--big { mix-blend-mode: screen; }
+  .dp-media-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(122% 104% at 50% 42%, rgba(4,6,11,0) 32%, rgba(4,6,11,.3) 68%, rgba(3,4,7,.8) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.16) 0%, rgba(4,6,11,0) 30%, rgba(4,6,11,.42) 82%, rgba(3,4,7,.74) 100%);
+  }
+  .dp-media-grain {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    mix-blend-mode: soft-light; opacity: .55; pointer-events: none;
+  }
+  .dp-media-border {
+    position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(244,247,252,.09), inset 0 1px 0 rgba(244,247,252,.05);
+  }
+  .dp-media-label {
+    position: absolute; left: 16px; bottom: 12px;
+    display: flex; align-items: center; gap: 9px;
+    font: 400 13px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(213,224,240,.85);
+    text-shadow: 0 1px 8px rgba(4,6,11,.95);
+  }
+  .dp-media-label-idx {
+    font-size: 11px; letter-spacing: .14em; color: rgba(133,147,171,.9);
+  }
+
+
+/* ---- part: media-02 ---- */
+
+  .dp-media { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: #05070B; }
+  .dp-media--02 {
+    background:
+      radial-gradient(120% 92% at 62% 66%, rgba(74,44,26,.5) 0%, rgba(20,22,30,.5) 44%, rgba(5,7,11,.9) 78%),
+      linear-gradient(180deg, #060A12 0%, #0A111D 30%, #121826 54%, #191B22 72%, #0A0C11 100%);
+  }
+  .dp-media-sky {
+    position: absolute; left: 0; right: 0; top: 0; height: 70%;
+    background:
+      radial-gradient(66% 70% at 58% 92%, rgba(255,166,96,.28) 0%, rgba(180,92,40,.14) 40%, rgba(60,30,14,0) 72%),
+      radial-gradient(52% 62% at 18% 40%, rgba(72,150,190,.16) 0%, rgba(30,60,82,0) 70%),
+      linear-gradient(180deg, rgba(6,10,18,.6) 0%, rgba(10,15,24,0) 46%);
+  }
+  .dp-media-horizon {
+    position: absolute; left: 0; right: 0; top: 58%; height: 22%;
+    background: linear-gradient(180deg, rgba(255,170,100,0) 0%, rgba(255,170,100,.1) 46%, rgba(255,177,104,0) 100%);
+    filter: blur(6px);
+  }
+  .dp-media-skyline { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  .dp-media-windows { opacity: .9; }
+  .dp-media-bokeh { position: absolute; inset: 0; pointer-events: none; }
+  .dp-media-orb {
+    position: absolute; display: block; border-radius: 50%;
+    background: radial-gradient(circle at 42% 38%, rgba(255,232,198,.96) 0%, rgba(255,177,104,.52) 36%, rgba(140,72,30,.1) 64%, transparent 74%);
+  }
+  .dp-media-orb--c {
+    background: radial-gradient(circle at 42% 38%, rgba(208,242,255,.94) 0%, rgba(122,202,240,.46) 36%, rgba(40,96,130,.1) 64%, transparent 74%);
+  }
+  .dp-media-orb--big { mix-blend-mode: screen; }
+  .dp-media-reflection {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(184deg, transparent 60%, rgba(255,177,104,.1) 63%, transparent 66%),
+      linear-gradient(176deg, transparent 64%, rgba(255,196,140,.06) 67%, transparent 70%),
+      radial-gradient(40% 26% at 74% 78%, rgba(255,150,80,.12), transparent 70%);
+    filter: blur(3px);
+    mix-blend-mode: screen;
+  }
+  .dp-media-mist {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(5,7,11,0) 52%, rgba(8,10,15,.5) 78%, rgba(4,6,9,.86) 100%),
+      radial-gradient(70% 30% at 50% 64%, rgba(80,110,150,.08), transparent 72%);
+  }
+  .dp-media-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(120% 100% at 50% 46%, rgba(4,6,11,0) 34%, rgba(4,6,11,.26) 66%, rgba(3,4,7,.78) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.1) 0%, rgba(4,6,11,0) 26%, rgba(4,6,11,.36) 84%, rgba(3,4,7,.72) 100%);
+  }
+  .dp-media-grain {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    mix-blend-mode: soft-light; opacity: .55; pointer-events: none;
+  }
+  .dp-media-border {
+    position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(244,247,252,.09), inset 0 1px 0 rgba(244,247,252,.05);
+  }
+  .dp-media-label {
+    position: absolute; left: 16px; bottom: 12px;
+    display: flex; align-items: center; gap: 9px;
+    font: 400 13px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(213,224,240,.85);
+    text-shadow: 0 1px 8px rgba(4,6,11,.95);
+  }
+  .dp-media-label-idx { font-size: 11px; letter-spacing: .14em; color: rgba(133,147,171,.9); }
+
+
+/* ---- part: media-03 ---- */
+
+  .dp-media { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: #05070B; }
+  .dp-media--03 {
+    background:
+      radial-gradient(120% 96% at 52% 46%, rgba(18,42,58,.55) 0%, rgba(10,20,30,.5) 42%, rgba(4,6,11,.9) 100%),
+      #05070B;
+  }
+  .dp-media-base {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(4,6,11,.6) 0%, rgba(4,6,11,0) 18%, rgba(4,6,11,0) 82%, rgba(4,6,11,.55) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.5) 0%, rgba(4,6,11,0) 30%, rgba(4,6,11,0) 62%, rgba(4,6,11,.5) 100%);
+  }
+  .dp-media-haze {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(46% 40% at 34% 48%, rgba(90,180,215,.09), transparent 70%),
+      radial-gradient(44% 34% at 78% 58%, rgba(255,177,104,.06), transparent 72%),
+      linear-gradient(174deg, transparent 34%, rgba(120,200,230,.05) 46%, transparent 60%);
+    filter: blur(8px);
+  }
+  .dp-media-trails { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .dp-media-dust i {
+    position: absolute; display: block; width: 2px; height: 2px; border-radius: 50%;
+    background: rgba(206,240,255,.8);
+    box-shadow: 0 0 6px rgba(77,227,255,.5);
+    opacity: .5;
+  }
+  .dp-media-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(122% 104% at 50% 44%, rgba(4,6,11,0) 32%, rgba(4,6,11,.3) 68%, rgba(3,4,7,.8) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.16) 0%, rgba(4,6,11,0) 32%, rgba(4,6,11,.44) 84%, rgba(3,4,7,.74) 100%);
+  }
+  .dp-media-grain {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    mix-blend-mode: soft-light; opacity: .55; pointer-events: none;
+  }
+  .dp-media-border {
+    position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(244,247,252,.09), inset 0 1px 0 rgba(244,247,252,.05);
+  }
+  .dp-media-label {
+    position: absolute; left: 16px; bottom: 12px;
+    display: flex; align-items: center; gap: 9px;
+    font: 400 13px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(213,224,240,.85);
+    text-shadow: 0 1px 8px rgba(4,6,11,.95);
+  }
+  .dp-media-label-idx { font-size: 11px; letter-spacing: .14em; color: rgba(133,147,171,.9); }
+
+
+/* ---- part: media-04 ---- */
+
+  .dp-media { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: #05070B; }
+  .dp-media--04 {
+    background:
+      radial-gradient(120% 96% at 72% 18%, #232B38 0%, #121821 34%, #080B11 70%, #05070B 100%),
+      #05070B;
+  }
+  .dp-media-base {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(52% 40% at 24% 80%, rgba(130,152,178,.08), transparent 70%),
+      radial-gradient(40% 34% at 86% 24%, rgba(255,196,140,.07), transparent 72%);
+    filter: blur(10px);
+  }
+  .dp-media-silk { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .dp-media-weave {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(99deg, rgba(200,222,246,.05) 0 1px, rgba(4,6,11,.028) 1px 4px);
+    filter: blur(.6px);
+    mix-blend-mode: soft-light;
+    opacity: .8;
+  }
+  .dp-media-sheen {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(114deg, transparent 24%, rgba(219,232,248,.08) 46%, transparent 62%),
+      radial-gradient(38% 30% at 16% 24%, rgba(180,205,232,.09), transparent 70%),
+      radial-gradient(34% 26% at 88% 74%, rgba(255,177,104,.06), transparent 72%);
+    filter: blur(2px);
+    mix-blend-mode: screen;
+  }
+  .dp-media-deep {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(4,6,11,.42) 0%, rgba(4,6,11,0) 26%, rgba(4,6,11,0) 64%, rgba(4,6,11,.52) 100%),
+      linear-gradient(90deg, rgba(4,6,11,.5) 0%, rgba(4,6,11,0) 22%, rgba(4,6,11,0) 82%, rgba(4,6,11,.4) 100%);
+  }
+  .dp-media-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(124% 108% at 50% 44%, rgba(4,6,11,0) 34%, rgba(4,6,11,.26) 68%, rgba(3,4,7,.76) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.1) 0%, rgba(4,6,11,0) 30%, rgba(4,6,11,.4) 84%, rgba(3,4,7,.7) 100%);
+  }
+  .dp-media-grain {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    mix-blend-mode: soft-light; opacity: .55; pointer-events: none;
+  }
+  .dp-media-border {
+    position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(244,247,252,.09), inset 0 1px 0 rgba(244,247,252,.05);
+  }
+  .dp-media-label {
+    position: absolute; left: 16px; bottom: 12px;
+    display: flex; align-items: center; gap: 9px;
+    font: 400 13px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(213,224,240,.85);
+    text-shadow: 0 1px 8px rgba(4,6,11,.95);
+  }
+  .dp-media-label-idx { font-size: 11px; letter-spacing: .14em; color: rgba(133,147,171,.9); }
+
+
+/* ---- part: media-05 ---- */
+
+  .dp-media { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: #05070B; }
+  .dp-media--05 {
+    background:
+      radial-gradient(120% 100% at 38% 44%, #151024 0%, #0B0913 42%, #06060C 74%, #05060B 100%),
+      #05070B;
+  }
+  .dp-media-cloud {
+    position: absolute; border-radius: 50%; mix-blend-mode: screen; pointer-events: none;
+  }
+  .dp-media-cloud--a {
+    width: 380px; height: 330px; left: -6%; top: -14%;
+    background: radial-gradient(circle at 52% 54%, rgba(167,139,255,.28) 0%, rgba(110,92,196,.16) 38%, rgba(40,34,80,0) 70%);
+    filter: blur(26px);
+  }
+  .dp-media-cloud--b {
+    width: 330px; height: 300px; right: -12%; top: 8%;
+    background: radial-gradient(circle at 46% 50%, rgba(108,126,232,.22) 0%, rgba(64,78,160,.12) 40%, rgba(22,28,60,0) 72%);
+    filter: blur(30px);
+  }
+  .dp-media-cloud--c {
+    width: 300px; height: 240px; left: 22%; top: 40%;
+    background: radial-gradient(circle at 50% 50%, rgba(198,128,220,.16) 0%, rgba(112,70,150,.1) 38%, rgba(30,22,44,0) 70%);
+    filter: blur(30px);
+  }
+  .dp-media-cloud--d {
+    width: 250px; height: 200px; right: 4%; top: 56%;
+    background: radial-gradient(circle at 50% 50%, rgba(96,190,214,.13) 0%, rgba(44,96,120,.08) 42%, rgba(12,24,34,0) 72%);
+    filter: blur(26px);
+  }
+  .dp-media-core {
+    position: absolute; left: 20%; top: 16%;
+    width: 220px; height: 160px; border-radius: 50%;
+    background: radial-gradient(ellipse at 46% 52%, rgba(224,208,255,.2) 0%, rgba(167,139,255,.12) 34%, rgba(80,70,140,0) 70%);
+    filter: blur(18px); mix-blend-mode: screen;
+  }
+  .dp-media-dustlane {
+    position: absolute; left: -24%; top: 46%; width: 148%; height: 96px;
+    transform: rotate(-13deg);
+    background:
+      linear-gradient(90deg, rgba(5,7,12,0) 0%, rgba(5,7,12,.5) 18%, rgba(5,7,12,.66) 46%, rgba(5,7,12,.38) 72%, rgba(5,7,12,0) 100%),
+      radial-gradient(60% 100% at 50% 50%, rgba(5,7,11,.55), rgba(5,7,11,0) 76%);
+    filter: blur(11px);
+    opacity: .8;
+  }
+  .dp-media-stars { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .dp-media-veil {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(70% 54% at 42% 40%, rgba(167,139,255,.07), transparent 70%),
+      linear-gradient(180deg, rgba(5,6,11,.34) 0%, rgba(5,6,11,0) 28%, rgba(5,6,11,0) 66%, rgba(4,6,10,.56) 100%);
+  }
+  .dp-media-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(124% 106% at 50% 44%, rgba(4,6,11,0) 30%, rgba(4,6,11,.3) 66%, rgba(3,4,7,.82) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.14) 0%, rgba(4,6,11,0) 30%, rgba(4,6,11,.42) 84%, rgba(3,4,7,.72) 100%);
+  }
+  .dp-media-grain {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    mix-blend-mode: soft-light; opacity: .58; pointer-events: none;
+  }
+  .dp-media-border {
+    position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(244,247,252,.09), inset 0 1px 0 rgba(244,247,252,.05);
+  }
+  .dp-media-label {
+    position: absolute; left: 16px; bottom: 12px;
+    display: flex; align-items: center; gap: 9px;
+    font: 400 13px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(213,224,240,.85);
+    text-shadow: 0 1px 8px rgba(4,6,11,.95);
+  }
+  .dp-media-label-idx { font-size: 11px; letter-spacing: .14em; color: rgba(133,147,171,.9); }
+
+
+/* ---- part: media-06 ---- */
+
+  .dp-media { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: #05070B; }
+  .dp-media--06 {
+    background:
+      radial-gradient(120% 100% at 78% 30%, #1B242E 0%, #0D131A 38%, #07090E 72%, #05070B 100%),
+      #05070B;
+  }
+  .dp-media-air {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(50% 44% at 84% 26%, rgba(196,222,244,.13), transparent 70%),
+      radial-gradient(40% 40% at 20% 74%, rgba(44,66,88,.22), transparent 72%);
+    filter: blur(12px);
+  }
+  .dp-media-wall {
+    position: absolute;
+    left: -34%; top: -14%; width: 182%; height: 130%;
+    transform-origin: 78% 50%;
+    transform: perspective(640px) rotateY(-27deg) rotateX(3deg);
+    background:
+      repeating-linear-gradient(90deg,
+        #090D12 0px, #090D12 12px,
+        #151C26 16px, #3C4A5C 20px, #AFC3D6 22.5px, #E2EEF8 23.5px,
+        #1E2731 25.5px, #0B1017 36px);
+  }
+  .dp-media-wall--sharp {
+    mask: linear-gradient(90deg, transparent 0 28%, #04060B 42%, #04060B 100%);
+    -webkit-mask: linear-gradient(90deg, transparent 0 28%, #04060B 42%, #04060B 100%);
+    filter: contrast(1.06) saturate(.8);
+  }
+  .dp-media-wall--soft {
+    filter: blur(4.5px) saturate(.72) brightness(.86);
+    mask: linear-gradient(90deg, #04060B 0 26%, transparent 40%);
+    -webkit-mask: linear-gradient(90deg, #04060B 0 26%, transparent 40%);
+  }
+  .dp-media-light {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(96deg, rgba(3,4,7,.62) 0%, rgba(4,6,9,.34) 26%, rgba(4,6,9,0) 54%, rgba(196,222,244,.1) 82%, rgba(226,240,252,.16) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.86) 0%, rgba(4,6,11,.12) 26%, rgba(4,6,11,.16) 62%, rgba(3,4,7,.8) 100%);
+  }
+  .dp-media-beam {
+    position: absolute; left: -10%; top: -30%; width: 130%; height: 160%;
+    background: linear-gradient(116deg, transparent 50%, rgba(222,238,250,.14) 57%, rgba(222,238,250,.02) 60%, transparent 65%);
+    filter: blur(5px);
+    mix-blend-mode: screen;
+  }
+  .dp-media-glow {
+    position: absolute; right: -8%; top: 8%;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle at 50% 50%, rgba(214,236,252,.14) 0%, rgba(120,160,196,.08) 40%, rgba(20,34,48,0) 72%);
+    filter: blur(20px); mix-blend-mode: screen;
+  }
+  .dp-media-dust i {
+    position: absolute; display: block; border-radius: 50%;
+    background: rgba(224,240,252,.75);
+    box-shadow: 0 0 4px rgba(210,235,255,.5);
+    opacity: .5; filter: blur(.5px);
+  }
+  .dp-media-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(122% 104% at 54% 44%, rgba(4,6,11,0) 30%, rgba(4,6,11,.3) 68%, rgba(3,4,7,.82) 100%),
+      linear-gradient(90deg, rgba(4,6,11,.42) 0%, rgba(4,6,11,0) 26%, rgba(4,6,11,0) 78%, rgba(4,6,11,.24) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.2) 0%, rgba(4,6,11,0) 30%, rgba(4,6,11,.44) 84%, rgba(3,4,7,.74) 100%);
+  }
+  .dp-media-grain {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    mix-blend-mode: soft-light; opacity: .55; pointer-events: none;
+  }
+  .dp-media-border {
+    position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(244,247,252,.09), inset 0 1px 0 rgba(244,247,252,.05);
+  }
+  .dp-media-label {
+    position: absolute; left: 16px; bottom: 12px;
+    display: flex; align-items: center; gap: 9px;
+    font: 400 13px/1 Consolas, "Consolas", monospace;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(213,224,240,.85);
+    text-shadow: 0 1px 8px rgba(4,6,11,.95);
+  }
+  .dp-media-label-idx { font-size: 11px; letter-spacing: .14em; color: rgba(133,147,171,.9); }
+
+
+/* ---- part: outro ---- */
+
+  .dp-outro {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: transparent;
+    color: var(--ink-0, #F4F7FC);
+    font-family: "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .dp-outro__row {
+    position: absolute;
+    left: 56px;
+    right: 56px;
+    top: 50%;
+    transform: translateY(-54%);
+    display: flex;
+    align-items: center;
+    gap: 44px;
+  }
+
+  .dp-outro__mark {
+    flex: 0 0 150px;
+    width: 150px;
+    height: 150px;
+  }
+  .dp-outro__mark svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 0 20px rgba(77, 227, 255, .16));
+  }
+
+  .dp-outro__lockup {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dp-outro__brand {
+    font-family: "DIN Next LT Pro", "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 92px;
+    line-height: .92;
+    letter-spacing: .012em;
+    white-space: nowrap;
+    background: linear-gradient(180deg, #F4F7FC 6%, #DCE5F2 58%, #B9C8DC 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .dp-outro__tagline {
+    margin-top: 14px;
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 400;
+    letter-spacing: .05em;
+    color: var(--ink-1, #C3CEDF);
+  }
+
+  .dp-outro__rule {
+    position: relative;
+    height: 1px;
+    margin: 22px 0 18px;
+    background: var(--line, rgba(126, 168, 255, .16));
+  }
+  .dp-outro__rule::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 64px;
+    height: 1px;
+    background: var(--cyan, #4DE3FF);
+    opacity: .8;
+  }
+
+  .dp-outro__meta {
+    font: 400 16px/1.5 Consolas, monospace;
+    letter-spacing: .16em;
+    color: var(--ink-2, #8593AB);
+    white-space: nowrap;
+  }
+
+  .dp-outro__pill {
+    position: absolute;
+    right: 56px;
+    bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 18px 10px;
+    border: 1px solid var(--line-2, rgba(126, 168, 255, .32));
+    border-radius: 999px;
+    font: 400 13px/1 Consolas, monospace;
+    letter-spacing: .20em;
+    color: var(--ink-2, #8593AB);
+  }
+  .dp-outro__pill i {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--cyan, #4DE3FF);
+    opacity: .85;
+  }
+</style>
+<style id="legibility">
+  /* ===== 可读性补光：把弱化小标签提到 WCAG AA（深色舞台上仍然克制） ===== */
+  :root { --ink-3: #8593AB; --ink-2: #B6C2D4; }
+  .logo-type span { color: #93A1B7; }
+  .hud-rail { color: rgba(160, 182, 214, .85); }
+  .hud-foot { color: rgba(170, 190, 218, .9); }
+  .hud-chapter i, .hud-chapter > .hud-total { color: #9AA8BE; }
+  .slot-tag { color: rgba(180, 200, 228, .95); }
+  .chip__k { color: #97A5BB; }
+  .outro-foot { color: rgba(178, 198, 224, .95); }
+  .dp-product__anno, .dp-product__foot-key, .dp-product__foot-val, .dp-product__kicker,
+  .dp-case-lock, .dp-case-kpi__cmp, .dp-case-kpi__zh, .dp-case-kpi__code, .dp-case-kpi__idx,
+  .dp-case-foot__src, .dp-case-foot__tag, .dp-case-chart__range, .dp-case-yaxis span,
+  .dp-case-months span, .dp-case-kicker,
+  .dp-caseside-card__tag, .dp-caseside-head__step, .dp-caseside-head__kicker,
+  .dp-caseside-row__value em, .dp-caseside-row__label, .dp-caseside-foot,
+  .dp-chapters-row__idx, .dp-chapters-row__name, .dp-chapters-row__time,
+  .dp-chapters__foot, .dp-chapters__kicker,
+  .dp-brief__kicker, .dp-brief__item-body,
+  .dp-media-label, .dp-media-label-idx, .dp-media-label-name,
+  .dp-product__mark-label, .dp-caseside-head__label, .dp-caseside-foot span,
+  .dp-host-label, .dp-host-cam, .dp-host-rec, .dp-host-meta,
+  .dp-host-tag-slash, .dp-host-tag-name, .dp-host-tag-cn { color: #AEBBD0 !important; }
+  .dp-brief__viz svg text { fill: #AEBBD0 !important; }
+  .dp-product__name { background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important; color: #F4F8FE !important; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="deep-stage" data-start="0" data-duration="46" data-width="1920" data-height="1080" data-fps="30">
+
+  <!-- ========== 背景 ========== -->
+  <div class="bg" data-layout-allow-overflow>
+    <div class="bg-base"></div>
+    <div class="bg-haze bg-haze--cold"></div>
+    <div class="bg-haze bg-haze--warm"></div>
+    <div class="bg-haze bg-haze--violet"></div>
+    <div class="bg-vignette"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <!-- ========== 3D 世界 ========== -->
+  <div class="stage" data-layout-allow-overlap data-layout-allow-overflow>
+    <div class="world" id="world" data-layout-allow-overflow data-layout-allow-overlap>
+
+      <div class="floor"></div>
+      <div class="horizon"></div>
+      <div class="horizon-glow"></div>
+
+      <div class="beams">
+        <i class="beam" style="--x:6%;--w:22%;--h:980px;--o:.06;--r:-7deg"></i>
+        <i class="beam" style="--x:30%;--w:16%;--h:880px;--o:.045;--r:-3deg"></i>
+        <i class="beam" style="--x:62%;--w:18%;--h:920px;--o:.05;--r:4deg"></i>
+        <i class="beam" style="--x:82%;--w:20%;--h:1000px;--o:.055;--r:9deg"></i>
+      </div>
+
+      <div class="wall">
+        <i style="left:96px;top:322px;width:150px;height:84px"></i>
+        <i style="left:1860px;top:300px;width:170px;height:96px"></i>
+        <i style="left:120px;top:470px;width:110px;height:62px;opacity:.35"></i>
+        <i style="left:1720px;top:456px;width:126px;height:70px;opacity:.4"></i>
+        <i style="left:838px;top:206px;width:244px;height:138px;opacity:.3"></i>
+      </div>
+
+      <!-- 口播主画面：470×836，S2 主位 → S3 右上画中画 -->
+      <div class="slot slot--host" data-layout-allow-overlap style="--x:180px;--y:122px;--w:470px;--h:836px;--z:-10px;--ry:4deg">
+        <div class="slot-anim" id="slot-host">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:470px;--dh:836px;--k:1"><div class="dp-host" data-part="host" data-layout-allow-overlap>
+  <div class="dp-host-set"></div>
+  <div class="dp-host-glow dp-host-glow--cool"></div>
+  <div class="dp-host-glow dp-host-glow--warm"></div>
+  <div class="dp-host-softbox"></div>
+  <div class="dp-host-softbox dp-host-softbox--w"></div>
+  <div class="dp-host-ambient"></div>
+  <div class="dp-host-bokeh" aria-hidden="true">
+    <i class="dp-host-orb" style="left:11%;top:19%;width:48px;height:48px;opacity:.27;filter:blur(6px)"></i>
+    <i class="dp-host-orb" style="left:31%;top:8%;width:26px;height:26px;opacity:.2;filter:blur(3.5px)"></i>
+    <i class="dp-host-orb dp-host-orb--big" style="left:5%;top:36%;width:94px;height:94px;opacity:.12;filter:blur(20px)"></i>
+    <i class="dp-host-orb dp-host-orb--w" style="left:86%;top:43%;width:40px;height:40px;opacity:.24;filter:blur(5px)"></i>
+    <i class="dp-host-orb dp-host-orb--w" style="left:75%;top:21%;width:24px;height:24px;opacity:.18;filter:blur(3px)"></i>
+    <i class="dp-host-orb dp-host-orb--w" style="left:68%;top:60%;width:15px;height:15px;opacity:.13;filter:blur(4px)"></i>
+  </div>
+
+  <div class="dp-host-slot" data-slot="host-slot">
+    <svg class="dp-host-figure" viewBox="0 0 470 836" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+      <defs>
+        <path id="dp-host-silh" d="M258 226
+          C236 229 218 238 204 252
+          C193 263 185 281 181 300
+          C178 308 177 316 176 322
+          C174 330 170 336 168 342
+          C164 354 161 364 163 372
+          C166 382 172 388 174 392
+          C171 396 168 400 169 405
+          C170 410 175 412 176 417
+          C177 424 181 430 184 437
+          C188 446 192 453 198 460
+          C204 468 212 480 222 489
+          C229 496 234 502 237 510
+          C239 520 239 531 237 542
+          C235 553 232 563 227 573
+          C223 583 217 593 210 602
+          C196 619 176 632 154 646
+          C122 666 88 682 58 700
+          C34 712 10 728 -10 748
+          C-14 758 -17 772 -18 790
+          L-18 836 L486 836 L478 792
+          C477 758 475 730 471 706
+          C467 678 461 652 452 628
+          C441 600 424 576 402 556
+          C378 534 354 522 344 512
+          C337 503 333 492 332 482
+          C331 472 332 461 337 450
+          C343 439 350 427 355 413
+          C360 398 363 380 362 360
+          C361 336 355 306 344 280
+          C332 256 312 236 290 228
+          C278 224 266 224 258 226 Z"/>
+        <linearGradient id="dp-host-bodyg" x1="0.24" y1="0.12" x2="0.82" y2="1">
+          <stop offset="0" stop-color="#070A11"/>
+          <stop offset=".42" stop-color="#0A1019"/>
+          <stop offset=".76" stop-color="#090D16"/>
+          <stop offset="1" stop-color="#06080E"/>
+        </linearGradient>
+        <radialGradient id="dp-host-sking" cx="0.43" cy="0.45" r="0.46">
+          <stop offset="0" stop-color="#303D52" stop-opacity=".46"/>
+          <stop offset=".38" stop-color="#1B2433" stop-opacity=".26"/>
+          <stop offset=".72" stop-color="#0D121C" stop-opacity=".1"/>
+          <stop offset="1" stop-color="#080C14" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="dp-host-hairg" cx="0.7" cy="0.36" r="0.26">
+          <stop offset="0" stop-color="#6F88A6" stop-opacity=".18"/>
+          <stop offset=".5" stop-color="#2C3A4E" stop-opacity=".09"/>
+          <stop offset="1" stop-color="#0A0F18" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="dp-host-chinsh" cx="0.45" cy="0.55" r="0.15">
+          <stop offset="0" stop-color="#04060B" stop-opacity=".55"/>
+          <stop offset=".6" stop-color="#04060B" stop-opacity=".24"/>
+          <stop offset="1" stop-color="#04060B" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="dp-host-shoulderg" cx="0.26" cy="0.82" r="0.4">
+          <stop offset="0" stop-color="#7E9CBC" stop-opacity=".23"/>
+          <stop offset=".5" stop-color="#3D526B" stop-opacity=".1"/>
+          <stop offset="1" stop-color="#0B1018" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="dp-host-chestg" cx="0.84" cy="0.9" r="0.34">
+          <stop offset="0" stop-color="#FFB168" stop-opacity=".13"/>
+          <stop offset=".48" stop-color="#B97846" stop-opacity=".06"/>
+          <stop offset="1" stop-color="#3A2618" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="dp-host-fillg" x1="0" y1="1" x2="1" y2="0.2">
+          <stop offset="0" stop-color="#7FA6C4" stop-opacity=".12"/>
+          <stop offset=".42" stop-color="#3A4E66" stop-opacity=".05"/>
+          <stop offset=".72" stop-color="#6A5038" stop-opacity=".04"/>
+          <stop offset="1" stop-color="#FFB168" stop-opacity=".07"/>
+        </linearGradient>
+        <linearGradient id="dp-host-cloth" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#5E7085" stop-opacity="0"/>
+          <stop offset=".3" stop-color="#A8C0D6" stop-opacity=".44"/>
+          <stop offset=".7" stop-color="#FFD2A0" stop-opacity=".5"/>
+          <stop offset="1" stop-color="#FFD2A0" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="dp-host-haloglow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#4DE3FF" stop-opacity=".17"/>
+          <stop offset=".46" stop-color="#2E9FC0" stop-opacity=".09"/>
+          <stop offset="1" stop-color="#14343F" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="dp-host-maskcyan" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#F4F7FC"/>
+          <stop offset=".24" stop-color="#F4F7FC" stop-opacity=".95"/>
+          <stop offset=".38" stop-color="#F4F7FC" stop-opacity=".3"/>
+          <stop offset=".48" stop-color="#F4F7FC" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="dp-host-maskgold" x1="0" y1="0" x2="1" y2="0">
+          <stop offset=".52" stop-color="#F4F7FC" stop-opacity="0"/>
+          <stop offset=".62" stop-color="#F4F7FC" stop-opacity=".26"/>
+          <stop offset=".76" stop-color="#F4F7FC" stop-opacity=".86"/>
+          <stop offset="1" stop-color="#F4F7FC"/>
+        </linearGradient>
+        <linearGradient id="dp-host-maskfall" x1="0" y1="0" x2="0" y2="1">
+          <stop offset=".44" stop-color="#04060B" stop-opacity="0"/>
+          <stop offset=".56" stop-color="#04060B" stop-opacity=".25"/>
+          <stop offset=".68" stop-color="#04060B" stop-opacity=".6"/>
+          <stop offset=".82" stop-color="#04060B" stop-opacity=".85"/>
+          <stop offset=".95" stop-color="#04060B" stop-opacity=".95"/>
+        </linearGradient>
+        <linearGradient id="dp-host-maskfallg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset=".48" stop-color="#04060B" stop-opacity="0"/>
+          <stop offset=".64" stop-color="#04060B" stop-opacity=".2"/>
+          <stop offset=".8" stop-color="#04060B" stop-opacity=".55"/>
+          <stop offset=".95" stop-color="#04060B" stop-opacity=".8"/>
+        </linearGradient>
+        <mask id="dp-host-mask-cyan" maskUnits="userSpaceOnUse" x="0" y="0" width="470" height="836">
+          <rect width="470" height="836" fill="url(#dp-host-maskcyan)"/>
+          <rect width="470" height="836" fill="url(#dp-host-maskfall)"/>
+        </mask>
+        <mask id="dp-host-mask-gold" maskUnits="userSpaceOnUse" x="0" y="0" width="470" height="836">
+          <rect width="470" height="836" fill="url(#dp-host-maskgold)"/>
+          <rect width="470" height="836" fill="url(#dp-host-maskfall)"/>
+        </mask>
+        <mask id="dp-host-mask-cyan-g" maskUnits="userSpaceOnUse" x="0" y="0" width="470" height="836">
+          <rect width="470" height="836" fill="url(#dp-host-maskcyan)"/>
+          <rect width="470" height="836" fill="url(#dp-host-maskfallg)"/>
+        </mask>
+        <mask id="dp-host-mask-gold-g" maskUnits="userSpaceOnUse" x="0" y="0" width="470" height="836">
+          <rect width="470" height="836" fill="url(#dp-host-maskgold)"/>
+          <rect width="470" height="836" fill="url(#dp-host-maskfallg)"/>
+        </mask>
+        <clipPath id="dp-host-clip">
+          <use href="#dp-host-silh"/>
+        </clipPath>
+        <filter id="dp-host-blur-xs" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation=".6"/>
+        </filter>
+        <filter id="dp-host-blur-sm" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="2.2"/>
+        </filter>
+        <filter id="dp-host-blur-md" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="5.5"/>
+        </filter>
+      </defs>
+
+      <ellipse cx="266" cy="372" rx="192" ry="182" fill="url(#dp-host-haloglow)"/>
+
+      <g mask="url(#dp-host-mask-cyan-g)" filter="url(#dp-host-blur-md)" opacity=".55">
+        <use href="#dp-host-silh" transform="translate(-7,-2)" fill="#3FC9E8"/>
+      </g>
+      <g mask="url(#dp-host-mask-gold-g)" filter="url(#dp-host-blur-md)" opacity=".38">
+        <use href="#dp-host-silh" transform="translate(8,3)" fill="#FFB168"/>
+      </g>
+      <g mask="url(#dp-host-mask-cyan)" filter="url(#dp-host-blur-xs)">
+        <use href="#dp-host-silh" transform="translate(-2.1,-1)" fill="#C4F6FF" opacity=".95"/>
+      </g>
+      <g mask="url(#dp-host-mask-gold)" filter="url(#dp-host-blur-xs)">
+        <use href="#dp-host-silh" transform="translate(2.3,1.1)" fill="#FFC994" opacity=".78"/>
+      </g>
+
+      <use href="#dp-host-silh" fill="url(#dp-host-bodyg)"/>
+
+      <g clip-path="url(#dp-host-clip)">
+        <rect width="470" height="836" fill="url(#dp-host-sking)"/>
+        <rect width="470" height="836" fill="url(#dp-host-hairg)"/>
+        <rect width="470" height="836" fill="url(#dp-host-shoulderg)"/>
+        <rect width="470" height="836" fill="url(#dp-host-chestg)"/>
+        <rect width="470" height="836" fill="url(#dp-host-fillg)"/>
+        <rect width="470" height="836" fill="url(#dp-host-chinsh)"/>
+        <path d="M 224 578 C 180 604 120 640 56 690" stroke="url(#dp-host-cloth)" stroke-width="16" fill="none" opacity=".1" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 342 514 C 386 542 436 584 470 640" stroke="url(#dp-host-cloth)" stroke-width="14" fill="none" opacity=".12" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 340 320 C 350 350 352 386 344 414" stroke="#FFD2A0" stroke-width="5" fill="none" opacity=".11" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 358 400 C 362 420 360 438 352 450" stroke="#FFC48E" stroke-width="3.4" fill="none" opacity=".11" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 190 300 C 182 326 178 352 180 376" stroke="#8FE3F1" stroke-width="3" fill="none" opacity=".09" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 240 520 C 242 550 242 576 238 604" stroke="#151E2B" stroke-width="7" fill="none" opacity=".3" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 336 500 C 338 528 338 554 336 584" stroke="#121A26" stroke-width="9" fill="none" opacity=".28" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 206 474 C 218 490 229 502 236 514" stroke="#A9C4DC" stroke-width="3" fill="none" opacity=".12" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 164 372 C 170 384 174 392 176 398" stroke="#C8ECFF" stroke-width="2.4" fill="none" opacity=".15" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 198 462 C 214 478 226 490 232 502" stroke="#04060B" stroke-width="10" fill="none" opacity=".24" filter="url(#dp-host-blur-sm)"/>
+        <path d="M 340 720 C 372 748 406 780 432 816" stroke="#16202D" stroke-width="18" fill="none" opacity=".28" filter="url(#dp-host-blur-sm)"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="dp-host-spill"></div>
+  <div class="dp-host-vig"></div>
+  <div class="dp-host-fade"></div>
+
+  <svg class="dp-host-grain" width="470" height="836" viewBox="0 0 470 836" aria-hidden="true" focusable="false">
+    <filter id="dp-host-grain-f" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.88" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".7"/></feComponentTransfer>
+    </filter>
+    <rect width="470" height="836" filter="url(#dp-host-grain-f)"/>
+  </svg>
+
+  <div class="dp-host-crops" aria-hidden="true">
+    <span class="dp-host-crop dp-host-crop--tl"></span>
+    <span class="dp-host-crop dp-host-crop--tr"></span>
+    <span class="dp-host-crop dp-host-crop--bl"></span>
+    <span class="dp-host-crop dp-host-crop--br"></span>
+  </div>
+
+  <div class="dp-host-cam" aria-hidden="true">CAM 01</div>
+  <div class="dp-host-rec" aria-hidden="true"><i class="dp-host-dot"></i><span>REC</span></div>
+  <div class="dp-host-tag" aria-hidden="true">
+    <span class="dp-host-tag-name">HOST</span>
+    <span class="dp-host-tag-slash">/</span>
+    <span class="dp-host-tag-cn">口播画面</span>
+  </div>
+  <div class="dp-host-ratio" aria-hidden="true">9:16</div>
+</div></div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主信息屏：设计 1120×630，显示 860×484 -->
+      <div class="slot slot--brief slot--far" style="--x:760px;--y:150px;--w:860px;--h:484px;--z:-130px;--ry:-9deg">
+        <div class="slot-anim" id="slot-brief">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:1120px;--dh:630px;--k:0.768"><div class="dp-brief" data-part="brief">
+  <div class="dp-brief__viz" aria-hidden="true">
+    <svg class="dp-brief__svg" viewBox="0 0 520 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="dp-brief-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" stroke="rgba(126,168,255,.12)" stroke-width="1" />
+        </pattern>
+        <radialGradient id="dp-brief-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#4DE3FF" stop-opacity=".15" />
+          <stop offset=".55" stop-color="#4DE3FF" stop-opacity=".05" />
+          <stop offset="1" stop-color="#4DE3FF" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="dp-brief-ring" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#4DE3FF" stop-opacity=".58" />
+          <stop offset=".52" stop-color="#4DE3FF" stop-opacity=".20" />
+          <stop offset="1" stop-color="#FFB168" stop-opacity=".40" />
+        </linearGradient>
+        <linearGradient id="dp-brief-gold" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#FFB168" stop-opacity=".18" />
+          <stop offset=".5" stop-color="#FFB168" stop-opacity=".72" />
+          <stop offset="1" stop-color="#FFB168" stop-opacity=".24" />
+        </linearGradient>
+      </defs>
+
+      
+      <rect x="0" y="24" width="520" height="512" fill="url(#dp-brief-grid)" />
+
+      
+      <circle cx="280" cy="280" r="226" fill="url(#dp-brief-glow)" />
+
+      
+      <g stroke-linecap="round">
+        <circle cx="280" cy="280" r="218" stroke="rgba(126,168,255,.24)" stroke-dasharray="1 9" />
+        <circle cx="280" cy="280" r="168" stroke="url(#dp-brief-ring)" />
+        <circle cx="280" cy="280" r="118" stroke="rgba(77,227,255,.24)" />
+        <circle cx="280" cy="280" r="68" stroke="rgba(77,227,255,.34)" />
+        <path d="M228.1 120.2 A168 168 0 0 1 422.5 191" stroke="url(#dp-brief-gold)" stroke-width="1.5" />
+        <path d="M468.8 171 A218 218 0 0 1 496.8 257.2" stroke="#FFB168" stroke-opacity=".38" />
+      </g>
+
+      
+      <g stroke="rgba(126,168,255,.22)">
+        <path d="M280 60 V492" stroke-dasharray="1 6" />
+        <path d="M52 280 H500" stroke-dasharray="1 6" />
+      </g>
+
+      
+      <g stroke="rgba(126,168,255,.38)" stroke-linecap="round">
+        <path d="M275 80 H280" /><path d="M275 120 H280" /><path d="M275 160 H280" /><path d="M271 200 H280" />
+        <path d="M275 240 H280" /><path d="M275 320 H280" /><path d="M275 360 H280" /><path d="M271 400 H280" />
+        <path d="M275 440 H280" /><path d="M275 480 H280" />
+      </g>
+      <g stroke="rgba(126,168,255,.38)" stroke-linecap="round">
+        <path d="M80 280 V285" /><path d="M120 280 V285" /><path d="M160 280 V285" /><path d="M200 280 V285" />
+        <path d="M240 280 V285" /><path d="M320 280 V285" /><path d="M360 280 V285" /><path d="M400 280 V285" />
+        <path d="M440 280 V285" /><path d="M480 280 V285" />
+      </g>
+
+      
+      <g>
+        <circle cx="216.1" cy="256.8" r="8.5" stroke="rgba(77,227,255,.40)" />
+        <circle cx="216.1" cy="256.8" r="3" fill="#4DE3FF" fill-opacity=".95" />
+        <text x="192" y="242" fill="rgba(133,147,171,.85)" font-family="Consolas,monospace" font-size="10" letter-spacing="1.4">01</text>
+      </g>
+      <g>
+        <circle cx="347.7" cy="183.4" r="8.5" stroke="rgba(77,227,255,.40)" />
+        <circle cx="347.7" cy="183.4" r="3" fill="#4DE3FF" fill-opacity=".95" />
+        <text x="364" y="172" fill="rgba(133,147,171,.85)" font-family="Consolas,monospace" font-size="10" letter-spacing="1.4">02</text>
+      </g>
+      <g>
+        <circle cx="435.8" cy="343" r="8.5" stroke="rgba(255,177,104,.46)" />
+        <circle cx="435.8" cy="343" r="3" fill="#FFB168" fill-opacity=".95" />
+        <text x="404" y="368" fill="rgba(133,147,171,.85)" font-family="Consolas,monospace" font-size="10" letter-spacing="1.4">03</text>
+      </g>
+
+      
+      <circle cx="280" cy="280" r="2.6" fill="#4DE3FF" fill-opacity=".8" />
+      <path d="M280 268 V292 M268 280 H292" stroke="rgba(77,227,255,.45)" stroke-linecap="round" />
+    </svg>
+  </div>
+
+  <div class="dp-brief__main">
+    <div class="dp-brief__kicker" data-slot="brief-kicker">BRIEF / 本期议题</div>
+    <h1 class="dp-brief__title" data-slot="brief-title">三步讲清一个产品</h1>
+    <p class="dp-brief__sub" data-slot="brief-sub">从现场需求到落地结果，一条口播串起全部证据。</p>
+
+    <div class="dp-brief__items">
+      <div class="dp-brief__item" data-slot="brief-item-1">
+        <span class="dp-brief__num">01</span>
+        <div class="dp-brief__item-body">
+          <h2 class="dp-brief__item-title" data-slot="briefItem1Title">需求在现场</h2>
+          <p class="dp-brief__item-desc" data-slot="briefItem1Desc">先拍下真实场景，再谈功能。</p>
+        </div>
+      </div>
+      <div class="dp-brief__item" data-slot="brief-item-2">
+        <span class="dp-brief__num">02</span>
+        <div class="dp-brief__item-body">
+          <h2 class="dp-brief__item-title" data-slot="briefItem2Title">方案怎样落地</h2>
+          <p class="dp-brief__item-desc" data-slot="briefItem2Desc">把复杂流程压成三条主线。</p>
+        </div>
+      </div>
+      <div class="dp-brief__item" data-slot="brief-item-3">
+        <span class="dp-brief__num">03</span>
+        <div class="dp-brief__item-body">
+          <h2 class="dp-brief__item-title" data-slot="briefItem3Title">结果如何量化</h2>
+          <p class="dp-brief__item-desc" data-slot="briefItem3Desc">用数据替你说完最后一句。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+          <div class="slot-tag">SCREEN A / BRIEF</div>
+        </div>
+      </div>
+
+      <!-- 竖向章节导航屏：260×462 -->
+      <div class="slot slot--chapters slot--far" style="--x:1690px;--y:290px;--w:260px;--h:462px;--z:-240px;--ry:-16deg">
+        <div class="slot-anim" id="slot-chapters">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:260px;--dh:462px;--k:1"><div class="dp-chapters" data-part="chapters">
+  <div class="dp-chapters-head">
+    <span class="dp-chapters-head__label"><i class="dp-chapters-head__dot"></i>CONTENTS / 章节</span>
+  </div>
+
+  <nav class="dp-chapters-nav">
+    <i class="dp-chapters-rail" aria-hidden="true"><b class="dp-chapters-rail__on"></b></i>
+    <div class="dp-chapters-row">
+      <span class="dp-chapters-row__idx">01</span><span class="dp-chapters-row__name">开场</span><span class="dp-chapters-row__time">0:00</span>
+    </div>
+    <div class="dp-chapters-row dp-chapters-row--on">
+      <i class="dp-chapters-row__bar" aria-hidden="true"></i>
+      <span class="dp-chapters-row__idx">02</span><span class="dp-chapters-row__name">口播舞台</span><span class="dp-chapters-row__time">0:06</span>
+    </div>
+    <div class="dp-chapters-row">
+      <span class="dp-chapters-row__idx">03</span><span class="dp-chapters-row__name">产品</span><span class="dp-chapters-row__time">0:16</span>
+    </div>
+    <div class="dp-chapters-row">
+      <span class="dp-chapters-row__idx">04</span><span class="dp-chapters-row__name">案例</span><span class="dp-chapters-row__time">0:25</span>
+    </div>
+    <div class="dp-chapters-row">
+      <span class="dp-chapters-row__idx">05</span><span class="dp-chapters-row__name">素材</span><span class="dp-chapters-row__time">0:34</span>
+    </div>
+    <div class="dp-chapters-row">
+      <span class="dp-chapters-row__idx">06</span><span class="dp-chapters-row__name">收尾</span><span class="dp-chapters-row__time">0:41</span>
+    </div>
+  </nav>
+
+  <div class="dp-chapters-foot"><span>DEEP STAGE · 06 CHAPTERS</span></div>
+</div></div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+          <div class="slot-tag">SCREEN B / CONTENTS</div>
+        </div>
+      </div>
+
+      <!-- 产品主屏：设计 1160×652，显示 1120×630 -->
+      <div class="slot slot--product" style="--x:250px;--y:100px;--w:1120px;--h:630px;--z:40px;--ry:2deg">
+        <div class="slot-anim" id="slot-product">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:1160px;--dh:652px;--k:0.9655"><div class="dp-product" data-part="product">
+  <div class="dp-product__copy">
+    <div class="dp-product__kicker" data-slot="product-kicker">PRODUCT / 产品讲解</div>
+    <h1 class="dp-product__name" data-slot="product-name">DEEP ONE</h1>
+    <p class="dp-product__tagline" data-slot="product-tagline">把内容生产，装进<em>一块屏幕</em>。</p>
+    <p class="dp-product__body" data-slot="product-body">深色舞台承接产品视觉，<br />参数与卖点从屏幕里浮出，越讲越近。</p>
+  </div>
+
+  <div class="dp-product__visual" aria-hidden="true">
+    <div class="dp-product__glow"></div>
+
+    <svg class="dp-product__halo" viewBox="0 0 660 660" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="dp-product-core" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#4DE3FF" stop-opacity=".18" />
+          <stop offset=".58" stop-color="#4DE3FF" stop-opacity=".05" />
+          <stop offset="1" stop-color="#4DE3FF" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="dp-product-ring" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#4DE3FF" stop-opacity=".62" />
+          <stop offset=".52" stop-color="#4DE3FF" stop-opacity=".18" />
+          <stop offset="1" stop-color="#A78BFF" stop-opacity=".34" />
+        </linearGradient>
+      </defs>
+
+      <circle cx="330" cy="330" r="300" fill="url(#dp-product-core)" />
+
+      <g transform="rotate(-16 330 330)" stroke-linecap="round">
+        
+        <ellipse cx="330" cy="330" rx="318" ry="236" stroke="rgba(126,168,255,.20)" />
+        <ellipse cx="330" cy="330" rx="318" ry="236" stroke="rgba(126,168,255,.30)" stroke-dasharray="1.5 12" />
+        
+        <path d="M86.4 178.3 A318 236 0 0 1 302.3 94.9" stroke="#FFB168" stroke-opacity=".34" stroke-width="1.5" />
+        
+        <ellipse cx="330" cy="330" rx="296" ry="220" stroke="rgba(77,227,255,.26)" stroke-dasharray="2 11" />
+        
+        <ellipse cx="330" cy="330" rx="272" ry="202" stroke="url(#dp-product-ring)" stroke-width="1.2" />
+
+        
+        <circle cx="247.7" cy="102" r="9" stroke="rgba(77,227,255,.45)" />
+        <circle cx="247.7" cy="102" r="3.2" fill="#4DE3FF" fill-opacity=".95" stroke="none" />
+        <circle cx="590.5" cy="465.4" r="9" stroke="rgba(255,177,104,.48)" />
+        <circle cx="590.5" cy="465.4" r="3.2" fill="#FFB168" fill-opacity=".95" stroke="none" />
+      </g>
+    </svg>
+
+    
+    <div class="dp-product__contact"></div>
+    <div class="dp-product__pool"></div>
+
+    <div class="dp-product__device">
+      <div class="dp-product__bezel"></div>
+      <div class="dp-product__lines"></div>
+      <div class="dp-product__glass"></div>
+      <div class="dp-product__core">
+        <svg class="dp-product__mark" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="dp-product-mark" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#4DE3FF" stop-opacity=".92" />
+              <stop offset="1" stop-color="#4DE3FF" stop-opacity=".30" />
+            </linearGradient>
+          </defs>
+          <rect x="8" y="8" width="104" height="104" rx="26" stroke="url(#dp-product-mark)" stroke-width="1.5" />
+          <rect x="27" y="27" width="66" height="66" rx="17" stroke="rgba(77,227,255,.32)" stroke-width="1" />
+          <path d="M8 60 H38 M82 60 H112" stroke="rgba(77,227,255,.60)" stroke-width="1.2" />
+          <circle cx="60" cy="60" r="2.4" fill="#4DE3FF" fill-opacity=".90" />
+        </svg>
+        <div class="dp-product__mark-label">DEEP ONE</div>
+      </div>
+    </div>
+
+    <div class="dp-product__reflection"></div>
+    <div class="dp-product__anno">DEV / 01</div>
+  </div>
+
+  <div class="dp-product__foot">
+    <span class="dp-product__foot-key">SPEC</span>
+    <span class="dp-product__foot-val" data-slot="product-spec">1920×1080 / 30FPS / H.264</span>
+  </div>
+</div></div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+          <div class="slot-tag">SCREEN C / PRODUCT</div>
+        </div>
+      </div>
+
+      <!-- 案例数据屏：设计 1160×652，显示 1050×590 -->
+      <div class="slot slot--case" style="--x:180px;--y:110px;--w:1050px;--h:590px;--z:20px;--ry:-3deg">
+        <div class="slot-anim" id="slot-case">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:1160px;--dh:652px;--k:0.905"><div class="dp-case" data-part="case">
+  <div class="dp-case-bg" aria-hidden="true"></div>
+
+  <div class="dp-case-head">
+    <div class="dp-case-kicker"><i class="dp-case-kicker__tick"></i>CASE / 案例复盘</div>
+    <div class="dp-case-lock"><i class="dp-case-lock__dot"></i>DATA LOCKED · 2026 Q3</div>
+  </div>
+
+  <h2 class="dp-case-title" data-slot="case-title">一次改版，三个指标翻面</h2>
+
+  <div class="dp-case-kpis">
+    <div class="dp-case-kpi">
+      <div class="dp-case-kpi__code"><span class="dp-case-kpi__idx">01</span> / CONVERSION</div>
+      <div class="dp-case-kpi__val"><span class="kpi-num" data-count="38.4" data-prefix="+" data-suffix="%">+38.4%</span></div>
+      <div class="dp-case-kpi__foot"><span class="dp-case-kpi__zh">转化率</span><span class="dp-case-kpi__cmp">VS 2025 同期</span></div>
+    </div>
+    <div class="dp-case-kpi">
+      <div class="dp-case-kpi__code"><span class="dp-case-kpi__idx">02</span> / DELIVERY</div>
+      <div class="dp-case-kpi__val"><span class="kpi-num" data-count="42" data-prefix="−" data-suffix="%">−42%</span></div>
+      <div class="dp-case-kpi__foot"><span class="dp-case-kpi__zh">交付周期</span><span class="dp-case-kpi__cmp">VS 2025 同期</span></div>
+    </div>
+    <div class="dp-case-kpi">
+      <div class="dp-case-kpi__code"><span class="dp-case-kpi__idx">03</span> / REPURCHASE</div>
+      <div class="dp-case-kpi__val"><span class="kpi-num" data-count="61.2" data-suffix="%">61.2%</span></div>
+      <div class="dp-case-kpi__foot"><span class="dp-case-kpi__zh">复购率</span><span class="dp-case-kpi__cmp">VS 2025 同期</span></div>
+    </div>
+  </div>
+
+  <div class="dp-case-chart">
+    <div class="dp-case-chart__head">
+      <div class="dp-case-chart__title"><i class="dp-case-chart__tick"></i>TREND / 月度转化指数</div>
+      <div class="dp-case-chart__range">INDEX · APR → SEP 2026</div>
+    </div>
+
+    <div class="dp-case-chart__body">
+      <div class="dp-case-yaxis" aria-hidden="true">
+        <span>0</span><span>50</span><span>100</span>
+      </div>
+      <div class="dp-case-plot">
+        <i class="dp-case-grid dp-case-grid--mid" aria-hidden="true"></i>
+        <i class="dp-case-grid dp-case-grid--top" aria-hidden="true"></i>
+        <i class="dp-case-axis" aria-hidden="true"></i>
+        <i class="dp-case-marker" aria-hidden="true"><span>改版上线</span></i>
+        <div class="chart-bars">
+          <i class="chart-bar" data-h="32"><b class="dp-case-barval">32</b></i>
+          <i class="chart-bar" data-h="44"><b class="dp-case-barval">44</b></i>
+          <i class="chart-bar" data-h="39"><b class="dp-case-barval">39</b></i>
+          <i class="chart-bar" data-h="58"><b class="dp-case-barval">58</b></i>
+          <i class="chart-bar" data-h="71"><b class="dp-case-barval">71</b></i>
+          <i class="chart-bar dp-case-bar--hot" data-h="86"><b class="dp-case-barval dp-case-barval--hot">86</b></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="dp-case-months" aria-hidden="true">
+      <span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span>
+    </div>
+  </div>
+
+  <div class="dp-case-foot">
+    <span class="dp-case-foot__src">数据口径 2026 Q1–Q3 · 华东大区 · N=1,284</span>
+    <span class="dp-case-foot__tag">SOURCE / CRM EXPORT</span>
+  </div>
+</div></div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+          <div class="slot-tag">SCREEN D / CASE</div>
+        </div>
+      </div>
+
+      <!-- 前后对比副屏：330×460 -->
+      <div class="slot slot--case-side" data-layout-allow-overlap style="--x:1290px;--y:300px;--w:330px;--h:460px;--z:120px;--ry:-8deg">
+        <div class="slot-anim" id="slot-caseside">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:330px;--dh:460px;--k:1"><div class="dp-caseside" data-part="case-side">
+  <div class="dp-caseside-head">
+    <span class="dp-caseside-head__label"><i class="dp-caseside-head__dot"></i>BEFORE / AFTER</span>
+    <span class="dp-caseside-head__step">01 → 02</span>
+  </div>
+
+  <section class="dp-caseside-card dp-caseside-card--before">
+    <header class="dp-caseside-card__head">
+      <span class="dp-caseside-card__title">改造前</span>
+      <span class="dp-caseside-card__tag">BEFORE</span>
+    </header>
+    <div class="dp-caseside-row">
+      <span class="dp-caseside-row__label">人均查看</span>
+      <span class="dp-caseside-row__value">12<em>次</em></span>
+    </div>
+    <div class="dp-caseside-row">
+      <span class="dp-caseside-row__label">周期</span>
+      <span class="dp-caseside-row__value">21<em>天</em></span>
+    </div>
+    <div class="dp-caseside-row">
+      <span class="dp-caseside-row__label">成本</span>
+      <span class="dp-caseside-row__value">100</span>
+    </div>
+  </section>
+
+  <div class="dp-caseside-arrow" aria-hidden="true">
+    <i class="dp-caseside-arrow__line"></i>
+    <svg class="dp-caseside-arrow__svg" width="26" height="42" viewBox="0 0 26 42" fill="none">
+      <path d="M13 0.5 V32" stroke="#4DE3FF" stroke-opacity=".82" stroke-width="1" />
+      <path d="M6 25.5 L13 34.5 L20 25.5" stroke="#4DE3FF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="13" cy="1.8" r="1.8" fill="#4DE3FF" />
+    </svg>
+    <i class="dp-caseside-arrow__line"></i>
+  </div>
+
+  <section class="dp-caseside-card dp-caseside-card--after">
+    <header class="dp-caseside-card__head">
+      <span class="dp-caseside-card__title">改造后</span>
+      <span class="dp-caseside-card__tag">AFTER</span>
+    </header>
+    <div class="dp-caseside-row">
+      <span class="dp-caseside-row__label"><i class="dp-caseside-row__dot"></i>人均查看</span>
+      <span class="dp-caseside-row__value">3<em>次</em></span>
+    </div>
+    <div class="dp-caseside-row">
+      <span class="dp-caseside-row__label"><i class="dp-caseside-row__dot"></i>周期</span>
+      <span class="dp-caseside-row__value">12<em>天</em></span>
+    </div>
+    <div class="dp-caseside-row">
+      <span class="dp-caseside-row__label"><i class="dp-caseside-row__dot"></i>成本</span>
+      <span class="dp-caseside-row__value">58</span>
+    </div>
+  </section>
+
+  <div class="dp-caseside-foot"><span>同一批内容 · 6 周</span></div>
+</div></div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+          <div class="slot-tag">SCREEN E / BEFORE-AFTER</div>
+        </div>
+      </div>
+
+      <!-- 素材墙 6 图：420×236 -->
+      <div class="slot slot--media" style="--x:210px;--y:200px;--w:420px;--h:236px;--z:140px;--ry:11deg">
+        <div class="slot-anim" data-media="1"><div class="frame"><div class="frame-view"><div class="frame-in" style="--dw:420px;--dh:236px;--k:1"><div class="dp-media dp-media--01" data-part="media-01">
+  <div class="dp-media-sheen"></div>
+  <div class="dp-media-ring dp-media-ring--far"></div>
+  <div class="dp-media-ring dp-media-ring--main"></div>
+  <div class="dp-media-ring dp-media-ring--inner"></div>
+  <div class="dp-media-hotspot"></div>
+  <div class="dp-media-sweep"></div>
+  <div class="dp-media-bokeh" aria-hidden="true">
+    <i class="dp-media-orb" style="left:72%;top:22%;width:26px;height:26px;opacity:.34;filter:blur(4px)"></i>
+    <i class="dp-media-orb" style="left:14%;top:64%;width:12px;height:12px;opacity:.4;filter:blur(2px)"></i>
+    <i class="dp-media-orb" style="left:56%;top:82%;width:8px;height:8px;opacity:.3;filter:blur(1px)"></i>
+    <i class="dp-media-orb dp-media-orb--big" style="left:6%;top:20%;width:64px;height:64px;opacity:.12;filter:blur(16px)"></i>
+  </div>
+  <div class="dp-media-vig"></div>
+  <svg class="dp-media-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+    <filter id="dp-media-01-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.92" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".6"/></feComponentTransfer>
+    </filter>
+    <rect width="420" height="236" filter="url(#dp-media-01-grain)"/>
+  </svg>
+  <div class="dp-media-border"></div>
+  <div class="dp-media-label"><span class="dp-media-label-idx">01</span><span class="dp-media-label-name">MACRO</span></div>
+</div></div></div><div class="frame-glow"></div></div><div class="slot-tag">MEDIA 01</div></div>
+      </div>
+      <div class="slot slot--media" style="--x:690px;--y:150px;--w:420px;--h:236px;--z:-40px;--ry:5deg">
+        <div class="slot-anim" data-media="2"><div class="frame"><div class="frame-view"><div class="frame-in" style="--dw:420px;--dh:236px;--k:1"><div class="dp-media dp-media--02" data-part="media-02">
+  <div class="dp-media-sky"></div>
+  <div class="dp-media-horizon"></div>
+  <svg class="dp-media-skyline" viewBox="0 0 420 236" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <g class="dp-media-far" fill="#0A101A" filter="url(#dp-media-02-soft)">
+      <rect x="-4" y="128" width="38" height="112"/>
+      <rect x="40" y="112" width="26" height="128"/>
+      <rect x="72" y="136" width="30" height="104"/>
+      <rect x="108" y="98" width="22" height="142"/>
+      <rect x="136" y="124" width="40" height="116"/>
+      <rect x="182" y="116" width="26" height="124"/>
+      <rect x="214" y="132" width="34" height="108"/>
+      <rect x="254" y="106" width="22" height="134"/>
+      <rect x="282" y="126" width="38" height="114"/>
+      <rect x="326" y="118" width="24" height="122"/>
+      <rect x="356" y="134" width="30" height="106"/>
+      <rect x="392" y="120" width="36" height="120"/>
+    </g>
+    <g class="dp-media-near" fill="#05070B" filter="url(#dp-media-02-soft2)">
+      <rect x="-6" y="150" width="48" height="90"/>
+      <rect x="52" y="140" width="30" height="100"/>
+      <rect x="88" y="158" width="44" height="82"/>
+      <rect x="140" y="146" width="34" height="94"/>
+      <rect x="180" y="164" width="40" height="76"/>
+      <rect x="226" y="140" width="28" height="100"/>
+      <rect x="260" y="154" width="46" height="86"/>
+      <rect x="312" y="146" width="32" height="94"/>
+      <rect x="350" y="162" width="40" height="78"/>
+      <rect x="396" y="142" width="30" height="98"/>
+    </g>
+    <g class="dp-media-windows">
+      <rect x="44" y="122" width="3" height="3" fill="#FFC792" opacity=".55"/>
+      <rect x="50" y="130" width="3" height="3" fill="#FFC792" opacity=".3"/>
+      <rect x="58" y="140" width="3" height="3" fill="#FFD8AE" opacity=".42"/>
+      <rect x="112" y="108" width="3" height="3" fill="#FFC792" opacity=".5"/>
+      <rect x="118" y="118" width="3" height="3" fill="#FFC792" opacity=".28"/>
+      <rect x="114" y="136" width="3" height="3" fill="#FFD8AE" opacity=".34"/>
+      <rect x="142" y="134" width="3" height="3" fill="#FFC792" opacity=".3"/>
+      <rect x="156" y="144" width="3" height="3" fill="#FFD8AE" opacity=".24"/>
+      <rect x="188" y="126" width="3" height="3" fill="#FFC792" opacity=".36"/>
+      <rect x="196" y="136" width="3" height="3" fill="#FFC792" opacity=".22"/>
+      <rect x="230" y="150" width="3" height="3" fill="#FFD8AE" opacity=".3"/>
+      <rect x="258" y="116" width="3" height="3" fill="#FFC792" opacity=".5"/>
+      <rect x="264" y="128" width="3" height="3" fill="#FFC792" opacity=".26"/>
+      <rect x="288" y="136" width="3" height="3" fill="#FFD8AE" opacity=".32"/>
+      <rect x="300" y="148" width="3" height="3" fill="#FFC792" opacity=".22"/>
+      <rect x="330" y="128" width="3" height="3" fill="#FFC792" opacity=".4"/>
+      <rect x="338" y="140" width="3" height="3" fill="#FFD8AE" opacity=".26"/>
+      <rect x="362" y="144" width="3" height="3" fill="#FFC792" opacity=".28"/>
+      <rect x="372" y="152" width="3" height="3" fill="#FFC792" opacity=".2"/>
+      <rect x="400" y="130" width="3" height="3" fill="#FFC792" opacity=".34"/>
+      <rect x="172" y="122" width="3" height="3" fill="#7DDFF5" opacity=".3"/>
+      <rect x="270" y="112" width="3" height="3" fill="#7DDFF5" opacity=".26"/>
+    </g>
+    <defs>
+      <filter id="dp-media-02-soft" x="-10%" y="-10%" width="120%" height="120%">
+        <feGaussianBlur stdDeviation="1.1"/>
+      </filter>
+      <filter id="dp-media-02-soft2" x="-10%" y="-10%" width="120%" height="120%">
+        <feGaussianBlur stdDeviation=".45"/>
+      </filter>
+    </defs>
+  </svg>
+  <div class="dp-media-bokeh" aria-hidden="true">
+    <i class="dp-media-orb" style="left:57%;top:26%;width:34px;height:34px;opacity:.5;filter:blur(3px)"></i>
+    <i class="dp-media-orb" style="left:67%;top:13%;width:20px;height:20px;opacity:.44;filter:blur(2px)"></i>
+    <i class="dp-media-orb" style="left:78%;top:34%;width:16px;height:16px;opacity:.4;filter:blur(1.6px)"></i>
+    <i class="dp-media-orb" style="left:88%;top:20%;width:26px;height:26px;opacity:.34;filter:blur(3.4px)"></i>
+    <i class="dp-media-orb" style="left:70%;top:46%;width:9px;height:9px;opacity:.46;filter:blur(1px)"></i>
+    <i class="dp-media-orb" style="left:50%;top:40%;width:12px;height:12px;opacity:.3;filter:blur(1.4px)"></i>
+    <i class="dp-media-orb dp-media-orb--big" style="left:74%;top:28%;width:86px;height:86px;opacity:.16;filter:blur(18px)"></i>
+    <i class="dp-media-orb dp-media-orb--c" style="left:12%;top:22%;width:22px;height:22px;opacity:.4;filter:blur(2.4px)"></i>
+    <i class="dp-media-orb dp-media-orb--c" style="left:24%;top:12%;width:12px;height:12px;opacity:.44;filter:blur(1.4px)"></i>
+    <i class="dp-media-orb dp-media-orb--c" style="left:34%;top:32%;width:7px;height:7px;opacity:.46;filter:blur(.9px)"></i>
+    <i class="dp-media-orb dp-media-orb--c" style="left:8%;top:44%;width:15px;height:15px;opacity:.3;filter:blur(2px)"></i>
+    <i class="dp-media-orb dp-media-orb--c" style="left:44%;top:18%;width:18px;height:18px;opacity:.26;filter:blur(2.8px)"></i>
+    <i class="dp-media-orb dp-media-orb--c dp-media-orb--big" style="left:2%;top:10%;width:72px;height:72px;opacity:.13;filter:blur(20px)"></i>
+    <i class="dp-media-orb" style="left:40%;top:52%;width:6px;height:6px;opacity:.3;filter:blur(.8px)"></i>
+    <i class="dp-media-orb" style="left:82%;top:54%;width:10px;height:10px;opacity:.24;filter:blur(1.6px)"></i>
+  </div>
+  <div class="dp-media-reflection" aria-hidden="true"></div>
+  <div class="dp-media-mist"></div>
+  <div class="dp-media-vig"></div>
+  <svg class="dp-media-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+    <filter id="dp-media-02-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".6"/></feComponentTransfer>
+    </filter>
+    <rect width="420" height="236" filter="url(#dp-media-02-grain)"/>
+  </svg>
+  <div class="dp-media-border"></div>
+  <div class="dp-media-label"><span class="dp-media-label-idx">02</span><span class="dp-media-label-name">CITY</span></div>
+</div></div></div><div class="frame-glow"></div></div><div class="slot-tag">MEDIA 02</div></div>
+      </div>
+      <div class="slot slot--media" style="--x:1170px;--y:210px;--w:420px;--h:236px;--z:-170px;--ry:-7deg">
+        <div class="slot-anim" data-media="3"><div class="frame"><div class="frame-view"><div class="frame-in" style="--dw:420px;--dh:236px;--k:1"><div class="dp-media dp-media--03" data-part="media-03">
+  <div class="dp-media-base"></div>
+  <div class="dp-media-haze"></div>
+  <svg class="dp-media-trails" viewBox="0 0 420 236" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="dp-media-03-tA" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#4DE3FF" stop-opacity="0"/>
+        <stop offset=".22" stop-color="#7FE9FF" stop-opacity=".55"/>
+        <stop offset=".52" stop-color="#D6F7FF" stop-opacity=".95"/>
+        <stop offset=".78" stop-color="#5FD8F5" stop-opacity=".6"/>
+        <stop offset="1" stop-color="#4DE3FF" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="dp-media-03-tB" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#4DE3FF" stop-opacity="0"/>
+        <stop offset=".3" stop-color="#9FEFFF" stop-opacity=".7"/>
+        <stop offset=".66" stop-color="#ECFBFF" stop-opacity=".85"/>
+        <stop offset=".9" stop-color="#6FDDF6" stop-opacity=".3"/>
+        <stop offset="1" stop-color="#4DE3FF" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="dp-media-03-tC" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#FFB168" stop-opacity="0"/>
+        <stop offset=".3" stop-color="#FFC58C" stop-opacity=".7"/>
+        <stop offset=".64" stop-color="#FFE7C6" stop-opacity=".9"/>
+        <stop offset=".88" stop-color="#FFB168" stop-opacity=".3"/>
+        <stop offset="1" stop-color="#FFB168" stop-opacity="0"/>
+      </linearGradient>
+      <filter id="dp-media-03-soft" x="-20%" y="-40%" width="140%" height="180%">
+        <feGaussianBlur stdDeviation="6"/>
+      </filter>
+      <filter id="dp-media-03-mid" x="-20%" y="-40%" width="140%" height="180%">
+        <feGaussianBlur stdDeviation="2.4"/>
+      </filter>
+      <filter id="dp-media-03-fine" x="-10%" y="-20%" width="120%" height="140%">
+        <feGaussianBlur stdDeviation=".7"/>
+      </filter>
+      <radialGradient id="dp-media-03-node" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#EAFBFF" stop-opacity=".95"/>
+        <stop offset=".35" stop-color="#7FE9FF" stop-opacity=".5"/>
+        <stop offset="1" stop-color="#4DE3FF" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="dp-media-03-nodew" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#FFF3E0" stop-opacity=".95"/>
+        <stop offset=".35" stop-color="#FFC58C" stop-opacity=".5"/>
+        <stop offset="1" stop-color="#FFB168" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <g filter="url(#dp-media-03-soft)" opacity=".5">
+      <path d="M-24 156 C 46 150 84 118 150 108 C 214 98 250 118 306 104 C 352 92 396 74 444 64" stroke="#4DE3FF" stroke-width="10" fill="none" opacity=".5"/>
+      <path d="M-24 190 C 70 186 130 160 210 158 C 286 156 350 140 444 124" stroke="#FFB168" stroke-width="6" fill="none" opacity=".3"/>
+    </g>
+    <g filter="url(#dp-media-03-mid)">
+      <path d="M-24 172 C 60 164 96 138 166 128 C 232 118 270 138 324 124 C 368 112 404 96 444 86" stroke="url(#dp-media-03-tB)" stroke-width="2.2" fill="none" opacity=".85"/>
+      <path d="M-24 96 C 54 88 108 62 176 70 C 240 78 286 52 344 58 C 386 62 416 54 444 48" stroke="url(#dp-media-03-tB)" stroke-width="1.6" fill="none" opacity=".6"/>
+      <path d="M-24 190 C 70 186 130 160 210 158 C 286 156 350 140 444 124" stroke="url(#dp-media-03-tC)" stroke-width="2" fill="none" opacity=".8"/>
+    </g>
+    <g filter="url(#dp-media-03-fine)">
+      <path d="M-24 156 C 46 150 84 118 150 108 C 214 98 250 118 306 104 C 352 92 396 74 444 64" stroke="url(#dp-media-03-tA)" stroke-width="2.8" fill="none"/>
+      <path d="M-24 122 C 40 128 96 100 170 96 C 240 92 296 112 360 96 C 396 88 422 84 444 80" stroke="url(#dp-media-03-tA)" stroke-width="1" fill="none" opacity=".55"/>
+      <path d="M-24 146 C 56 138 108 112 186 108 C 258 104 316 118 374 104 C 402 98 424 94 444 90" stroke="url(#dp-media-03-tA)" stroke-width=".9" fill="none" opacity=".4"/>
+      <path d="M-24 208 C 78 200 142 178 224 176 C 300 174 362 162 444 150" stroke="url(#dp-media-03-tC)" stroke-width=".9" fill="none" opacity=".34"/>
+    </g>
+    <g>
+      <circle cx="150" cy="108" r="16" fill="url(#dp-media-03-node)" opacity=".5"/>
+      <circle cx="150" cy="108" r="3.2" fill="#EAFBFF" opacity=".9"/>
+      <circle cx="306" cy="104" r="12" fill="url(#dp-media-03-node)" opacity=".4"/>
+      <circle cx="306" cy="104" r="2.4" fill="#DFF7FF" opacity=".85"/>
+      <circle cx="210" cy="158" r="14" fill="url(#dp-media-03-nodew)" opacity=".42"/>
+      <circle cx="210" cy="158" r="2.8" fill="#FFF1DC" opacity=".85"/>
+      <circle cx="360" cy="96" r="8" fill="url(#dp-media-03-node)" opacity=".32"/>
+      <circle cx="360" cy="96" r="1.8" fill="#DFF7FF" opacity=".7"/>
+      <circle cx="64" cy="170" r="1.4" fill="#BCEFFF" opacity=".55"/>
+      <circle cx="398" cy="120" r="1.2" fill="#BCEFFF" opacity=".4"/>
+    </g>
+  </svg>
+  <div class="dp-media-dust" aria-hidden="true">
+    <i style="left:26%;top:38%"></i>
+    <i style="left:58%;top:64%"></i>
+    <i style="left:83%;top:26%"></i>
+    <i style="left:12%;top:22%"></i>
+  </div>
+  <div class="dp-media-vig"></div>
+  <svg class="dp-media-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+    <filter id="dp-media-03-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".6"/></feComponentTransfer>
+    </filter>
+    <rect width="420" height="236" filter="url(#dp-media-03-grain)"/>
+  </svg>
+  <div class="dp-media-border"></div>
+  <div class="dp-media-label"><span class="dp-media-label-idx">03</span><span class="dp-media-label-name">DATA</span></div>
+</div></div></div><div class="frame-glow"></div></div><div class="slot-tag">MEDIA 03</div></div>
+      </div>
+      <div class="slot slot--media" style="--x:420px;--y:480px;--w:420px;--h:236px;--z:70px;--ry:8deg">
+        <div class="slot-anim" data-media="4"><div class="frame"><div class="frame-view"><div class="frame-in" style="--dw:420px;--dh:236px;--k:1"><div class="dp-media dp-media--04" data-part="media-04">
+  <div class="dp-media-base"></div>
+  <svg class="dp-media-silk" viewBox="0 0 420 236" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="dp-media-04-satA" x1="0.08" y1="0.05" x2="0.86" y2="0.98">
+        <stop offset="0" stop-color="#0A0E14"/>
+        <stop offset=".14" stop-color="#18202C"/>
+        <stop offset=".29" stop-color="#4C5A70" stop-opacity=".92"/>
+        <stop offset=".41" stop-color="#212A38"/>
+        <stop offset=".57" stop-color="#66738A" stop-opacity=".92"/>
+        <stop offset=".7" stop-color="#28303E"/>
+        <stop offset=".85" stop-color="#131923"/>
+        <stop offset="1" stop-color="#080B11"/>
+      </linearGradient>
+      <linearGradient id="dp-media-04-satB" x1="0.2" y1="0" x2="0.9" y2="1">
+        <stop offset="0" stop-color="#070A0F"/>
+        <stop offset=".22" stop-color="#151C26"/>
+        <stop offset=".38" stop-color="#3B4658" stop-opacity=".8"/>
+        <stop offset=".54" stop-color="#161D28"/>
+        <stop offset=".72" stop-color="#4A566A" stop-opacity=".72"/>
+        <stop offset=".88" stop-color="#10151E"/>
+        <stop offset="1" stop-color="#070A0F"/>
+      </linearGradient>
+      <linearGradient id="dp-media-04-satC" x1="0" y1="0" x2="1" y2="0.4">
+        <stop offset="0" stop-color="#080B10"/>
+        <stop offset=".2" stop-color="#1C2431"/>
+        <stop offset=".4" stop-color="#5B687D" stop-opacity=".85"/>
+        <stop offset=".55" stop-color="#2A3240"/>
+        <stop offset=".74" stop-color="#77849A" stop-opacity=".8"/>
+        <stop offset=".9" stop-color="#1A212C"/>
+        <stop offset="1" stop-color="#080B10"/>
+      </linearGradient>
+      <linearGradient id="dp-media-04-ridge" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#DFE9F5" stop-opacity="0"/>
+        <stop offset=".28" stop-color="#D6E4F4" stop-opacity=".55"/>
+        <stop offset=".52" stop-color="#F4F7FC" stop-opacity=".7"/>
+        <stop offset=".76" stop-color="#C9D8EA" stop-opacity=".35"/>
+        <stop offset="1" stop-color="#DFE9F5" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="dp-media-04-ridgew" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#FFE9CE" stop-opacity="0"/>
+        <stop offset=".34" stop-color="#FFD8AC" stop-opacity=".45"/>
+        <stop offset=".62" stop-color="#FFF2DF" stop-opacity=".5"/>
+        <stop offset="1" stop-color="#FFD8AC" stop-opacity="0"/>
+      </linearGradient>
+      <filter id="dp-media-04-blur" x="-20%" y="-30%" width="140%" height="160%">
+        <feGaussianBlur stdDeviation="4.5"/>
+      </filter>
+      <filter id="dp-media-04-soft" x="-20%" y="-30%" width="140%" height="160%">
+        <feGaussianBlur stdDeviation="1.6"/>
+      </filter>
+      <filter id="dp-media-04-hair" x="-20%" y="-30%" width="140%" height="160%">
+        <feGaussianBlur stdDeviation=".6"/>
+      </filter>
+    </defs>
+    <rect width="420" height="236" fill="#080B11"/>
+    <g filter="url(#dp-media-04-blur)" opacity=".7">
+      <path d="M-10 96 C 54 52 118 118 182 84 C 246 50 312 104 430 56 L430 -10 L-10 -10 Z" fill="url(#dp-media-04-satB)"/>
+      <path d="M-10 150 C 66 118 128 176 200 146 C 272 116 344 162 430 128 L430 246 L-10 246 Z" fill="url(#dp-media-04-satB)"/>
+    </g>
+    <path d="M-10 118 C 58 78 122 142 190 108 C 258 74 328 124 430 84 L430 246 L-10 246 Z" fill="url(#dp-media-04-satA)"/>
+    <path d="M-10 178 C 62 148 126 196 198 170 C 270 144 342 182 430 152 L430 246 L-10 246 Z" fill="url(#dp-media-04-satC)" opacity=".94"/>
+    <g filter="url(#dp-media-04-soft)">
+      <path d="M-10 118 C 58 78 122 142 190 108 C 258 74 328 124 430 84" stroke="url(#dp-media-04-ridge)" stroke-width="2.6" fill="none" opacity=".85"/>
+      <path d="M-10 178 C 62 148 126 196 198 170 C 270 144 342 182 430 152" stroke="url(#dp-media-04-ridgew)" stroke-width="2.2" fill="none" opacity=".6"/>
+      <path d="M-10 74 C 62 44 126 92 198 66 C 270 40 342 84 430 54" stroke="url(#dp-media-04-ridge)" stroke-width="1.6" fill="none" opacity=".4"/>
+    </g>
+    <g filter="url(#dp-media-04-hair)" opacity=".7">
+      <path d="M-10 132 C 58 94 122 154 190 122 C 258 90 328 138 430 98" stroke="#B9CBDD" stroke-width=".9" fill="none" opacity=".35"/>
+      <path d="M-10 148 C 60 112 124 168 194 138 C 264 108 336 152 430 116" stroke="#91A4BA" stroke-width=".8" fill="none" opacity=".28"/>
+      <path d="M-10 196 C 64 168 128 212 200 188 C 272 164 344 200 430 172" stroke="#B9CBDD" stroke-width=".9" fill="none" opacity=".3"/>
+      <path d="M-10 214 C 66 190 130 228 202 208 C 274 188 346 220 430 196" stroke="#8698AD" stroke-width=".8" fill="none" opacity=".24"/>
+      <path d="M-10 92 C 62 64 126 108 198 84 C 270 60 342 100 430 72" stroke="#A9BCCF" stroke-width=".8" fill="none" opacity=".26"/>
+      <path d="M-10 58 C 60 36 126 76 198 54 C 270 32 342 68 430 44" stroke="#7F92A8" stroke-width=".7" fill="none" opacity=".22"/>
+    </g>
+  </svg>
+  <div class="dp-media-weave" aria-hidden="true"></div>
+  <div class="dp-media-sheen" aria-hidden="true"></div>
+  <div class="dp-media-deep" aria-hidden="true"></div>
+  <div class="dp-media-vig"></div>
+  <svg class="dp-media-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+    <filter id="dp-media-04-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.94" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer>
+    </filter>
+    <rect width="420" height="236" filter="url(#dp-media-04-grain)"/>
+  </svg>
+  <div class="dp-media-border"></div>
+  <div class="dp-media-label"><span class="dp-media-label-idx">04</span><span class="dp-media-label-name">TEXTURE</span></div>
+</div></div></div><div class="frame-glow"></div></div><div class="slot-tag">MEDIA 04</div></div>
+      </div>
+      <div class="slot slot--media" style="--x:900px;--y:520px;--w:420px;--h:236px;--z:-120px;--ry:-3deg">
+        <div class="slot-anim" data-media="5"><div class="frame"><div class="frame-view"><div class="frame-in" style="--dw:420px;--dh:236px;--k:1"><div class="dp-media dp-media--05" data-part="media-05">
+  <div class="dp-media-cloud dp-media-cloud--a"></div>
+  <div class="dp-media-cloud dp-media-cloud--b"></div>
+  <div class="dp-media-cloud dp-media-cloud--c"></div>
+  <div class="dp-media-cloud dp-media-cloud--d"></div>
+  <div class="dp-media-core"></div>
+  <div class="dp-media-dustlane"></div>
+  <svg class="dp-media-stars" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="dp-media-05-star" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#F4F7FC" stop-opacity=".95"/>
+        <stop offset=".45" stop-color="#CFE2FF" stop-opacity=".4"/>
+        <stop offset="1" stop-color="#A78BFF" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="dp-media-05-starw" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#FFF0DA" stop-opacity=".9"/>
+        <stop offset=".5" stop-color="#FFC58C" stop-opacity=".32"/>
+        <stop offset="1" stop-color="#FFB168" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <g fill="#E8F1FF">
+      <circle cx="42" cy="38" r=".9" opacity=".7"/>
+      <circle cx="86" cy="22" r=".7" opacity=".5"/>
+      <circle cx="128" cy="54" r="1.1" opacity=".8"/>
+      <circle cx="164" cy="30" r=".6" opacity=".45"/>
+      <circle cx="198" cy="62" r=".8" opacity=".6"/>
+      <circle cx="236" cy="26" r=".7" opacity=".5"/>
+      <circle cx="274" cy="48" r="1" opacity=".7"/>
+      <circle cx="318" cy="34" r=".6" opacity=".42"/>
+      <circle cx="356" cy="58" r=".9" opacity=".62"/>
+      <circle cx="392" cy="28" r=".7" opacity=".48"/>
+      <circle cx="24" cy="92" r=".8" opacity=".55"/>
+      <circle cx="64" cy="118" r=".6" opacity=".4"/>
+      <circle cx="102" cy="88" r="1.2" opacity=".75"/>
+      <circle cx="146" cy="120" r=".7" opacity=".5"/>
+      <circle cx="184" cy="96" r=".9" opacity=".62"/>
+      <circle cx="222" cy="128" r=".6" opacity=".4"/>
+      <circle cx="262" cy="102" r="1.1" opacity=".7"/>
+      <circle cx="302" cy="132" r=".7" opacity=".48"/>
+      <circle cx="342" cy="100" r=".9" opacity=".58"/>
+      <circle cx="384" cy="126" r=".6" opacity=".4"/>
+      <circle cx="38" cy="164" r=".7" opacity=".42"/>
+      <circle cx="82" cy="192" r="1" opacity=".6"/>
+      <circle cx="126" cy="158" r=".6" opacity=".38"/>
+      <circle cx="170" cy="186" r=".8" opacity=".5"/>
+      <circle cx="214" cy="160" r=".7" opacity=".44"/>
+      <circle cx="258" cy="190" r=".9" opacity=".52"/>
+      <circle cx="300" cy="164" r=".6" opacity=".36"/>
+      <circle cx="344" cy="196" r=".8" opacity=".46"/>
+      <circle cx="386" cy="170" r=".7" opacity=".4"/>
+      <circle cx="118" cy="208" r=".6" opacity=".34"/>
+      <circle cx="286" cy="212" r=".6" opacity=".3"/>
+    </g>
+    <g>
+      <circle cx="102" cy="88" r="9" fill="url(#dp-media-05-star)" opacity=".55"/>
+      <circle cx="262" cy="102" r="8" fill="url(#dp-media-05-star)" opacity=".5"/>
+      <circle cx="128" cy="54" r="6" fill="url(#dp-media-05-star)" opacity=".5"/>
+      <circle cx="342" cy="100" r="7" fill="url(#dp-media-05-starw)" opacity=".4"/>
+      <circle cx="214" cy="58" r="14" fill="url(#dp-media-05-star)" opacity=".4"/>
+      <circle cx="214" cy="58" r="1.6" fill="#F4F7FC" opacity=".9"/>
+      <circle cx="68" cy="142" r="1.4" fill="#DCEBFF" opacity=".7"/>
+      <circle cx="374" cy="82" r="1.3" fill="#FFE6C8" opacity=".6"/>
+    </g>
+  </svg>
+  <div class="dp-media-veil" aria-hidden="true"></div>
+  <div class="dp-media-vig"></div>
+  <svg class="dp-media-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+    <filter id="dp-media-05-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer>
+    </filter>
+    <rect width="420" height="236" filter="url(#dp-media-05-grain)"/>
+  </svg>
+  <div class="dp-media-border"></div>
+  <div class="dp-media-label"><span class="dp-media-label-idx">05</span><span class="dp-media-label-name">NEBULA</span></div>
+</div></div></div><div class="frame-glow"></div></div><div class="slot-tag">MEDIA 05</div></div>
+      </div>
+      <div class="slot slot--media" style="--x:1380px;--y:470px;--w:420px;--h:236px;--z:-220px;--ry:-11deg">
+        <div class="slot-anim" data-media="6"><div class="frame"><div class="frame-view"><div class="frame-in" style="--dw:420px;--dh:236px;--k:1"><div class="dp-media dp-media--06" data-part="media-06">
+  <div class="dp-media-air"></div>
+  <div class="dp-media-wall dp-media-wall--soft"></div>
+  <div class="dp-media-wall dp-media-wall--sharp"></div>
+  <div class="dp-media-light" aria-hidden="true"></div>
+  <div class="dp-media-beam" aria-hidden="true"></div>
+  <div class="dp-media-glow" aria-hidden="true"></div>
+  <div class="dp-media-dust" aria-hidden="true">
+    <i style="left:24%;top:32%;width:2px;height:2px"></i>
+    <i style="left:58%;top:22%;width:1.5px;height:1.5px"></i>
+    <i style="left:72%;top:58%;width:2px;height:2px"></i>
+    <i style="left:38%;top:68%;width:1.5px;height:1.5px"></i>
+    <i style="left:86%;top:38%;width:1px;height:1px"></i>
+    <i style="left:48%;top:44%;width:1px;height:1px"></i>
+  </div>
+  <div class="dp-media-vig"></div>
+  <svg class="dp-media-grain" width="420" height="236" viewBox="0 0 420 236" aria-hidden="true" focusable="false">
+    <filter id="dp-media-06-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".6"/></feComponentTransfer>
+    </filter>
+    <rect width="420" height="236" filter="url(#dp-media-06-grain)"/>
+  </svg>
+  <div class="dp-media-border"></div>
+  <div class="dp-media-label"><span class="dp-media-label-idx">06</span><span class="dp-media-label-name">STRUCTURE</span></div>
+</div></div></div><div class="frame-glow"></div></div><div class="slot-tag">MEDIA 06</div></div>
+      </div>
+
+      <!-- S3 参数切片 -->
+      <div class="chips">
+        <div class="chip" id="chip-1" style="--x:250px;--y:740px;--z:110px;--ry:3deg">
+          <div class="chip__k">日 均 内 容 产 出</div>
+          <div class="chip__v"><span data-chip-count="120">120</span><i>万</i></div>
+          <div class="chip__bar"><i></i></div>
+        </div>
+        <div class="chip" id="chip-2" style="--x:620px;--y:740px;--z:70px;--ry:-2deg">
+          <div class="chip__k">交 付 效 率</div>
+          <div class="chip__v"><span data-chip-count="4.2" data-dec="1">4.2</span><i>×</i></div>
+          <div class="chip__bar"><i></i></div>
+        </div>
+        <div class="chip" id="chip-3" style="--x:990px;--y:740px;--z:130px;--ry:2deg">
+          <div class="chip__k">素 材 复 用 率</div>
+          <div class="chip__v"><span data-chip-count="98.6" data-dec="1">98.6</span><i>%</i></div>
+          <div class="chip__bar"><i></i></div>
+        </div>
+      </div>
+
+      <!-- 收尾锁版 -->
+      <div class="outro-wrap" id="outro">
+        <div id="outro-anim"><div class="dp-outro" data-part="outro">
+  <div class="dp-outro__row">
+    <div class="dp-outro__mark" aria-hidden="true">
+      <svg viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="dp-outro-mark" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#4DE3FF" stop-opacity=".90" />
+            <stop offset=".55" stop-color="#4DE3FF" stop-opacity=".48" />
+            <stop offset="1" stop-color="#1F8FB8" stop-opacity=".52" />
+          </linearGradient>
+          <linearGradient id="dp-outro-horizon" x1="-6" y1="90" x2="186" y2="90" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#4DE3FF" stop-opacity="0" />
+            <stop offset=".14" stop-color="#4DE3FF" stop-opacity=".42" />
+            <stop offset=".50" stop-color="#4DE3FF" stop-opacity=".95" />
+            <stop offset=".86" stop-color="#4DE3FF" stop-opacity=".42" />
+            <stop offset="1" stop-color="#4DE3FF" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <rect x="15" y="15" width="150" height="150" rx="36" stroke="url(#dp-outro-mark)" stroke-width="1.5" />
+        <rect x="43" y="43" width="94" height="94" rx="22" stroke="rgba(77,227,255,.26)" stroke-width="1" />
+        <path d="M-4 90 H184" stroke="url(#dp-outro-horizon)" stroke-width="1.5" />
+        <path d="M15 78 V102 M165 78 V102" stroke="rgba(77,227,255,.32)" stroke-width="1" />
+        <circle cx="90" cy="90" r="2.6" fill="#4DE3FF" fill-opacity=".90" />
+      </svg>
+    </div>
+
+    <div class="dp-outro__lockup">
+      <div class="dp-outro__brand" data-slot="outro-brand">DEEP STAGE</div>
+      <div class="dp-outro__tagline" data-slot="outro-tagline">深境舞台 · 口播视频包装模板</div>
+      <div class="dp-outro__rule"></div>
+      <div class="dp-outro__meta" data-slot="outro-meta">HYPERFRAMES TEMPLATE · 1920×1080 · 30FPS</div>
+    </div>
+  </div>
+
+  <div class="dp-outro__pill" data-slot="outro-version"><i></i>TEMPLATE v1.0</div>
+</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== 大气层 ========== -->
+  <div class="atmos" data-layout-allow-overflow data-layout-allow-overlap>
+    <div class="dust" id="dust">
+      <i class="mote" style="--x:12%;--y:24%;--s:3px;--o:.5"></i>
+      <i class="mote" style="--x:19%;--y:62%;--s:2px;--o:.4"></i>
+      <i class="mote" style="--x:26%;--y:14%;--s:2px;--o:.35"></i>
+      <i class="mote" style="--x:33%;--y:78%;--s:3px;--o:.45"></i>
+      <i class="mote" style="--x:41%;--y:38%;--s:2px;--o:.3"></i>
+      <i class="mote" style="--x:48%;--y:88%;--s:2px;--o:.4"></i>
+      <i class="mote" style="--x:55%;--y:20%;--s:3px;--o:.5"></i>
+      <i class="mote" style="--x:61%;--y:56%;--s:2px;--o:.35"></i>
+      <i class="mote" style="--x:68%;--y:32%;--s:2px;--o:.3"></i>
+      <i class="mote" style="--x:74%;--y:72%;--s:3px;--o:.45"></i>
+      <i class="mote" style="--x:81%;--y:44%;--s:2px;--o:.4"></i>
+      <i class="mote" style="--x:88%;--y:18%;--s:2px;--o:.3"></i>
+      <i class="mote" style="--x:93%;--y:66%;--s:3px;--o:.5"></i>
+      <i class="mote" style="--x:7%;--y:82%;--s:2px;--o:.35"></i>
+      <i class="mote" style="--x:45%;--y:9%;--s:2px;--o:.28"></i>
+      <i class="mote" style="--x:72%;--y:90%;--s:2px;--o:.3"></i>
+    </div>
+    <div class="sweep-wrap"><div class="sweep"></div></div>
+    <div class="atmos-grain"></div>
+  </div>
+
+  <!-- ========== HUD ========== -->
+  <div class="hud" data-layout-allow-overlap data-layout-allow-overflow>
+    <div class="hud-tick hud-tick--tl"></div>
+    <div class="hud-tick hud-tick--tr"></div>
+    <div class="hud-tick hud-tick--bl"></div>
+    <div class="hud-tick hud-tick--br"></div>
+    <div class="logo">
+      <svg class="logo-mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="31" height="31" rx="6" fill="none" stroke="#4DE3FF" stroke-opacity=".55" />
+        <rect x="8" y="8" width="18" height="18" rx="3" fill="none" stroke="#9FD8EE" stroke-opacity=".38" />
+        <path d="M0 21.5h34" stroke="#4DE3FF" stroke-opacity=".75" stroke-width="1" />
+        <circle cx="17" cy="21.5" r="2" fill="#4DE3FF" />
+      </svg>
+      <div class="logo-type"><b data-slot="brand">DEEP STAGE</b><span data-slot="brandSub">口播包装模板</span></div>
+    </div>
+    <div class="hud-right">
+      <div class="hud-chapter">
+        <span class="ch-nums">
+          <b data-cn="1">01</b><b data-cn="2">02</b><b data-cn="3">03</b><b data-cn="4">04</b><b data-cn="5">05</b><b data-cn="6">06</b>
+        </span>
+        <i>/</i><span class="hud-total">06</span>
+      </div>
+      <div class="chapter-names" id="chapter-names">
+        <span data-ch="1">01 &nbsp; OPENING / 点火</span>
+        <span data-ch="2">02 &nbsp; HOST STAGE / 口播主舞台</span>
+        <span data-ch="3">03 &nbsp; PRODUCT / 产品讲解</span>
+        <span data-ch="4">04 &nbsp; CASE / 案例讲解</span>
+        <span data-ch="5">05 &nbsp; MEDIA WALL / 媒体素材</span>
+        <span data-ch="6">06 &nbsp; OUTRO / 收尾</span>
+      </div>
+      <div class="progress"><i id="progress-bar"></i></div>
+    </div>
+    <div class="hud-rail">DEEP STAGE — DARK STAGE SYSTEM</div>
+    <div class="hud-foot">DEEP STAGE · TEMPLATE v1.0 · 1920×1080</div>
+  </div>
+
+  <!-- ========== 场景局部 ========== -->
+  <div class="scenes" data-layout-allow-overlap>
+
+    <!-- S1 开场 -->
+    <div class="title-scene clip" id="scene-title" data-start="0" data-duration="6.6" data-track-index="1">
+      <div class="ts-kicker" id="ts-kicker" data-slot="kicker">AIGC TEMPLATE / 口播视频模板</div>
+      <h1 class="ts-title"><span id="ts-w1" data-slot="title">DEEP</span><span id="ts-w2" data-slot="titleAccent">STAGE</span></h1>
+      <div class="ts-line" id="ts-line"></div>
+      <div class="ts-sub" id="ts-sub" data-slot="subtitle">深色立体舞台 · 多屏空间层次 · <b>为口播而生</b></div>
+      <div class="ts-meta" id="ts-meta" data-slot="meta">2026 / TEMPLATE 01 / 1920×1080 · 30FPS</div>
+    </div>
+
+    <!-- S2 下三分之一 -->
+    <div class="clip" id="scene-lt" data-start="7.4" data-duration="8.8" data-track-index="2">
+      <div class="lower-third" id="lower-third">
+        <div class="lt-bar"></div>
+        <div class="lt-name" data-slot="presenter">林 一</div>
+        <div class="lt-role" data-slot="presenterRole">产品主讲 / HOST</div>
+        <div class="lt-rule"></div>
+      </div>
+    </div>
+
+    <!-- S6 收尾脚注 -->
+    <div class="clip" id="scene-outro-foot" data-start="41.6" data-duration="4.4" data-track-index="2">
+      <div class="outro-foot" id="outro-foot">DARK STAGE SYSTEM · 2026</div>
+    </div>
+
+  </div>
+
+  <!-- ========== 字幕 ========== -->
+  <div class="captions" data-layout-allow-overlap data-layout-allow-overflow>
+    <div class="caption clip" id="cap-1" data-layout-allow-overlap data-start="1.0" data-duration="4.4" data-track-index="10"><span class="caption__in">一块<em>深色舞台</em>，装下你的每一次口播。</span></div>
+    <div class="caption clip" id="cap-2" data-layout-allow-overlap data-start="6.8" data-duration="4.2" data-track-index="10"><span class="caption__in">人物画面居中，<em>信息屏在空间里</em>展开。</span></div>
+    <div class="caption clip" id="cap-3" data-layout-allow-overlap data-start="11.4" data-duration="4.4" data-track-index="10"><span class="caption__in">产品、案例、媒体素材，各有自己的位置。</span></div>
+    <div class="caption clip" id="cap-4" data-layout-allow-overlap data-start="16.9" data-duration="4.2" data-track-index="10"><span class="caption__in">讲产品，<em>参数</em>就从屏幕里长出来。</span></div>
+    <div class="caption clip" id="cap-5" data-layout-allow-overlap data-start="21.4" data-duration="3.8" data-track-index="10"><span class="caption__in">一个参数，一块切片，越讲越近。</span></div>
+    <div class="caption clip" id="cap-6" data-layout-allow-overlap data-start="25.9" data-duration="4.2" data-track-index="10"><span class="caption__in">讲案例，<em>数据</em>自己会说话。</span></div>
+    <div class="caption clip" id="cap-7" data-layout-allow-overlap data-start="30.4" data-duration="3.9" data-track-index="10"><span class="caption__in">前后对比，把变化钉在观众眼里。</span></div>
+    <div class="caption clip" id="cap-8" data-layout-allow-overlap data-start="34.8" data-duration="3.6" data-track-index="10"><span class="caption__in">讲素材，多屏就是你的<em>素材墙</em>。</span></div>
+    <div class="caption clip" id="cap-9" data-layout-allow-overlap data-start="38.6" data-duration="2.8" data-track-index="10"><span class="caption__in">六块屏，装下全部 B-roll。</span></div>
+    <div class="caption clip" id="cap-10" data-layout-allow-overlap data-start="41.7" data-duration="4.3" data-track-index="10"><span class="caption__in">把口播，<em>放进舞台</em>。</span></div>
+  </div>
+
+  <!-- ========== 音效轨（纯合成：全音调型，无噪声源、无磨砂扫频） ========== -->
+
+</div>
+
+<script>
+/* ============================================================================
+   DEEP STAGE · 深境舞台 — 时间线编排
+   单一 paused GSAP timeline；镜头 = 一个 cam 状态对象 + 一个 applyCamera() writer。
+   全部 fromTo 显式给定起始状态，seek 双向安全；无随机、无 Date.now、无无限循环。
+   ============================================================================ */
+(() => {
+  "use strict";
+
+  const qa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const q = (sel, root = document) => root.querySelector(sel);
+
+  const DUR = 46;
+  const world = q("#world");
+
+  /* ---------- 唯一镜头状态与写入者 ---------- */
+  const cam = { x: 0, y: 26, z: -150, rx: 0, ry: -1.8 };
+  const drift = { x: 0, y: 0, rx: 0, ry: 0 };
+
+  function applyCamera() {
+    world.style.transform =
+      "translate3d(" + (cam.x + drift.x) + "px," + (cam.y + drift.y) + "px," + cam.z + "px) " +
+      "rotateX(" + (cam.rx + drift.rx) + "deg) rotateY(" + (cam.ry + drift.ry) + "deg)";
+  }
+  applyCamera();
+
+  /* ---------- 章节边界 ---------- */
+  const BOUNDS = [0, 6.6, 16.5, 25.5, 34.5, 41.6];
+
+  function countUp(tl, el, at, dur) {
+    const target = parseFloat(el.dataset.count || el.dataset.chipCount || "0");
+    const dec = el.dataset.dec !== undefined
+      ? Number(el.dataset.dec)
+      : ((String(target).split(".")[1] || "").length);
+    const pre = el.dataset.prefix || "";
+    const suf = el.dataset.suffix || "";
+    const proxy = { v: 0 };
+    tl.to(proxy, {
+      v: target, duration: dur, ease: "power2.out",
+      onUpdate: () => {
+        el.textContent = pre + proxy.v.toFixed(dec) + suf;
+      },
+    }, at);
+  }
+
+  function build() {
+    const tl = gsap.timeline({ paused: true });
+
+    /* ================= 镜头（连续一条飞行线） ================= */
+    tl.fromTo(cam,
+      { x: 0, y: 26, z: -150, rx: 0, ry: -1.8 },
+      { x: 0, y: 0, z: -28, rx: 0, ry: 0.6, duration: 6.6, ease: "power2.inOut", onUpdate: applyCamera }, 0);
+    tl.to(cam, { x: -28, y: 2, z: 8, ry: 1.2, duration: 9.9, ease: "power2.inOut", onUpdate: applyCamera }, 6.6);
+    tl.to(cam, { x: 134, y: -8, z: 64, rx: -0.5, ry: -1.2, duration: 4.8, ease: "power4.out", onUpdate: applyCamera }, 16.5);
+    tl.to(cam, { x: 120, y: -4, z: 82, ry: -1.5, duration: 4.2, ease: "power2.inOut", onUpdate: applyCamera }, 21.3);
+    tl.to(cam, { x: 58, y: -4, z: 36, ry: -0.6, duration: 1.6, ease: "power2.inOut", onUpdate: applyCamera }, 25.5);
+    tl.to(cam, { x: 44, y: -2, z: 46, ry: -0.9, duration: 7.4, ease: "power2.inOut", onUpdate: applyCamera }, 27.1);
+    tl.to(cam, { x: 0, y: -2, z: -40, rx: 0, ry: 0.4, duration: 2.1, ease: "power2.inOut", onUpdate: applyCamera }, 34.5);
+    tl.to(cam, { x: 0, y: 0, z: -56, ry: 0, duration: 5.0, ease: "power1.inOut", onUpdate: applyCamera }, 36.6);
+    tl.to(cam, { x: 0, y: 26, z: -152, rx: 0.7, ry: 0, duration: 4.4, ease: "power2.inOut", onUpdate: applyCamera }, 41.6);
+
+    /* 微呼吸漂移（有限次数，折进同一个 writer） */
+    tl.to(drift, { x: 9, duration: 5.4, ease: "sine.inOut", repeat: 8, yoyo: true, onUpdate: applyCamera }, 0.4);
+    tl.to(drift, { y: -7, duration: 7.6, ease: "sine.inOut", repeat: 5, yoyo: true, onUpdate: applyCamera }, 1.1);
+    tl.to(drift, { rx: 0.25, duration: 9.2, ease: "sine.inOut", repeat: 4, yoyo: true, onUpdate: applyCamera }, 0.7);
+
+    /* ================= 舞台底色 / 大气 ================= */
+    tl.fromTo(".bg-haze", { opacity: 0.22 }, { opacity: 0.6, duration: 6.4, ease: "sine.inOut", repeat: 6, yoyo: true }, 0);
+    tl.fromTo(".horizon", { opacity: 0, scaleX: 0.25 }, { opacity: 1, scaleX: 1, duration: 2.6, ease: "power3.out" }, 0.35);
+    tl.fromTo(".horizon-glow", { opacity: 0 }, { opacity: 1, duration: 2.2, ease: "power2.out" }, 0.6);
+    tl.fromTo(".floor", { opacity: 0 }, { opacity: 1, duration: 2.4, ease: "power2.out" }, 0.5);
+    tl.fromTo(".beam", { opacity: 0 }, { opacity: 1, duration: 1.8, stagger: 0.12, ease: "power2.out" }, 1.0);
+    tl.fromTo(".wall i", { opacity: 0 }, {
+      opacity: (i) => [0.55, 0.5, 0.35, 0.4, 0.3][i] || 0.4,
+      duration: 0.7, stagger: 0.07, ease: "power2.out",
+    }, 1.2);
+
+    tl.fromTo(".sweep-wrap", { x: -320 }, { x: 2260, duration: 11.0, ease: "power2.inOut" }, 2.2);
+    tl.fromTo(".sweep", { opacity: 0 }, { opacity: 0.75, duration: 2.2, ease: "power2.out" }, 2.2);
+    tl.fromTo(".sweep-wrap", { x: -320 }, { x: 2260, duration: 9.0, ease: "power2.inOut", immediateRender: false }, 33.0);
+    tl.to("#dust", { y: -46, duration: 9.0, ease: "sine.inOut", repeat: 4, yoyo: true }, 0);
+
+    /* ================= HUD ================= */
+    tl.fromTo([".logo", ".hud-tick--tl", ".hud-tick--tr", ".hud-rail"], { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power2.out" }, 0.5);
+    tl.fromTo(".hud-right", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power2.out" }, 0.9);
+    tl.fromTo("#progress-bar", { scaleX: 0 }, { scaleX: 1, duration: DUR, ease: "none" }, 0);
+
+    BOUNDS.forEach((t, i) => {
+      const n = i + 1;
+      const inAt = t + (i === 0 ? 0.95 : 0.18);
+      tl.fromTo('[data-cn="' + n + '"]', { opacity: 0 }, { opacity: 1, duration: 0.28, ease: "power2.out" }, inAt);
+      tl.fromTo('[data-ch="' + n + '"]', { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, inAt + 0.04);
+      if (i > 0) {
+        tl.to('[data-cn="' + i + '"]', { opacity: 0, duration: 0.2, ease: "power1.in" }, t - 0.04);
+        tl.to('[data-ch="' + i + '"]', { opacity: 0, duration: 0.24, ease: "power1.in" }, t - 0.04);
+      }
+    });
+
+    /* ================= S1 · 点火 ================= */
+    tl.fromTo("#ts-kicker", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 0.9);
+    tl.fromTo(["#ts-w1", "#ts-w2"], { opacity: 0, y: 84 }, { opacity: 1, y: 0, duration: 1.1, ease: "power4.out", stagger: 0.14 }, 1.1);
+    tl.fromTo("#ts-line", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 1.0, ease: "power3.inOut" }, 2.2);
+    tl.fromTo("#ts-sub", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, 2.5);
+    tl.fromTo("#ts-meta", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.out" }, 3.1);
+    tl.to(["#ts-kicker", "#ts-w1", "#ts-w2", "#ts-line", "#ts-sub", "#ts-meta"],
+      { opacity: 0, y: -26, duration: 0.55, ease: "power2.in" }, 5.75);
+
+    /* ================= S2 · 口播主舞台 ================= */
+    tl.fromTo("#slot-host", { opacity: 0, scale: 0.94, y: 44 },
+      { opacity: 1, scale: 1, y: 0, duration: 1.25, ease: "power4.out" }, 6.5);
+    tl.fromTo("#slot-brief", { opacity: 0, x: 130, scale: 0.92 },
+      { opacity: 1, x: 0, scale: 1, duration: 1.15, ease: "power4.out" }, 6.75);
+    tl.fromTo("#slot-chapters", { opacity: 0, x: -70, scale: 0.94 },
+      { opacity: 1, x: 0, scale: 1, duration: 1.05, ease: "power3.out" }, 7.0);
+    tl.to("#slot-brief", { y: -8, duration: 4.2, ease: "sine.inOut" }, 9.2);
+    tl.fromTo("#lower-third", { opacity: 0, x: -34 }, { opacity: 1, x: 0, duration: 0.75, ease: "power2.out" }, 7.6);
+    tl.fromTo(".lt-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "power2.out", transformOrigin: "50% 0%" }, 7.6);
+    tl.fromTo(".lt-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power2.inOut", transformOrigin: "0% 50%" }, 7.95);
+
+    /* 收 S2 */
+    tl.to("#slot-brief", { opacity: 0, x: 96, scale: 0.9, filter: "blur(7px)", duration: 0.9, ease: "power2.in" }, 16.1);
+    tl.to("#slot-chapters", { opacity: 0, x: 64, duration: 0.8, ease: "power2.in" }, 16.1);
+    tl.to("#lower-third", { opacity: 0, x: -24, duration: 0.5, ease: "power2.in" }, 16.1);
+
+    /* 人物主画面 → 右上画中画（贯穿 S3–S4，S5 让位素材墙） */
+    tl.to("#slot-host", { x: 1300, y: 60, scale: 0.57, duration: 1.8, ease: "power3.inOut" }, 16.35);
+
+    /* ================= S3 · 产品讲解 ================= */
+    tl.fromTo("#slot-product", { opacity: 0, scale: 0.9, x: -150, y: 70 },
+      { opacity: 1, scale: 1, x: 0, y: 0, duration: 1.45, ease: "power4.out" }, 16.55);
+    tl.to("#slot-product", { scale: 1.025, duration: 2.4, ease: "power1.inOut" }, 21.2);
+
+    tl.fromTo(".chip", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out", stagger: 0.12 }, 18.0);
+    tl.fromTo(".chip__bar i", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power2.out", stagger: 0.12, transformOrigin: "0% 50%" }, 18.2);
+    qa("[data-chip-count]").forEach((el, i) => countUp(tl, el, 18.35 + i * 0.12, 1.5));
+
+    tl.to("#slot-product", { opacity: 0, scale: 0.93, y: -70, filter: "blur(6px)", duration: 0.95, ease: "power2.in" }, 25.1);
+    tl.to(".chip", { opacity: 0, duration: 0.5, ease: "power2.in", stagger: 0.05 }, 25.05);
+
+    /* ================= S4 · 案例讲解 ================= */
+    tl.fromTo("#slot-case", { opacity: 0, x: -110, y: 50, scale: 0.92 },
+      { opacity: 1, x: 0, y: 0, scale: 1, duration: 1.25, ease: "power4.out" }, 25.65);
+    tl.fromTo("#slot-caseside", { opacity: 0, x: 70, scale: 0.93 },
+      { opacity: 1, x: 0, scale: 1, duration: 1.1, ease: "power3.out" }, 26.1);
+
+    qa("[data-count]").forEach((el, i) => countUp(tl, el, 26.95 + i * 0.16, 1.6));
+    qa(".chart-bar").forEach((el, i) => {
+      const h = parseFloat(el.dataset.h || "0");
+      const proxy = { v: 0 };
+      tl.to(proxy, {
+        v: h, duration: 1.1, ease: "power3.out",
+        onUpdate: () => el.style.setProperty("--h", String(proxy.v)),
+      }, 26.95 + i * 0.07);
+    });
+
+    tl.to("#slot-case", { opacity: 0, y: -60, scale: 0.94, duration: 0.9, ease: "power2.in" }, 34.1);
+    tl.to("#slot-caseside", { opacity: 0, x: 50, scale: 0.95, duration: 0.85, ease: "power2.in" }, 34.1);
+    tl.to("#slot-host", { opacity: 0, scale: 0.5, duration: 0.9, ease: "power2.in" }, 34.5);
+
+    /* ================= S5 · 媒体素材墙 ================= */
+    qa("[data-media]").forEach((el, i) => {
+      tl.fromTo(el, { opacity: 0, scale: 0.85, y: 84 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: "power4.out" }, 34.6 + i * 0.13);
+    });
+    tl.to("#slot-host", { opacity: 0, duration: 0.7, ease: "power2.in" }, 25.5);
+    tl.to("[data-media]", { y: -7, duration: 2.4, ease: "sine.inOut", stagger: 0.07 }, 37.3);
+    tl.to("[data-media]", { opacity: 0, scale: 0.9, duration: 0.8, ease: "power2.in", stagger: 0.04 }, 41.1);
+
+    /* ================= S6 · 收尾 ================= */
+    tl.fromTo("#outro-anim", { opacity: 0, y: 36, scale: 0.96 },
+      { opacity: 1, y: 0, scale: 1, duration: 1.3, ease: "power3.out" }, 42.0);
+    tl.fromTo("#outro-foot", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 42.8);
+    tl.to(".bg-base", { opacity: 0.6, duration: 2.2, ease: "power2.inOut" }, 41.8);
+    tl.to([".floor", ".horizon", ".horizon-glow"], { opacity: 0.42, duration: 2.0, ease: "power2.inOut" }, 41.8);
+    tl.to(".hud-foot", { opacity: 1, duration: 0.8, ease: "power2.out" }, 43.0);
+
+    /* ================= 口播字幕带 ================= */
+    qa(".caption").forEach((cap) => {
+      const at = parseFloat(cap.dataset.start);
+      const d = parseFloat(cap.dataset.duration);
+      const inn = q(".caption__in", cap);
+      tl.fromTo(inn, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, at + 0.06);
+      tl.to(inn, { opacity: 0, y: -14, duration: 0.34, ease: "power2.in" }, at + d - 0.36);
+    });
+
+    return tl;
+  }
+
+  /* 字体就绪后构建，构建完成后才注册（契约要求） */
+  const start = () => {
+    const tl = build();
+    window.__timelines = window.__timelines || {};
+    window.__timelines["deep-stage"] = tl;
+    tl.seek(0);
+  };
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(start).catch(start);
+  } else {
+    start();
+  }
+})();
+
+</script>
+
+<script>
+/* ============ MotionGit html-canvas/1 运行时 shim ============ */
+(function () {
+  "use strict";
+  var FPS = 30, DUR = 46;
+  var lastKey = null, ready = false, root = null;
+
+  var ALIAS = {
+    brand: "brand", brandSub: "brandSub", kicker: "kicker",
+    title: "title", titleAccent: "titleAccent", subtitle: "subtitle", meta: "meta",
+    presenter: "presenter", presenterRole: "presenterRole",
+    briefKicker: "brief-kicker", briefTitle: "brief-title", briefSub: "brief-sub",
+    briefItem1Title: "briefItem1Title", briefItem1Desc: "briefItem1Desc",
+    briefItem2Title: "briefItem2Title", briefItem2Desc: "briefItem2Desc",
+    briefItem3Title: "briefItem3Title", briefItem3Desc: "briefItem3Desc",
+    productKicker: "product-kicker", productName: "product-name",
+    productTagline: "product-tagline", productBody: "product-body", productSpec: "product-spec",
+    caseTitle: "case-title",
+    outroBrand: "outro-brand", outroTagline: "outro-tagline", outroMeta: "outro-meta", outroVersion: "outro-version"
+  };
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c];
+    });
+  }
+  function rich(s, tag) {
+    return esc(s).replace(/\*\*([^*]+)\*\*/g, "<" + tag + ">$1</" + tag + ">");
+  }
+
+  function applyParams(p) {
+    if (!p) return;
+    if (p.accent) document.documentElement.style.setProperty("--accent", p.accent);
+    Object.keys(ALIAS).forEach(function (key) {
+      if (p[key] == null) return;
+      var el = document.querySelector('[data-slot="' + ALIAS[key] + '"]');
+      if (!el) return;
+      var richOk = (key === "subtitle" || key === "productTagline" || key === "caseTitle" || key === "outroTagline");
+      var tag = (key === "productTagline") ? "em" : "b";
+      el.innerHTML = richOk ? rich(p[key], tag) : esc(p[key]);
+    });
+    if (Array.isArray(p.captions)) {
+      var caps = document.querySelectorAll(".captions .caption .caption__in");
+      p.captions.forEach(function (txt, i) {
+        if (caps[i] && txt != null) caps[i].innerHTML = rich(txt, "em");
+      });
+    }
+  }
+
+  function updateClips(t) {
+    var clips = document.querySelectorAll(".clip");
+    for (var i = 0; i < clips.length; i++) {
+      var el = clips[i];
+      var s = parseFloat(el.getAttribute("data-start") || "0");
+      var d = parseFloat(el.getAttribute("data-duration") || "0");
+      el.style.visibility = (t >= s - 1e-6 && t < s + d - 1e-6) ? "visible" : "hidden";
+    }
+  }
+
+  function timeline() {
+    return window.__timelines && window.__timelines["deep-stage"];
+  }
+
+  window.renderFrame = function (frame, inputs) {
+    var p = inputs || {};
+    var key = JSON.stringify(p);
+    if (key !== lastKey) { applyParams(p); lastKey = key; }
+    var t = Math.max(0, Math.min(DUR * FPS, Number(frame) || 0)) / FPS;
+    var tl = timeline();
+    if (tl) tl.seek(t, false);
+    updateClips(t);
+    return true;
+  };
+  window.seek = function (t, inputs) { return window.renderFrame(Math.round((Number(t) || 0) * FPS), inputs); };
+
+  function boot() {
+    var tries = 0;
+    (function wait() {
+      if (timeline() || tries++ > 250) {
+        ready = true;
+        window.renderFrame(0, window.__MOTION_INPUTS__ || null);
+        window.__MOTION_READY__ = true;
+      } else setTimeout(wait, 20);
+    })();
+  }
+  if (document.readyState === "complete") boot();
+  else window.addEventListener("load", boot);
+})();
+</script>
+</body>
+</html>

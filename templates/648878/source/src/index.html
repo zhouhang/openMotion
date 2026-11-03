@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>DEEP STAGE · 产品讲解 动效</title>
+<link rel="stylesheet" href="../assets/stage.css" />
+<style>
+  /* ---------- 场景基础 ---------- */
+  .veil { position: absolute; inset: 0; z-index: 20; background: #04060B; pointer-events: none; }
+  .slot .slot-anim { transform-origin: 50% 50%; }
+  /* 舞台背景层：整体后移 800px 并按透视比例放大，投影后与原始位置一致，
+     但让地平线 / 地面网格 / 光束真正位于所有屏幕之后 */
+  .world-bg {
+    position: absolute; inset: 0; transform-style: preserve-3d;
+    transform-origin: 50% 42%;
+    transform: translateZ(-800px) scale(1.5);
+  }
+  /* 屏幕挂签：放在槽位顶部预留的 30px 条内，保证 3D 变换下也能正常绘制 */
+  .slot-tag { top: 6px; }
+  .slot--product .frame { top: 30px; }
+  .slot--product .slot-tag { left: auto; right: 0; }
+
+  /* ---------- 产品主屏（设计 1160×652） ---------- */
+  .pf { position: absolute; inset: 0; overflow: hidden; color: var(--ink-0); font-family: var(--font-cjk); }
+
+  .pf__copy { position: absolute; left: 64px; top: 56px; width: 470px; }
+  .pf__kicker {
+    display: flex; align-items: center; gap: 12px;
+    font: 400 16px/1.2 var(--font-mono); letter-spacing: .20em; text-transform: uppercase; color: #AEBBD0;
+  }
+  .pf__kicker::before { content: ""; width: 22px; height: 1px; background: var(--accent); opacity: .9; }
+  .pf__name {
+    margin: 26px 0 0; font-family: var(--font-num); font-weight: 700; font-size: 76px; line-height: .95;
+    letter-spacing: .02em; white-space: nowrap;
+    background: linear-gradient(178deg, #F4F7FC 8%, #D3DEEE 64%, #AFC0D7 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .pf__tagline { margin: 20px 0 0; font-size: 27px; line-height: 1.45; font-weight: 500; letter-spacing: .01em; color: var(--ink-1); }
+  .pf__tagline em { font-style: normal; color: var(--accent); }
+  .pf__body { margin: 28px 0 0; width: 430px; font-size: 19px; line-height: 1.8; color: #AEBBD0; white-space: pre-line; }
+
+  .pf__foot {
+    position: absolute; left: 64px; bottom: 42px; width: 440px;
+    display: flex; align-items: baseline; gap: 18px; padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .pf__foot-key { font: 400 12px/1 var(--font-mono); letter-spacing: .22em; color: #97A5BB; }
+  .pf__foot-val { font: 400 16px/1 var(--font-mono); letter-spacing: .12em; color: var(--ink-1); white-space: nowrap; }
+
+  /* ---- 产品视觉 ---- */
+  .pf__visual { position: absolute; left: 512px; right: 0; top: 0; bottom: 0; }
+  .pf__glow {
+    position: absolute; left: 50%; top: 50%; width: 660px; height: 660px; margin: -330px 0 0 -330px;
+    background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 13%, transparent) 0%, color-mix(in srgb, var(--accent) 4%, transparent) 40%, transparent 68%);
+  }
+  .pf__halo {
+    position: absolute; left: 50%; top: 50%; width: 660px; height: 660px; margin: -330px 0 0 -330px;
+    transform-origin: 50% 50%;
+  }
+  .pf__halo svg { display: block; width: 100%; height: 100%; }
+  .pf__contact {
+    position: absolute; left: 50%; bottom: 70px; width: 600px; height: 150px; margin-left: -300px;
+    background: radial-gradient(ellipse at 50% 50%, rgba(2,5,9,.82) 0%, rgba(2,5,9,.32) 46%, rgba(2,5,9,0) 74%);
+    filter: blur(12px);
+  }
+  .pf__pool {
+    position: absolute; left: 50%; bottom: 38px; width: 700px; height: 200px; margin-left: -350px;
+    background: radial-gradient(ellipse at 50% 52%, color-mix(in srgb, var(--accent) 26%, transparent) 0%, color-mix(in srgb, var(--accent) 9%, transparent) 40%, transparent 72%);
+    filter: blur(10px);
+  }
+  .pf__device {
+    position: absolute; left: 50%; top: 50%; width: 520px; height: 334px; margin: -167px 0 0 -260px;
+    border-radius: 26px;
+    background:
+      radial-gradient(120% 100% at 14% -8%, rgba(96,132,186,.48) 0%, rgba(46,67,100,.24) 34%, rgba(10,16,27,0) 64%),
+      radial-gradient(70% 60% at 100% 104%, rgba(255,177,104,.14) 0%, rgba(255,177,104,0) 58%),
+      linear-gradient(152deg, #2a3f5e 0%, #172338 34%, #0c1320 64%, #070b12 100%);
+    border: 1px solid rgba(126,168,255,.44);
+    box-shadow:
+      inset 0 1px 0 rgba(244,247,252,.46),
+      inset 2px 0 0 color-mix(in srgb, var(--accent) 30%, transparent),
+      inset -1px 0 0 rgba(255,177,104,.24),
+      inset 0 -2px 0 color-mix(in srgb, var(--accent) 22%, transparent),
+      inset 0 -80px 110px -60px color-mix(in srgb, var(--accent) 28%, transparent),
+      inset 0 0 0 1px rgba(4,6,11,.30),
+      0 0 90px -8px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 70px 110px -40px rgba(2,4,8,.96);
+    transform: perspective(1200px) rotateY(-16deg) rotateX(8deg);
+    transform-style: preserve-3d;
+  }
+  .pf__bezel {
+    position: absolute; inset: 14px; border-radius: 17px;
+    border: 1px solid rgba(126,168,255,.15);
+    background:
+      radial-gradient(110% 120% at 16% 0%, rgba(96,132,186,.10) 0%, rgba(8,12,20,0) 62%),
+      linear-gradient(160deg, rgba(12,19,31,.12), rgba(5,8,14,.28));
+    box-shadow: inset 0 1px 0 rgba(244,247,252,.06);
+  }
+  .pf__lines {
+    position: absolute; inset: 0; border-radius: inherit; overflow: hidden;
+    background-image: linear-gradient(180deg, rgba(126,168,255,0), rgba(126,168,255,.15) 34%, rgba(126,168,255,.02) 76%, rgba(126,168,255,0));
+    background-repeat: no-repeat; background-position: 23% 9%; background-size: 1px 82%;
+  }
+  .pf__lines::before, .pf__lines::after { content: ""; position: absolute; left: 6%; right: 6%; height: 1px; }
+  .pf__lines::before { top: 26%; background: linear-gradient(90deg, rgba(126,168,255,0), rgba(126,168,255,.20) 18%, rgba(126,168,255,.05) 62%, rgba(126,168,255,0)); }
+  .pf__lines::after { top: 75%; background: linear-gradient(90deg, rgba(126,168,255,0), rgba(126,168,255,.14) 26%, rgba(126,168,255,.03) 72%, rgba(126,168,255,0)); }
+  .pf__glass {
+    position: absolute; inset: 0; border-radius: inherit; overflow: hidden;
+    background:
+      linear-gradient(112deg, rgba(244,247,252,0) 34%, rgba(244,247,252,.045) 43%, rgba(244,247,252,.13) 47.4%, rgba(244,247,252,.035) 51.6%, rgba(244,247,252,0) 60%),
+      linear-gradient(112deg, rgba(244,247,252,.10) 0%, rgba(244,247,252,.025) 17%, rgba(244,247,252,0) 30%),
+      radial-gradient(90% 80% at 88% 100%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 56%);
+  }
+  .pf__core {
+    position: absolute; left: 50%; top: 47%; transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 15px;
+  }
+  .pf__mark { width: 96px; height: 96px; opacity: .95; filter: drop-shadow(0 0 16px color-mix(in srgb, var(--accent) 22%, transparent)); }
+  .pf__mark-label {
+    font: 400 10px/1 var(--font-mono); letter-spacing: .34em; text-indent: .34em;
+    color: rgba(195,206,223,.58); white-space: nowrap;
+  }
+  .pf__reflection {
+    position: absolute; left: 50%; top: calc(50% + 158px); width: 470px; height: 100px; margin-left: -235px;
+    background: radial-gradient(ellipse 64% 100% at 50% 0%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, color-mix(in srgb, var(--accent) 8%, transparent) 42%, transparent 74%);
+    filter: blur(10px);
+  }
+  .pf__anno { position: absolute; right: 58px; bottom: 44px; font: 400 11px/1 var(--font-mono); letter-spacing: .24em; color: #97A5BB; }
+  .pf__sweep-wrap { position: absolute; inset: 0; transform: rotate(14deg); }
+  .pf__sweep {
+    position: absolute; left: -320px; top: -80px; width: 200px; height: 840px;
+    background: linear-gradient(90deg, rgba(150,210,255,0), rgba(190,235,255,.10) 46%, rgba(150,210,255,0));
+    filter: blur(18px);
+  }
+
+  /* ---------- 参数切片（3D 浮出的数据卡） ---------- */
+  .pf-chips { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .pf-chip-slot {
+    position: absolute; left: var(--x); top: var(--y); width: 300px; height: 104px;
+    transform: translateZ(var(--z, 0px)) rotateY(var(--ry, 0deg));
+    transform-style: preserve-3d;
+  }
+  .pf-chip-anim { position: absolute; inset: 0; }
+  .pf-chip {
+    position: absolute; inset: 0; padding: 17px 22px; border-radius: 12px;
+    background: linear-gradient(152deg, rgba(20,31,49,.88), rgba(7,11,19,.94));
+    border: 1px solid var(--line-2);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.07),
+      0 26px 60px -24px rgba(0,0,0,.9),
+      0 0 50px -16px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+  .pf-chip__k {
+    font: 400 12px/1 var(--font-mono); letter-spacing: .26em; text-transform: uppercase; color: #97A5BB;
+    white-space: nowrap;
+  }
+  .pf-chip__v {
+    display: flex; align-items: baseline; gap: 8px; margin-top: 10px;
+    font-family: var(--font-num); font-weight: 700; font-size: 44px; line-height: 1; color: var(--ink-0);
+    font-variant-numeric: tabular-nums;
+  }
+  .pf-chip__unit { font-style: normal; font-size: 21px; font-weight: 500; color: var(--accent); }
+  .pf-chip__bar { position: absolute; left: 22px; right: 22px; bottom: 12px; height: 2px; background: rgba(126,168,255,.16); }
+  .pf-chip__bar i {
+    display: block; height: 100%; width: 100%; transform-origin: 0 50%;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 10%, transparent), var(--accent));
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+
+  /* ---------- 右下角人物小画中画（9:16，设计 470×836） ---------- */
+  .pip { position: absolute; inset: 0; overflow: hidden; background: #04060B; }
+  .pip-set {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(118% 82% at 42% 22%, rgba(34,62,90,.55) 0%, rgba(15,25,41,.5) 34%, rgba(6,10,17,0) 64%),
+      radial-gradient(86% 62% at 88% 46%, rgba(96,58,30,.28) 0%, rgba(26,18,14,0) 64%),
+      linear-gradient(180deg, #05080E 0%, #070B14 34%, #0A0F19 56%, #06090F 76%, #04060B 100%);
+  }
+  .pip-glow { position: absolute; border-radius: 50%; pointer-events: none; mix-blend-mode: screen; }
+  .pip-glow--cool {
+    width: 520px; height: 500px; left: -34%; top: -2%;
+    background: radial-gradient(circle at 50% 50%, rgba(77,227,255,.20) 0%, rgba(52,150,190,.10) 34%, rgba(20,60,80,0) 68%);
+    filter: blur(28px);
+  }
+  .pip-glow--warm {
+    width: 440px; height: 440px; right: -30%; top: 16%;
+    background: radial-gradient(circle at 50% 50%, rgba(255,177,104,.14) 0%, rgba(190,110,50,.07) 38%, rgba(60,30,12,0) 70%);
+    filter: blur(30px);
+  }
+  .pip-figure { position: absolute; inset: 0; }
+  .pip-figure svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .pip-vig {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(116% 84% at 50% 40%, rgba(4,6,11,0) 30%, rgba(4,6,11,.24) 58%, rgba(3,4,7,.64) 84%, rgba(3,4,7,.88) 100%),
+      linear-gradient(180deg, rgba(4,6,11,.5) 0%, rgba(4,6,11,0) 14%, rgba(4,6,11,0) 72%, rgba(4,6,11,.34) 100%);
+  }
+  .pip-fade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4,6,11,.3) 0%, rgba(4,6,11,0) 12%, rgba(4,6,11,0) 74%, rgba(4,6,11,.48) 100%); }
+  .pip-cam {
+    position: absolute; left: 18px; top: 16px;
+    font: 400 26px/1 var(--font-mono); letter-spacing: .18em;
+    color: rgba(203,216,235,.85); text-shadow: 0 1px 8px rgba(4,6,11,.85);
+  }
+  .pip-rec {
+    position: absolute; right: 18px; top: 16px; display: flex; align-items: center; gap: 8px;
+    font: 400 26px/1 var(--font-mono); letter-spacing: .18em;
+    color: rgba(244,247,252,.9); text-shadow: 0 1px 8px rgba(4,6,11,.85);
+  }
+  .pip-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: radial-gradient(circle at 38% 34%, #FF9C8C 0%, #E0443C 68%, #B3322C 100%);
+    box-shadow: 0 0 10px rgba(255,84,70,.5), 0 0 3px rgba(255,120,100,.85);
+  }
+  .pip-tag { position: absolute; left: 18px; bottom: 16px; display: flex; align-items: baseline; gap: 7px; }
+  .pip-tag-name {
+    font: 700 26px/1 var(--font-mono); letter-spacing: .18em;
+    color: rgba(150,230,248,.92); text-shadow: 0 1px 8px rgba(4,6,11,.85);
+  }
+  .pip-tag-slash { font: 400 21px/1 var(--font-mono); color: rgba(120,134,160,.95); }
+  .pip-tag-cn {
+    font: 500 26px/1 var(--font-cjk); letter-spacing: .06em;
+    color: rgba(226,235,247,.9); text-shadow: 0 1px 8px rgba(4,6,11,.85);
+  }
+  .pip-ratio {
+    position: absolute; right: 18px; bottom: 66px;
+    font: 400 24px/1 var(--font-mono); letter-spacing: .16em;
+    color: rgba(195,206,223,.62); text-shadow: 0 1px 8px rgba(4,6,11,.85);
+  }
+
+  /* ---------- 大气层 ---------- */
+  .atmos { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+  .dust { position: absolute; inset: 0; opacity: .6; }
+  .mote {
+    position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s);
+    border-radius: 50%; background: rgba(190,225,255,var(--o,.5)); filter: blur(.4px);
+    box-shadow: 0 0 10px rgba(120,200,255,.5);
+  }
+  .atmos-grain {
+    position: absolute; inset: -60px; opacity: .045; mix-blend-mode: overlay;
+    background-image: url("../assets/grain.png"); background-size: 260px 260px;
+  }
+  .sweep-wrap { position: absolute; inset: 0; }
+  .sweep {
+    position: absolute; left: -30%; top: -20%; width: 40%; height: 140%; transform: rotate(18deg);
+    background: linear-gradient(90deg, rgba(150,210,255,0), rgba(150,210,255,.05), rgba(150,210,255,0));
+    filter: blur(28px); opacity: .7;
+  }
+</style>
+</head>
+<body>
+<div id="root">
+  <!-- 背景 -->
+  <div class="bg">
+    <div class="bg-base"></div>
+    <div class="bg-haze bg-haze--cold"></div>
+    <div class="bg-haze bg-haze--warm"></div>
+    <div class="bg-haze bg-haze--violet"></div>
+    <div class="bg-vignette"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <!-- 3D 舞台 -->
+  <div class="stage">
+    <div class="world" id="world">
+      <div class="world-bg">
+        <div class="floor"></div>
+        <div class="horizon"></div>
+        <div class="horizon-glow"></div>
+        <div class="beams">
+          <i class="beam" style="--x:6%;--w:22%;--h:980px;--o:.06;--r:-7deg"></i>
+          <i class="beam" style="--x:30%;--w:16%;--h:880px;--o:.045;--r:-3deg"></i>
+          <i class="beam" style="--x:62%;--w:18%;--h:920px;--o:.05;--r:4deg"></i>
+          <i class="beam" style="--x:82%;--w:20%;--h:1000px;--o:.055;--r:9deg"></i>
+        </div>
+        <div class="wall">
+          <i style="left:96px;top:322px;width:150px;height:84px"></i>
+          <i style="left:1860px;top:300px;width:170px;height:96px"></i>
+          <i style="left:120px;top:470px;width:110px;height:62px;opacity:.35"></i>
+          <i style="left:1720px;top:456px;width:126px;height:70px;opacity:.4"></i>
+          <i style="left:838px;top:170px;width:244px;height:138px;opacity:.3"></i>
+        </div>
+      </div>
+
+      <!-- 产品主屏：设计 1160×652，显示 1040×585 -->
+      <div class="slot slot--product" style="--x:317px;--y:52px;--w:1040px;--h:615px;--z:40px;--ry:1.5deg">
+        <div class="slot-anim" id="slot-product">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:1160px;--dh:652px;--k:0.8966">
+                <div class="pf">
+                  <div class="pf__copy">
+                    <div class="pf__kicker" id="t-kicker">PRODUCT / 产品讲解</div>
+                    <h1 class="pf__name" id="t-name">DEEP ONE</h1>
+                    <p class="pf__tagline" id="t-tagline">把内容生产，装进<em>一块屏幕</em>。</p>
+                    <p class="pf__body" id="t-body">深色舞台承接产品视觉，
+参数与卖点从屏幕里浮出，越讲越近。</p>
+                  </div>
+
+                  <div class="pf__visual" id="pf-visual" aria-hidden="true">
+                    <div class="pf__glow"></div>
+                    <div class="pf__halo" id="pf-halo">
+                      <svg viewBox="0 0 660 660" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                          <radialGradient id="pv-core" cx="50%" cy="50%" r="50%">
+                            <stop offset="0" stop-color="#4DE3FF" stop-opacity=".18"/>
+                            <stop offset=".58" stop-color="#4DE3FF" stop-opacity=".05"/>
+                            <stop offset="1" stop-color="#4DE3FF" stop-opacity="0"/>
+                          </radialGradient>
+                          <linearGradient id="pv-ring" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#4DE3FF" stop-opacity=".62"/>
+                            <stop offset=".52" stop-color="#4DE3FF" stop-opacity=".18"/>
+                            <stop offset="1" stop-color="#A78BFF" stop-opacity=".34"/>
+                          </linearGradient>
+                        </defs>
+                        <circle cx="330" cy="330" r="300" fill="url(#pv-core)"/>
+                        <g transform="rotate(-16 330 330)" stroke-linecap="round">
+                          <ellipse cx="330" cy="330" rx="318" ry="236" stroke="rgba(126,168,255,.20)"/>
+                          <ellipse cx="330" cy="330" rx="318" ry="236" stroke="rgba(126,168,255,.30)" stroke-dasharray="1.5 12"/>
+                          <path d="M86.4 178.3 A318 236 0 0 1 302.3 94.9" stroke="#FFB168" stroke-opacity=".34" stroke-width="1.5"/>
+                          <ellipse cx="330" cy="330" rx="296" ry="220" stroke="rgba(77,227,255,.26)" stroke-dasharray="2 11"/>
+                          <ellipse cx="330" cy="330" rx="272" ry="202" stroke="url(#pv-ring)" stroke-width="1.2"/>
+                          <circle cx="247.7" cy="102" r="9" stroke="rgba(77,227,255,.45)"/>
+                          <circle cx="247.7" cy="102" r="3.2" fill="#4DE3FF" fill-opacity=".95" stroke="none"/>
+                          <circle cx="590.5" cy="465.4" r="9" stroke="rgba(255,177,104,.48)"/>
+                          <circle cx="590.5" cy="465.4" r="3.2" fill="#FFB168" fill-opacity=".95" stroke="none"/>
+                        </g>
+                      </svg>
+                    </div>
+                    <div class="pf__contact"></div>
+                    <div class="pf__pool"></div>
+                    <div class="pf__device">
+                      <div class="pf__bezel"></div>
+                      <div class="pf__lines"></div>
+                      <div class="pf__glass"></div>
+                      <div class="pf__core">
+                        <svg class="pf__mark" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <linearGradient id="pv-mark" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0" stop-color="#4DE3FF" stop-opacity=".92"/>
+                              <stop offset="1" stop-color="#4DE3FF" stop-opacity=".30"/>
+                            </linearGradient>
+                          </defs>
+                          <rect x="8" y="8" width="104" height="104" rx="26" stroke="url(#pv-mark)" stroke-width="1.5"/>
+                          <rect x="27" y="27" width="66" height="66" rx="17" stroke="rgba(77,227,255,.32)" stroke-width="1"/>
+                          <path d="M8 60 H38 M82 60 H112" stroke="rgba(77,227,255,.60)" stroke-width="1.2"/>
+                          <circle cx="60" cy="60" r="2.4" fill="#4DE3FF" fill-opacity=".90"/>
+                        </svg>
+                        <div class="pf__mark-label" id="t-mark-label">DEEP ONE</div>
+                      </div>
+                    </div>
+                    <div class="pf__reflection"></div>
+                    <div class="pf__anno">DEV / 01</div>
+                    <div class="pf__sweep-wrap"><div class="pf__sweep" id="pf-sweep"></div></div>
+                  </div>
+
+                  <div class="pf__foot">
+                    <span class="pf__foot-key">SPEC</span>
+                    <span class="pf__foot-val" id="t-spec-line">1920×1080 / 30FPS / H.264</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+          <div class="slot-tag">SCREEN C / PRODUCT</div>
+        </div>
+      </div>
+
+      <!-- 3 个参数切片 -->
+      <div class="pf-chips">
+        <div class="pf-chip-slot" style="--x:317px;--y:712px;--z:90px;--ry:2.5deg">
+          <div class="pf-chip-anim">
+            <div class="pf-chip">
+              <div class="pf-chip__k" id="t-spec-label-0">日均内容产出</div>
+              <div class="pf-chip__v"><span id="count-0">0</span><i class="pf-chip__unit" id="t-spec-unit-0">万</i></div>
+              <div class="pf-chip__bar"><i></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="pf-chip-slot" style="--x:715px;--y:712px;--z:60px;--ry:-2deg">
+          <div class="pf-chip-anim">
+            <div class="pf-chip">
+              <div class="pf-chip__k" id="t-spec-label-1">交付效率</div>
+              <div class="pf-chip__v"><span id="count-1">0</span><i class="pf-chip__unit" id="t-spec-unit-1">×</i></div>
+              <div class="pf-chip__bar"><i></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="pf-chip-slot" style="--x:1113px;--y:712px;--z:110px;--ry:2deg">
+          <div class="pf-chip-anim">
+            <div class="pf-chip">
+              <div class="pf-chip__k" id="t-spec-label-2">素材复用率</div>
+              <div class="pf-chip__v"><span id="count-2">0</span><i class="pf-chip__unit" id="t-spec-unit-2">%</i></div>
+              <div class="pf-chip__bar"><i></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右下角人物小画中画：设计 470×836，显示 216×384 -->
+      <div class="slot slot--pip" style="--x:1520px;--y:560px;--w:216px;--h:384px;--z:60px;--ry:-5deg">
+        <div class="slot-anim" id="slot-pip">
+          <div class="frame">
+            <div class="frame-view">
+              <div class="frame-in" style="--dw:470px;--dh:836px;--k:0.45957">
+                <div class="pip">
+                  <div class="pip-set"></div>
+                  <div class="pip-glow pip-glow--cool"></div>
+                  <div class="pip-glow pip-glow--warm"></div>
+                  <div class="pip-figure" aria-hidden="true">
+                    <svg viewBox="0 0 470 836" preserveAspectRatio="xMidYMid meet" focusable="false">
+                      <defs>
+                        <path id="pp-silh" d="M258 226
+                          C236 229 218 238 204 252
+                          C193 263 185 281 181 300
+                          C178 308 177 316 176 322
+                          C174 330 170 336 168 342
+                          C164 354 161 364 163 372
+                          C166 382 172 388 174 392
+                          C171 396 168 400 169 405
+                          C170 410 175 412 176 417
+                          C177 424 181 430 184 437
+                          C188 446 192 453 198 460
+                          C204 468 212 480 222 489
+                          C229 496 234 502 237 510
+                          C239 520 239 531 237 542
+                          C235 553 232 563 227 573
+                          C223 583 217 593 210 602
+                          C196 619 176 632 154 646
+                          C122 666 88 682 58 700
+                          C34 712 10 728 -10 748
+                          C-14 758 -17 772 -18 790
+                          L-18 836 L486 836 L478 792
+                          C477 758 475 730 471 706
+                          C467 678 461 652 452 628
+                          C441 600 424 576 402 556
+                          C378 534 354 522 344 512
+                          C337 503 333 492 332 482
+                          C331 472 332 461 337 450
+                          C343 439 350 427 355 413
+                          C360 398 363 380 362 360
+                          C361 336 355 306 344 280
+                          C332 256 312 236 290 228
+                          C278 224 266 224 258 226 Z"/>
+                        <linearGradient id="pp-body" x1="0.24" y1="0.12" x2="0.82" y2="1">
+                          <stop offset="0" stop-color="#070A11"/>
+                          <stop offset=".45" stop-color="#0A1019"/>
+                          <stop offset="1" stop-color="#06080E"/>
+                        </linearGradient>
+                        <linearGradient id="pp-rim-c" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#C4F6FF" stop-opacity=".9"/>
+                          <stop offset=".18" stop-color="#4DE3FF" stop-opacity=".5"/>
+                          <stop offset=".42" stop-color="#4DE3FF" stop-opacity="0"/>
+                          <stop offset="1" stop-color="#4DE3FF" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="pp-rim-g" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0" stop-color="#FFB168" stop-opacity="0"/>
+                          <stop offset=".58" stop-color="#FFB168" stop-opacity="0"/>
+                          <stop offset=".82" stop-color="#FFD2A0" stop-opacity=".55"/>
+                          <stop offset="1" stop-color="#FFC994" stop-opacity=".9"/>
+                        </linearGradient>
+                        <radialGradient id="pp-halo" cx=".5" cy=".5" r=".5">
+                          <stop offset="0" stop-color="#4DE3FF" stop-opacity=".16"/>
+                          <stop offset=".48" stop-color="#2E9FC0" stop-opacity=".07"/>
+                          <stop offset="1" stop-color="#14343F" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="pp-skin" cx=".43" cy=".45" r=".46">
+                          <stop offset="0" stop-color="#303D52" stop-opacity=".42"/>
+                          <stop offset=".4" stop-color="#1B2433" stop-opacity=".22"/>
+                          <stop offset="1" stop-color="#080C14" stop-opacity="0"/>
+                        </radialGradient>
+                        <radialGradient id="pp-shoulder" cx=".3" cy=".82" r=".42">
+                          <stop offset="0" stop-color="#7E9CBC" stop-opacity=".18"/>
+                          <stop offset="1" stop-color="#0B1018" stop-opacity="0"/>
+                        </radialGradient>
+                        <clipPath id="pp-clip"><use href="#pp-silh"/></clipPath>
+                        <filter id="pp-blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+                      </defs>
+                      <ellipse cx="266" cy="372" rx="186" ry="176" fill="url(#pp-halo)"/>
+                      <use href="#pp-silh" fill="url(#pp-body)"/>
+                      <g clip-path="url(#pp-clip)">
+                        <rect width="470" height="836" fill="url(#pp-skin)"/>
+                        <rect width="470" height="836" fill="url(#pp-shoulder)"/>
+                      </g>
+                      <g filter="url(#pp-blur)">
+                        <use href="#pp-silh" fill="none" stroke="url(#pp-rim-c)" stroke-width="4"/>
+                        <use href="#pp-silh" fill="none" stroke="url(#pp-rim-g)" stroke-width="4"/>
+                      </g>
+                    </svg>
+                  </div>
+                  <div class="pip-vig"></div>
+                  <div class="pip-fade"></div>
+                  <div class="pip-cam" aria-hidden="true">CAM 01</div>
+                  <div class="pip-rec" aria-hidden="true"><i class="pip-dot"></i><span>REC</span></div>
+                  <div class="pip-tag" aria-hidden="true">
+                    <span class="pip-tag-name">HOST</span>
+                    <span class="pip-tag-slash">/</span>
+                    <span class="pip-tag-cn">口播画面</span>
+                  </div>
+                  <div class="pip-ratio" aria-hidden="true">9:16</div>
+                </div>
+              </div>
+            </div>
+            <div class="frame-glow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 大气层 -->
+  <div class="atmos">
+    <div class="dust" id="dust">
+      <i class="mote" style="--x:12%;--y:24%;--s:3px;--o:.5"></i>
+      <i class="mote" style="--x:19%;--y:62%;--s:2px;--o:.4"></i>
+      <i class="mote" style="--x:26%;--y:14%;--s:2px;--o:.35"></i>
+      <i class="mote" style="--x:33%;--y:78%;--s:3px;--o:.45"></i>
+      <i class="mote" style="--x:41%;--y:38%;--s:2px;--o:.3"></i>
+      <i class="mote" style="--x:48%;--y:88%;--s:2px;--o:.4"></i>
+      <i class="mote" style="--x:55%;--y:20%;--s:3px;--o:.5"></i>
+      <i class="mote" style="--x:61%;--y:56%;--s:2px;--o:.35"></i>
+      <i class="mote" style="--x:68%;--y:32%;--s:2px;--o:.3"></i>
+      <i class="mote" style="--x:74%;--y:72%;--s:3px;--o:.45"></i>
+      <i class="mote" style="--x:81%;--y:44%;--s:2px;--o:.4"></i>
+      <i class="mote" style="--x:88%;--y:18%;--s:2px;--o:.3"></i>
+      <i class="mote" style="--x:93%;--y:66%;--s:3px;--o:.5"></i>
+      <i class="mote" style="--x:7%;--y:82%;--s:2px;--o:.35"></i>
+    </div>
+    <div class="sweep-wrap"><div class="sweep"></div></div>
+    <div class="atmos-grain"></div>
+  </div>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hud-tick hud-tick--tl hud-corner"></div>
+    <div class="hud-tick hud-tick--tr hud-corner"></div>
+    <div class="hud-tick hud-tick--bl hud-corner"></div>
+    <div class="hud-tick hud-tick--br hud-corner"></div>
+    <div class="logo" id="t-logo">
+      <svg class="logo-mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="31" height="31" rx="6" fill="none" stroke="var(--accent)" stroke-opacity=".55"/>
+        <rect x="8" y="8" width="18" height="18" rx="3" fill="none" stroke="#9FD8EE" stroke-opacity=".38"/>
+        <path d="M0 21.5h34" stroke="var(--accent)" stroke-opacity=".75" stroke-width="1"/>
+        <circle cx="17" cy="21.5" r="2" fill="var(--accent)"/>
+      </svg>
+      <div class="logo-type"><b id="t-brand">DEEP STAGE</b><span>口播包装模板</span></div>
+    </div>
+    <div class="hud-right" id="t-hud-right">
+      <div class="hud-chapter"><b>03</b><i>/</i><span>06</span></div>
+      <div class="chapter-name">03 &nbsp; PRODUCT / 产品讲解</div>
+      <div class="progress"><i id="progress-bar"></i></div>
+    </div>
+    <div class="hud-rail">DEEP STAGE — DARK STAGE SYSTEM</div>
+    <div class="hud-foot">DEEP STAGE · TEMPLATE 03 · 1920×1080</div>
+  </div>
+
+  <div class="veil" id="veil"></div>
+</div>
+
+<script src="../assets/motion.js"></script>
+<script>
+(function () {
+  "use strict";
+  var FPS = 30;
+  var DEFAULT_PARAMS = {
+    brand: "DEEP STAGE",
+    kicker: "PRODUCT / 产品讲解",
+    productName: "DEEP ONE",
+    tagline: "把内容生产，装进<em>一块屏幕</em>。",
+    body: "深色舞台承接产品视觉，\n参数与卖点从屏幕里浮出，越讲越近。",
+    specs: [
+      { label: "日均内容产出", value: "120", unit: "万" },
+      { label: "交付效率", value: "4.2", unit: "×" },
+      { label: "素材复用率", value: "98.6", unit: "%" }
+    ],
+    specLine: "1920×1080 / 30FPS / H.264",
+    accent: "#4DE3FF"
+  };
+  var tl = null;
+  var lastKey = null;
+  var $ = function (id) { return document.getElementById(id); };
+  var SPEC_START = 3.85;   /* 数字滚动起点（秒） */
+  var SPEC_STEP = 0.18;    /* 三个切片的错峰 */
+  var SPEC_DUR = 1.4;      /* 单个数字滚动时长 */
+
+  function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+
+  /* 只允许 <em>…</em> 的安全富文本：拆成文本节点 + em 元素 */
+  function renderEm(node, text) {
+    clear(node);
+    var s = String(text == null ? "" : text);
+    var re = /<em>([\s\S]*?)<\/em>/g;
+    var last = 0, m;
+    while ((m = re.exec(s))) {
+      if (m.index > last) node.appendChild(document.createTextNode(s.slice(last, m.index)));
+      var em = document.createElement("em");
+      em.textContent = m[1];
+      node.appendChild(em);
+      last = re.lastIndex;
+    }
+    if (last < s.length) node.appendChild(document.createTextNode(s.slice(last)));
+  }
+
+  /* 产品名过长时按宽度自动收字号（确定性：只依赖字体度量） */
+  function fitName() {
+    var el = $("t-name");
+    el.style.fontSize = "";
+    var w = el.offsetWidth;
+    if (w > 450) el.style.fontSize = Math.max(42, Math.floor(76 * 450 / w)) + "px";
+  }
+
+  function specDecimals(value) {
+    var s = String(value == null ? "0" : value);
+    var dot = s.indexOf(".");
+    return dot === -1 ? 0 : s.length - dot - 1;
+  }
+
+  function specTarget(value) {
+    var n = parseFloat(String(value == null ? "0" : value));
+    return isFinite(n) ? n : 0;
+  }
+
+  function applyParams(p) {
+    document.documentElement.style.setProperty("--accent", p.accent || "#4DE3FF");
+    $("t-brand").textContent = p.brand || "";
+    $("t-kicker").textContent = p.kicker || "";
+    $("t-name").textContent = String(p.productName || "");
+    fitName();
+    renderEm($("t-tagline"), p.tagline || "");
+    $("t-body").textContent = String(p.body == null ? "" : p.body);
+    $("t-spec-line").textContent = p.specLine || "";
+    $("t-mark-label").textContent = String(p.productName || "");
+
+    var specs = Array.isArray(p.specs) ? p.specs : [];
+    for (var i = 0; i < 3; i++) {
+      var s = specs[i] || {};
+      $("t-spec-label-" + i).textContent = String(s.label || "");
+      $("t-spec-unit-" + i).textContent = String(s.unit == null ? "" : s.unit);
+      $("count-" + i).textContent = (0).toFixed(specDecimals(s.value));
+    }
+  }
+
+  /* 数字滚动：完全由「当前时间」算出来，和 tl.seek 帧同步、可回放 */
+  function updateCounters(t, specs) {
+    for (var i = 0; i < 3; i++) {
+      var s = (specs && specs[i]) || {};
+      var target = specTarget(s.value);
+      var dec = specDecimals(s.value);
+      var k = (t - (SPEC_START + i * SPEC_STEP)) / SPEC_DUR;
+      k = k < 0 ? 0 : k > 1 ? 1 : k;
+      var e = 1 - Math.pow(1 - k, 3); /* power2.out */
+      var el = $("count-" + i);
+      if (el) el.textContent = (target * e).toFixed(dec);
+    }
+  }
+
+  function build(p) {
+    applyParams(p);
+    var t = Motion.timeline();
+
+    /* ---------- 0.0–0.55 黑场淡入 ---------- */
+    t.fromTo("#veil", { opacity: 1 }, { opacity: 0 }, { duration: 0.55, ease: "power2.out", at: 0 });
+
+    /* ---------- 0.22–2.5 舞台点火 ---------- */
+    t.fromTo(".horizon", { opacity: 0, scaleX: 0.18 }, { opacity: 1, scaleX: 1 }, { duration: 2.1, ease: "power3.out", at: 0.22, transformOrigin: "50% 50%" });
+    t.fromTo(".horizon-glow", { opacity: 0 }, { opacity: 1 }, { duration: 1.9, ease: "power2.out", at: 0.38 });
+    t.fromTo(".floor", { opacity: 0 }, { opacity: 1 }, { duration: 2.1, ease: "power2.out", at: 0.32 });
+    t.fromTo(".beam", { opacity: 0 }, { opacity: 1 }, { duration: 1.5, stagger: 0.12, ease: "power2.out", at: 0.8 });
+    t.fromTo(".wall i", { opacity: 0 }, { opacity: 0.44 }, { duration: 0.7, stagger: 0.07, ease: "power2.out", at: 1.0 });
+    t.fromTo(".bg-grain", { opacity: 0 }, { opacity: 0.055 }, { duration: 1.3, ease: "power2.out", at: 0.45 });
+
+    /* ---------- 0.45–1.5 HUD ---------- */
+    t.fromTo(".hud-corner", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, stagger: 0.08, ease: "power2.out", at: 0.45 });
+    t.fromTo("#t-logo", { opacity: 0, x: -18 }, { opacity: 1, x: 0 }, { duration: 0.9, ease: "power3.out", at: 0.55 });
+    t.fromTo("#t-hud-right", { opacity: 0, x: 20 }, { opacity: 1, x: 0 }, { duration: 0.9, ease: "power3.out", at: 0.75 });
+    t.fromTo(".hud-rail", { opacity: 0 }, { opacity: 1 }, { duration: 1.0, ease: "power2.out", at: 0.95 });
+    t.fromTo(".hud-foot", { opacity: 0 }, { opacity: 1 }, { duration: 0.9, ease: "power2.out", at: 1.25 });
+    t.fromTo("#progress-bar", { scaleX: 0 }, { scaleX: 1 }, { duration: 12, ease: "linear", at: 0, transformOrigin: "0% 50%" });
+
+    /* ---------- 0.65–2.05 产品主屏推入 ---------- */
+    t.fromTo("#slot-product", { opacity: 0, x: -150, y: 60, scale: 0.9 }, { opacity: 1, x: 0, y: 0, scale: 1 }, { duration: 1.4, ease: "power4.out", at: 0.65 });
+
+    /* ---------- 屏内内容：视觉 → 标签 → 产品名 → tagline → 正文 → 规格 ---------- */
+    t.fromTo("#pf-visual", { opacity: 0, scale: 0.93 }, { opacity: 1, scale: 1 }, { duration: 1.3, ease: "power3.out", at: 1.75, transformOrigin: "50% 50%" });
+    t.fromTo(".pf__kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0 }, { duration: 0.7, ease: "power2.out", at: 1.9 });
+    t.fromTo(".pf__name", { opacity: 0, y: 34 }, { opacity: 1, y: 0 }, { duration: 1.0, ease: "power4.out", at: 2.05 });
+    t.fromTo(".pf__tagline", { opacity: 0, y: 22 }, { opacity: 1, y: 0 }, { duration: 0.85, ease: "power2.out", at: 2.4 });
+    t.fromTo(".pf__body", { opacity: 0, y: 22 }, { opacity: 1, y: 0 }, { duration: 0.9, ease: "power2.out", at: 2.65 });
+    t.fromTo(".pf__foot", { opacity: 0, y: 14 }, { opacity: 1, y: 0 }, { duration: 0.8, ease: "power2.out", at: 2.95 });
+
+    /* ---------- 2.6–9.2 产品屏持续推近（叠在入场上，一条连续运动） ---------- */
+    t.fromTo("#slot-product", { scale: 1 }, { scale: 1.028 }, { duration: 6.6, ease: "power1.inOut", at: 2.6 });
+
+    /* ---------- 2.85–4.1 参数切片错峰浮出 + 底条生长 ---------- */
+    t.fromTo(".pf-chip-anim", { opacity: 0, y: 46, scale: 0.96 }, { opacity: 1, y: 0, scale: 1 }, { duration: 0.85, stagger: 0.2, ease: "power3.out", at: 2.85 });
+    t.fromTo(".pf-chip__bar i", { scaleX: 0 }, { scaleX: 1 }, { duration: 1.2, stagger: 0.16, ease: "power2.out", at: 3.5, transformOrigin: "0% 50%" });
+
+    /* ---------- 4.0–5.0 右下角人物小画中画入位 ---------- */
+    t.fromTo("#slot-pip", { opacity: 0, y: 44, scale: 0.9 }, { opacity: 1, y: 0, scale: 1 }, { duration: 1.0, ease: "power4.out", at: 4.0 });
+    t.fromTo(".pip-cam", { opacity: 0 }, { opacity: 1 }, { duration: 0.6, ease: "power2.out", at: 4.6 });
+    t.fromTo(".pip-rec", { opacity: 0 }, { opacity: 1 }, { duration: 0.6, ease: "power2.out", at: 4.75 });
+    t.fromTo(".pip-tag", { opacity: 0 }, { opacity: 1 }, { duration: 0.6, ease: "power2.out", at: 4.9 });
+    t.fromTo(".pip-ratio", { opacity: 0 }, { opacity: 1 }, { duration: 0.6, ease: "power2.out", at: 5.0 });
+
+    /* ---------- 镜头：缓慢横移 + 轻推 ---------- */
+    t.fromTo("#world", { x: -14, y: 8, scale: 1 }, { x: 18, y: -4, scale: 1.018 }, { duration: 10.9, ease: "sine.inOut", at: 0.3 });
+
+    /* ---------- 持续到结尾的缓慢运动 ---------- */
+    t.fromTo(".pf__halo", { rotation: 0 }, { rotation: 8 }, { duration: 8.0, ease: "sine.inOut", at: 3.6 });
+    t.fromTo("#pf-sweep", { x: -40 }, { x: 1800 }, { duration: 4.2, ease: "power2.inOut", at: 5.4 });
+    t.fromTo(".horizon-glow", { opacity: 1 }, { opacity: 0.78 }, { duration: 4.2, ease: "sine.inOut", at: 4.8 });
+    t.fromTo(".pf-chip", { y: 0 }, { y: -7 }, { duration: 3.6, stagger: 0.12, ease: "sine.inOut", at: 6.2 });
+    t.fromTo(".pip-figure", { y: 0 }, { y: -6 }, { duration: 4.2, ease: "sine.inOut", at: 6.0 });
+    t.fromTo(".sweep-wrap", { x: -360 }, { x: 2280 }, { duration: 9.5, ease: "power2.inOut", at: 2.2 });
+    t.fromTo(".sweep", { opacity: 0 }, { opacity: 0.7 }, { duration: 2.2, ease: "power2.out", at: 2.2 });
+    t.to("#dust", { y: -46, duration: 8.0, ease: "sine.inOut", at: 0.4 });
+
+    return t;
+  }
+
+  /* MotionGit html-canvas/1 标准入口：frame 为整数帧 */
+  window.renderFrame = function (frame, inputs) {
+    var p = Object.assign({}, DEFAULT_PARAMS, inputs || {});
+    var key = JSON.stringify(p);
+    if (!tl || key !== lastKey) { tl = build(p); lastKey = key; }
+    var t = Math.max(0, Number(frame) || 0) / FPS;
+    tl.seek(t);
+    updateCounters(t, p.specs);
+    return true;
+  };
+  /* 兼容旧入口：t 为秒 */
+  window.seek = function (t, inputs) {
+    return window.renderFrame(Math.round((Number(t) || 0) * FPS), inputs);
+  };
+
+  window.renderFrame(0, window.__MOTION_INPUTS__ || null);
+  window.__MOTION_READY__ = true;
+})();
+</script>
+</body>
+</html>
